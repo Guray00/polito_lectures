@@ -1,0 +1,171 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+  
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+        
+  
+    <!-- <script src="script.js"></script> -->
+  
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/gh/ryangrose/easy-pandoc-templates@948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/script.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/gh/diversen/pandoc-bootstrap-adaptive-template@959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="Marco Lampis" />
+  <title>Tecnologie e Servizi di Rete</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">Tecnologie e Servizi di Rete</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">Marco Lampis</p></li>
+                            </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#ipv4-summary" id="toc-ipv4-summary">IPv4
+        Summary</a>
+        <ul>
+        <li><a href="#indirizzi-speciali"
+        id="toc-indirizzi-speciali">Indirizzi speciali</a></li>
+        <li><a href="#indirizzamento-ip-con-classi"
+        id="toc-indirizzamento-ip-con-classi">Indirizzamento IP con
+        classi</a></li>
+        <li><a href="#indirizzamento-senza-classi-cidr"
+        id="toc-indirizzamento-senza-classi-cidr">Indirizzamento senza
+        classi (CIDR)</a></li>
+        <li><a href="#ip-routing" id="toc-ip-routing">IP
+        routing</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+
+      
+      <h1 id="ipv4-summary">IPv4 Summary</h1>
+<!-- lezione1: -->
+<p>In ogni sottorette tutti i dispositivi che ne fanno parte avranno lo
+stesso indirizzo ip.</p>
+<h2 id="indirizzi-speciali">Indirizzi speciali</h2>
+<ul>
+<li>tutti i bit a 1: indirizzo di broadcast, non può essere
+assegnato</li>
+<li><code>127.x.x.x</code>: indirizzo di loopback, è una classe di
+indirizzi e servono a identificare l’host stesso e per tale motivo
+vengono solitamente utilizzate a scopo di debug.</li>
+</ul>
+<p>Spesso oggi giorno non è consentito l’invio di messaggi in broadcast
+per motivi di sicurezza.</p>
+<h2 id="indirizzamento-ip-con-classi">Indirizzamento IP con classi</h2>
+<p>Le rappresentazioni possono essere classes (a classe) o classness
+(senza l’utilizzo di classi). In particolare esistono di tre
+tipologie:</p>
+<ul>
+<li><strong>A</strong>: prevede i primi 8 bit per l’indirizzo di rete, i
+rimanenti sono per identificare i dispositivi. Il totale degli indirizzi
+è 2^7 per la rete e 2^24 per i dispositivi. Si possono avere 128
+networks.</li>
+<li><strong>B</strong>: i primi due bit vengono utilizzate per il
+riconoscimento della classe di tipo B, mentre i rimanenti 14 per la
+parte network e gli ultimi 16 per gli host.</li>
+<li><strong>C</strong>:</li>
+</ul>
+<p><strong>Nota</strong>:I bit di riconoscimento servono per sapere
+quali bit individuano la rete e quali gli host.</p>
+<h2 id="indirizzamento-senza-classi-cidr">Indirizzamento senza classi
+(CIDR)</h2>
+<p>Il sistema <strong>C</strong>lassless
+<strong>I</strong>nter<strong>D</strong>omain <strong>R</strong>outing
+permette di indirizzare la porzione più precisa di indirizzi tra rete e
+e dispositivi. La porzione di rete è dunque di lunghezza arbitraria. Il
+formato con cui può essere rappresentato un indirizzo è il seguente:
+<code>networkID + prefix lenght</code> oppure <code>netmask</code>.</p>
+<p>Il prefix length, specificato con <code>/x</code>, è il numero di bit
+di network.</p>
+<p>La netmask è identificata da una serie di bit posti a <code>1</code>
+che determinano quali bit identificano la rete, attraverso un and bit a
+bit.</p>
+<p><em>Esempio:</em></p>
+<pre class="text"><code>200.23.16.0/23                # prefix length
+200.23.16.0 255.255.255.254.0 # netmask</code></pre>
+<p>L’indirizzo viene espresso attraverso gruppi di 8 bit, rappresentanti
+in modo decimale puntato (4 gruppi in quanto 32 bit totali). Ogni
+raggruppamento avrà un valore da 0 a 255.</p>
+<p>Non tutti i valori sono permessi possibili, il più piccolo è 252.
+Questo è dovuto al fatto che abbiamo l’indirizzo dell’intera sottorete e
+l’indirizzo del inter broadcast che non possono essere adoperati.</p>
+<p>Un modo per sapere se un indirizzo è scritto in modo corretto è
+prendere il prefix length <code>/x</code> e controllare che ci l’ultimo
+numero puntato sia multiplo di 2^(32-x).</p>
+<p><em>Esempi:</em></p>
+<pre class="text"><code>130.192.1.4/30  =&gt;  4%(2^32-30) = 4%4  = 0 si!
+130.192.1.16/30 =&gt; 16%(2^32-30) = 16%4 = 0 si!
+130.192.1.16/29 =&gt; 16%(2^32-29) = 16%8 = 0 si!
+
+130.192.1.1/30 =&gt; 1%(2^32-30) = 1%4  != 0 no!
+130.192.1.1/29 =&gt; 1%(2^32-29) = 1%8  != 0 no!
+130.192.1.1/28 =&gt; 1%(2^32-28) = 1%16 != 0 no!</code></pre>
+<p>Per il ragionamento di sopra appare evidente che un indirizzo che
+termina con <code>.1</code> non sarà mai un indirizzo corretto, in
+quanto ritornerà sempre un resto.</p>
+<h2 id="ip-routing">IP routing</h2>
+<p>La routing table è caratterizzata da due colonne che indendificano: -
+destinazione (indirizzi ip) - interfaccia (eth0…)</p>
+<p>Viene cercato un match all’interno della tabella per identificare
+dove inviare un pacchetto IP. Se il match</p>
+<p><em>nota: i router sono identificati solitamente con un cerchio con
+dentro una x.</em></p>
+            </div>
+    </div>
+  </div>
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>
