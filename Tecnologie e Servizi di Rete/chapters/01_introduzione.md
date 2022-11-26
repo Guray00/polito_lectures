@@ -76,13 +76,16 @@ Sono presenti in totale 7 sottoreti, di cui 3 reti locali e 4 reti punto punto. 
 
 ![routing2](../images/routing_ind.png#image){width=500px}
 
-Scriviamo la routing table del router, scrivendo quelle direttamente connesse e raggiungibili. Prendiamo come riferimento R1:
+Scriviamo la routing table del router identificando le reti direttamente connesse e raggiungibili. Prendiamo come riferimento **R1**:
 
-| Destination | Interface |
-|---|---|
-| 130.192.3.0/30 | 130.192.3.1 |
-| 130.192.3.4/30 | 130.192.3.5 |
-| 130.192.2.0/24 | 130.192.2.1 |
-| 80.105.10.0/30 | 80.105.10.1 |
+| Destination | Next | Connessione |
+|---|---|---|
+| 130.192.3.0/30 | 130.192.3.1 | diretta |
+| 130.192.3.4/30 | 130.192.3.5 | diretta |
+| 130.192.2.0/24 | 130.192.2.1 | diretta |
+| 80.105.10.0/30 | 80.105.10.1 | diretta |
+| 80.105.10.0/30 | 80.105.10.1 | diretta |
+
+
 
 <!-- fine Capitolo1 -->
