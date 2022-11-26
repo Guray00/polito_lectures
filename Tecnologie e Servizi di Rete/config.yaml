@@ -17,5 +17,4 @@ titlepage-rule-height: 0
 toc-own-page: true
 
 # numerazione primo capitolo
-first-chapter: 1
-...
+first-chapter: 0

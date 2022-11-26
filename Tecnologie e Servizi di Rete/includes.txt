@@ -1,2 +1,2 @@
-index.md
-.\chapters\01_introduzione.md
+00_informazioni.md
+01_introduzione.md

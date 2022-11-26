@@ -20,7 +20,7 @@ set WEBNAME="./output/%OUTPUT%.html"
 SETLOCAL EnableDelayedExpansion 
 
 :: recupera la lista di file contenuti in includes.txt
-for /f "Tokens=* Delims=" %%x in (includes.txt) do set files=!files! "%%x"
+for /f "Tokens=* Delims=" %%x in (includes.txt) do set files=!files! "./chapters/%%x"
 
 :: notifica l'utente della creazione del file
 echo Creazione in corso dei file:
@@ -28,14 +28,14 @@ for /f "Tokens=* Delims=" %%x in (includes.txt) do echo - "%%x"
 echo:
 
 :: esegue il comando di creazione
-echo Creazione %PDFNAME% in corso...
-pandoc -s %files% -o %PDFNAME% --from markdown --template eisvogel --listings --number-sections -V lang=it --top-level-division=chapter -V toc=true --resource-path="./output/" --standalone --embed-resources
+echo Creazione "%OUTPUT%.pdf" in corso...
+pandoc -s %files% -o %PDFNAME% --from markdown --template eisvogel --listings --number-sections -V lang=it --top-level-division=chapter -V toc=true --resource-path="./output/" --standalone --embed-resources --metadata-file=config.yaml
 echo Compilazione PDF terminata.
 echo:
 
 :: export per la visualizzazione web
-echo Creazione %WEBNAME% in corso...
-pandoc -s %files% -o %WEBNAME% --template=elegant_bootstrap_menu.html --toc --standalone --embed-resources --resource-path="./output/"
+echo Creazione "%OUTPUT%.html" in corso...
+pandoc -s %files% -o %WEBNAME% --template=elegant_bootstrap_menu.html --toc --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml
 echo Compilazione HTML terminata.
 echo:
 
