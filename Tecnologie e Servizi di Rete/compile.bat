@@ -15,6 +15,7 @@ if not exist ".\output" mkdir .\output
 :: nomi dei file di output che verranno generati
 set PDFNAME="./output/%OUTPUT%.pdf"
 set WEBNAME="./output/%OUTPUT%.html"
+set EPUBNAME="./output/%OUTPUT%.epub"
 
 
 SETLOCAL EnableDelayedExpansion 
@@ -37,6 +38,12 @@ echo:
 echo Creazione "%OUTPUT%.html" in corso...
 pandoc -s %files% -o %WEBNAME% --template=elegant_bootstrap_menu.html --toc --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml
 echo Compilazione HTML terminata.
+echo:
+
+:: export per la visualizzazione epub
+echo Creazione "%OUTPUT%.epub" in corso...
+pandoc -s %files% -o %EPUBNAME% --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --toc --css ./assets/epub.css
+echo Compilazione EPUB terminata.
 echo:
 
 :: --resource-path="./output/" specifica a partire da quale path recuperare le risorse, lo rende coerente al md
