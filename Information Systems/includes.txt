@@ -1,3 +1,2 @@
 00_informazioni.md
 01_introduzione.md
-02_ipv6.md

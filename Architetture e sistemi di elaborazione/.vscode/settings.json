@@ -1,0 +1,6 @@
+{
+	"code-runner.customCommand": "echo Hello",
+	"code-runner.executorMapByFileExtension": {
+		".md": "cd $dir../ && compile.bat"
+	}
+}

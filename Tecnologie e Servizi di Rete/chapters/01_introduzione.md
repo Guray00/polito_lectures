@@ -76,7 +76,7 @@ Di seguito è mostrato un esempio di routing:
 
 Sono presenti in totale 7 sottoreti, di cui 3 reti locali e 4 reti punto punto. Tutta la sottorete ha come indirizzo quello raffigurato in alto a sinistra. Gli indirizzi di ciascuna di queste sono come segue:
 
-![routing2](../images/routing_ind.png#image){width=450px}
+![routing2](../images/routing_ind.png){width=450px}
 
 Scriviamo la routing table del router identificando le reti direttamente connesse e raggiungibili. Prendiamo come riferimento **R1**:
 
@@ -94,7 +94,7 @@ Scriviamo la routing table del router identificando le reti direttamente conness
 <!-- lezione2: -->
 ## IP addressing methodology
 
-![Rete di esempio](../images/IP_addressing_methodology.png){width=500px}  
+![Rete di esempio](../images/IP_addressing_methodology.png){width=450px}
 
 La metodologia da adoperare è la seguente:
 
@@ -168,14 +168,14 @@ _Nota: per calcolare la netmask, si esegue $256 - 2^bit$_
 
 > Trova l'errore di configurazione nella rete indicata di seguito e spiega il motivo per cui questa non funziona come dovrebbe.
 
-![Configurazione](../images/01_es3.png){width=450px}  
+![Configurazione](../images/01/01_es3.png){width=450px}  
 <!-- todo -->
 
 ### Esercizio 4
 
 > Definisci un piano di indirizzamento IP per la rete in figura. Considera entrambi i tipi di indirizzamento: "tradizionale" (senza minimizzare) e una soluzione che minimizzi il numero di indirizzi IP utilizzati. Assumi di utilizzare il range 10.0.0.0/16.
 
-![Rete](../images/01_es4.png){width=450px} 
+![Rete](../images/01/01_es4.png){width=450px} 
 
 Partiamo evidenziando come il router a sinistra, al fine di servire 350 host, ha in realtà bisogno di 353 indirizzi: 350 host + 1 indirizzo di rete + 1 indirizzo di broadcast + 1 indirizzo del router, dunque `/23`. Stesso ragionamento è applicabile al router di destra, che ha bisogno di 123 indirizzi `/25`.
 
@@ -187,17 +187,15 @@ La sottorete B (centrale) sarà identificata da `10.0.2.128/30`, con `/30` prove
 
 Questa soluzione comporta un grosso spreco, in quanto c'è un `/25` che non viene utilizzato.
 
-![Soluzioni](../images/01_es4_2.png){width=450px}
+![Soluzioni](../images/01/01_es4_2.png){width=450px}
 
 ### Esercizio 5
 
 > Definisci un albero di routing per tutti i nodi della rete mostrata di seguito.
 
-![Rete esercizio 5](../images/01_es5.png){width=250px}
+![Rete esercizio 5](../images/01/01_es5.png){width=150px}
 
-L'**albero di instradamento** è quello che, a partire da un router della rete, stabilisce i percorsi minimi per raggiungere tutti i nodi.
-
-Per calcolare l'albero di instradamento si prende un router come riferimento, ad esempio **A**.
+L'**albero di instradamento** è quello che, a partire da un router della rete, stabilisce i percorsi minimi per raggiungere tutti i nodi. Per calcolare l'albero di instradamento si prende un router come riferimento, ad esempio **A**.
 
 | dest | next               |
 |------|--------------------|
@@ -208,14 +206,13 @@ Per calcolare l'albero di instradamento si prende un router come riferimento, ad
 
 La stessa procedura dovrà essere poi eseguita per tutti i nodi rimanenti, minimizzando le distanze. A parità di distanza solitamente ci sono motivi differenti per cui si scegli un percorso piuttosto che un altro (es router più nuovi).
 
-![Soluzione esercizio 5](../images/01_es5sol.png){width=450px}
-
+![Soluzione esercizio 5](../images/01/01_es5sol.png){width=450px}
 
 ### Esercizio 6
 
 > Data la rete mostrata di seguito, definire la routing table di R1. La route aggregation deve essere massimizzata. Gli indirizzi ip mostrati in figura sono relativi all'interfaccia del router più vicino.
 
-![Esercizio 6](../images/01_es6.png){width=450px}
+![Esercizio 6](../images/01/01_es6.png){width=450px}
 
 Cominciamo scrivendo la routing table di **R1**:
 
@@ -235,7 +232,8 @@ Cominciamo scrivendo la routing table di **R1**:
 ### Esercizio 7
 
 > Realizzare un piano di indirizzamento che minimizza il numero di indirizzi necessari.
-![Esercizio 7](../images/01_es9.png){width=450px}
+
+![Esercizio 7](../images/01/01_es9.png){width=450px}
 
 Troviamo la routing table di **R1**, analizzando ogni nodo a partire dai collegamenti diretti:
 
@@ -270,14 +268,14 @@ Di queste entry bisogna valutare se è possibile fare qualche aggregazione. E' p
 
 > Realizzare un piano di indirizzamento che minimizza il numero di indirizzi necessari. Utilizzare il risultato della routing table di R1.
 
-![Esercizio 9](../images/01_es8.png){width=450px}
+![Esercizio 9](../images/01/01_es8.png){width=450px}
 <!-- TODO -->
 
 ### Esercizio 9
 
 > Assumendo di avere interamente la cache libera, indicare il numero e il tipo di frames catturati da uno sniffer localizzato nella rete cablata dell'host A.
 
-![Esercizio 10](../images/01_es10.png)
+![Esercizio 10](../images/01/01_es10.png){width=450px}
 
 In una macchina Windows il ping viene eseguito 4 volte.
 
@@ -300,7 +298,7 @@ Il passaggio 3 e 4 sono quelli eseguiti 4 volte.
 
 > Assuming that all caches are empty, indicate the number and the type of the frames captured by a sniffer located sulla rete dell'host A.
 
-![Esercizio 10](../images/01_es11.png){width=450px}  
+![Esercizio 10](../images/01/01_es11.png){width=450px}  
 
 L'indirizzo IP del DNS  è in realtà l'indirizzo di un host in quanto l'indirizzo della sottorete, con prefix length pari a `/23` abbiamo `130.192.16.0/23` (osservando il router). Il relativo indirizzo di broadcast viene calcolato sapendo di avere gli ultimi 9 bit a 1, quindi `130.192.17.255`, quindi l'indirizzo fornito è incluso.
 
@@ -334,12 +332,12 @@ Il multicast è un concetto che sta nel mezzo tra una comunicazione unicast (1 a
 
 E' ampiamente utilizzato in IPv6 ed è chiave per la comunicazioni tra gruppi (videoconferenze, video broadcast ecc).
 
-![Multicast](../images/01_multicast.png){width=450px}
+![Multicast](../images/01/01_multicast.png){width=450px}
 
 A ogni gruppo multicast viene associato un indirizzo IPv4. Questo indirizzo è un indirizzo di classe D, che è un indirizzo di broadcast. Fanno parte del range `224.0.0.0` - `239.255.255.255` che sono riservati, ed è per questo necessario acquistarne uno per utilizzarlo.
 
 Il protocollo prevede che il livello 2 scarti i pacchetti che non sono di interesse, ma comunque è possibile associare un indirizzo di livello 2 al livello 3 in modo che possa essere scartato successivamente. L'indirizzo MAC è formato da 48 bit, rappresentato in forma compatta da gruppi di 8 bit ognuno dei quali rappresentato da 2 cifre esadecimali. La parte alta, solitamente riservata al produttore, ha invece la costante `01-00-5E-0` che identifica la mappatura per un totale di 25 bit (l'ultimo gruppo è solo un bit). La mappatura è fatta non comprendendo tutti i casi ma cercando di ridurre il numero di collisioni.
 
-![Mappatura IP a MAC](../images/01_ip_mac_mapping.png){width=450px}
+![Mappatura IP a MAC](../images/01/01_ip_mac_mapping.png){width=450px}
 
 <!-- fine Capitolo1 -->
