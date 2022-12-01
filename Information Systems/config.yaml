@@ -18,3 +18,20 @@ toc-own-page: true
 
 # numerazione primo capitolo
 first-chapter: 0
+
+header-includes:
+- |
+  ```{=latex}
+  \usepackage{tcolorbox}
+
+  \newtcolorbox{info-box}{colback=cyan!5!white,colframe=cyan!60!black}
+  \newtcolorbox{tip-box}{colback=green!5!white,colframe=green!60!black}
+  \newtcolorbox{warning-box}{colback=orange!5!white,colframe=orange!80!black}
+  \newtcolorbox{error-box}{colback=red!5!white,colframe=red!75!black}
+  ```
+pandoc-latex-environment:
+  tcolorbox: [box]
+  info-box: [info]
+  warning-box: [warning]
+  error-box: [error]
+  tip-box: [tip]
