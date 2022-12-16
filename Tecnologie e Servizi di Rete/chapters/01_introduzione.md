@@ -1,5 +1,7 @@
 # IPv4 Summary
+
 <!-- lezione1: -->
+
 In questo capitolo viene fatto un ripasso generico su quanto visto nei corsi precedenti, con particolare riferimento a Reti Informatiche (o equivalenti).
 
 In ogni sottorete tutti i dispositivi che ne fanno parte avranno lo stesso indirizzo ip.
@@ -81,7 +83,7 @@ Sono presenti in totale 7 sottoreti, di cui 3 reti locali e 4 reti punto punto. 
 Scriviamo la routing table del router identificando le reti direttamente connesse e raggiungibili. Prendiamo come riferimento **R1**:
 
 | Destination    | Next        | Type   |
-|----------------|-------------|--------|
+| -------------- | ----------- | ------ |
 | 130.192.3.0/30 | 130.192.3.1 | direct |
 | 130.192.3.4/30 | 130.192.3.5 | direct |
 | 130.192.2.0/24 | 130.192.2.1 | direct |
@@ -92,6 +94,7 @@ Scriviamo la routing table del router identificando le reti direttamente conness
 | 130.192.1.6/24 | 130.192.3.2 | static |
 
 <!-- lezione2: -->
+
 ## IP addressing methodology
 
 ![Rete di esempio](../images/IP_addressing_methodology.png){width=450px}
@@ -131,7 +134,7 @@ Per riuscire a trovare le sottoreti, si prosegue in ordine dal maggiore (decimal
 ### Esercizio 1
 
 | Numero di hosts | NetMask           | Prefix Length     | Available Addresses |
-|-----------------|-------------------|-------------------|---------------------|
+| --------------- | ----------------- | ----------------- | ------------------- |
 | 2               | `255.255.255.252` | (32-2) -> `/30`   | $2^2 - 2 = 2$       |
 | 27              | `255.255.255.224` | (32-5) -> `/27`   | $2^5 - 2 = 30$      |
 | 5               | `255.255.255.248` | (32-3) -> `/29`   | $2^3 - 2 = 6$       |
@@ -150,7 +153,7 @@ _Nota: per calcolare la netmask, si esegue $256 - 2^bit$_
 > Verifica se i seguenti indirizzi sono  validi o meno.
 
 | IP / Prefix Length pair | Valido?                       |
-|-------------------------|-------------------------------|
+| ----------------------- | ----------------------------- |
 | `192.168.5.0/24`        | Si, gli ultimi 8bit sono a 0  |
 | `192.168.4.23/23`       | No                            |
 | `192.168.2.36/30`       | Si, $36 \bmod 2^(32-30) = 0$  |
@@ -164,11 +167,13 @@ _Nota: per calcolare la netmask, si esegue $256 - 2^bit$_
 | `192.168.12.0/21`       | No, $12\bmod2^3 = 0$          |
 
 <!-- lezione3: 2022-10-05 -->
+
 ### Esercizio 3
 
 > Trova l'errore di configurazione nella rete indicata di seguito e spiega il motivo per cui questa non funziona come dovrebbe.
 
 ![Configurazione](../images/01/01_es3.png){width=450px}  
+
 <!-- todo -->
 
 ### Esercizio 4
@@ -198,7 +203,7 @@ Questa soluzione comporta un grosso spreco, in quanto c'è un `/25` che non vien
 L'**albero di instradamento** è quello che, a partire da un router della rete, stabilisce i percorsi minimi per raggiungere tutti i nodi. Per calcolare l'albero di instradamento si prende un router come riferimento, ad esempio **A**.
 
 | dest | next               |
-|------|--------------------|
+| ---- | ------------------ |
 | B    | 3 (ramo dx)        |
 | C    | 2 (ramo inf)       |
 | D    | 4 (sia dx che inf) |
@@ -217,7 +222,7 @@ La stessa procedura dovrà essere poi eseguita per tutti i nodi rimanenti, minim
 Cominciamo scrivendo la routing table di **R1**:
 
 | dest                   | next hop       | Type |
-|------------------------|----------------|------|
+| ---------------------- | -------------- | ---- |
 | `130.192.2.36/30`  (A) | `130.192.2.37` | D    |
 | `130.192.2.0/30`   (B) | `130.192.2.1`  | D    |
 | `130.192.2.40/30`  (C) | `130.192.2.41` | D    |
@@ -227,7 +232,6 @@ Cominciamo scrivendo la routing table di **R1**:
 | `130.192.2.32/30`  (G) | `130.192.2.38` | S    |
 
 **D** ed **F** possono essere accorpati con `130.192.1.0/24`, che a sua volta può essere aggregato con e ottenendo l'indirizzo `130.192.0.0/23` avendo il valore di broadcast pari a `130.192.1.255`, per includere anche **G** è possibile usare `130.192.0.0/22`. Dobbiamo però stare attenti a controllare come questi si rapportano con le entry statiche. In questo caso le include tutte, e non è un problema.
-
 
 ### Esercizio 7
 
@@ -254,7 +258,7 @@ Troviamo adesso quali sono gli indirizzi delle sottoreti, partendo da quella di 
 E' ora possibile calcolare gli indirizzi dei next hop, prendendo come riferimento il router più vicino:
 
 | dest                   | Gateway         | Type |
-|------------------------|-----------------|------|
+| ---------------------- | --------------- | ---- |
 | `130.192.0.240/30` (C) | `130.192.0.241` | D    |
 | `130.192.0.244/30` (D) | `130.192.0.245` | D    |
 | `130.192.0.192/27` (A) | `130.192.0.242` | S    |
@@ -269,6 +273,7 @@ Di queste entry bisogna valutare se è possibile fare qualche aggregazione. E' p
 > Realizzare un piano di indirizzamento che minimizza il numero di indirizzi necessari. Utilizzare il risultato della routing table di R1.
 
 ![Esercizio 9](../images/01/01_es8.png){width=450px}
+
 <!-- TODO -->
 
 ### Esercizio 9
@@ -283,12 +288,12 @@ Bisogna innanzitutto verificare che le due macchine siano effettivamente nella s
 
 Scriviamo ora la tabella:
 
-ID | MACS | MACD      | IPS | IPD | DESCRIZIONE
----|------|-----------|-----|-----|-------------------
-1  | MACA | broadcast | -   | -   | ARP Request
-2  | MACB | MACA      | -   | -   | ARP Response
-3  | MACA | MACB      | IPA | IPB | ICMP echo request
-4  | MACB | MACA      | IPB | IPA | ICMP echo response
+| ID  | MACS | MACD      | IPS | IPD | DESCRIZIONE        |
+| --- | ---- | --------- | --- | --- | ------------------ |
+| 1   | MACA | broadcast | -   | -   | ARP Request        |
+| 2   | MACB | MACA      | -   | -   | ARP Response       |
+| 3   | MACA | MACB      | IPA | IPB | ICMP echo request  |
+| 4   | MACB | MACA      | IPB | IPA | ICMP echo response |
 
 Il passaggio 3 e 4 sono quelli eseguiti 4 volte.
 
@@ -306,19 +311,19 @@ La sottorete di A ha indirizzo della sottorete pari a `130.192.16.0`, è errato 
 
 A quando comunica per parlare con il DNS, che è all'esterno della sua sottorete, parla con il suo default gateway.
 
-ID | MACS   | MACD      | IPS       | IPD       | DESCRIZIONE
----|--------|-----------|-----------|-----------|-------------------
-1  | MACA   | broadcast | -         | -         | ARP Request
-2  | MACDG  | MACA      | -         | -         | ARP Response
-3  | MACA   | MACDG     | IPA       | IPDNS     | DNS request
-4  | MACDG  | broadcast | -         | -         | ARP request
-5  | MACDNS | MACDG     | -         | -         | ARP response
-6  | MACDG  | MACDNS    | IPA       | IPDNS     | DNS request
-7  | MACDNS | broadcast | -         | -         | ARP request
-8  | MACA   | MACDNS    | -         | -         | ARP response
-9  | MACDNS | MACA      | IPDNS     | IPA       | DNS response
-10 | MACA   | MACDG     | IPA       | IP google | ICMP echo request
-11 | MACDG  | MACA      | IP google | IPA       | ICMP echo response
+| ID  | MACS   | MACD      | IPS       | IPD       | DESCRIZIONE        |
+| --- | ------ | --------- | --------- | --------- | ------------------ |
+| 1   | MACA   | broadcast | -         | -         | ARP Request        |
+| 2   | MACDG  | MACA      | -         | -         | ARP Response       |
+| 3   | MACA   | MACDG     | IPA       | IPDNS     | DNS request        |
+| 4   | MACDG  | broadcast | -         | -         | ARP request        |
+| 5   | MACDNS | MACDG     | -         | -         | ARP response       |
+| 6   | MACDG  | MACDNS    | IPA       | IPDNS     | DNS request        |
+| 7   | MACDNS | broadcast | -         | -         | ARP request        |
+| 8   | MACA   | MACDNS    | -         | -         | ARP response       |
+| 9   | MACDNS | MACA      | IPDNS     | IPA       | DNS response       |
+| 10  | MACA   | MACDG     | IPA       | IP google | ICMP echo request  |
+| 11  | MACDG  | MACA      | IP google | IPA       | ICMP echo response |
 
 Essendo uno shared bus tutti i pacchetti sono condivisi, solo che che chi non è interessato ai pacchetti che riceve li scarta. _Nota: DG viene utilizzato per indicare default gateway; arp è di livello 2._ Il traffico viene ottenuto prima che entri nel nodo A.
 
@@ -339,5 +344,3 @@ A ogni gruppo multicast viene associato un indirizzo IPv4. Questo indirizzo è u
 Il protocollo prevede che il livello 2 scarti i pacchetti che non sono di interesse, ma comunque è possibile associare un indirizzo di livello 2 al livello 3 in modo che possa essere scartato successivamente. L'indirizzo MAC è formato da 48 bit, rappresentato in forma compatta da gruppi di 8 bit ognuno dei quali rappresentato da 2 cifre esadecimali. La parte alta, solitamente riservata al produttore, ha invece la costante `01-00-5E-0` che identifica la mappatura per un totale di 25 bit (l'ultimo gruppo è solo un bit). La mappatura è fatta non comprendendo tutti i casi ma cercando di ridurre il numero di collisioni.
 
 ![Mappatura IP a MAC](../images/01/01_ip_mac_mapping.png){width=450px}
-
-<!-- fine Capitolo1 -->

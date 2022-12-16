@@ -24,6 +24,7 @@ header-includes:
   ```{=latex}
   \usepackage{tcolorbox}
 
+  \newtcolorbox{note-box}{colback=gray!5!white,colframe=gray!60!black}
   \newtcolorbox{info-box}{colback=cyan!5!white,colframe=cyan!60!black}
   \newtcolorbox{tip-box}{colback=green!5!white,colframe=green!60!black}
   \newtcolorbox{warning-box}{colback=orange!5!white,colframe=orange!80!black}
@@ -35,3 +36,4 @@ pandoc-latex-environment:
   warning-box: [warning]
   error-box: [error]
   tip-box: [tip]
+  note-box: [note]
