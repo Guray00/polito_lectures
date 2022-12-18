@@ -2,6 +2,12 @@
 
 Appunti presi durante i corsi di Computer Engineering.
 
+**Ti piace come sono gestiti questi appunti? Dai un'occhiata a questo template che ho realizzato per la generazione di appunti in formato PDF e WEB.**
+
+```text
+https://github.com/guray00/template_lectures
+```
+
 ## Tecnologie
 
 Per la generazione dell'output viene utilizzato:

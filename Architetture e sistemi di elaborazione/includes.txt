@@ -1,2 +1,4 @@
 00_informazioni.md
 01_introduzione.md
+02_instruction_set.md
+03_mips64.md
