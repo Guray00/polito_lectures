@@ -2,3 +2,6 @@
 01_introduzione.md
 02_ipv6.md
 03_wireless_and_cellular.md
+04_lan.md
+05_vpn.md
+06_routing.md

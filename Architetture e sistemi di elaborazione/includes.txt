@@ -2,3 +2,5 @@
 01_introduzione.md
 02_instruction_set.md
 03_mips64.md
+04_pipeline.md
+05_cache.md

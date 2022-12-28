@@ -411,28 +411,28 @@ Introduzione di un framework flessibile basato slot, che consenta l'utilizzo di 
 
 ## Mobilità nel 4G/5G
 
-Nelle reti cellulari la mobilità è gestita chiedendo alla rete di riferimento dove l'utente si trovi (stesso approccio di trovare una persona di cui non si conosce la persona, come chiamare a casa per chiedere ai genitori dove sia). E' presente una home network e una visited network dove faccio roaming. Quando accedo alla visiting network la nuova rete mi assegna un indirizzo (spesso privato). Devo dunque dialogare con mms di quella rete in modo che possa indicare al hss che mi trovo attualmente nella sua rete. Quando un utente si sposta devo gestire 4 fasi:
+Nelle reti cellulari la mobilità è gestita chiedendo alla rete di riferimento dove l'utente si trovi (stesso approccio di trovare una persona di cui non si conosce la persona, come chiamare a casa per chiedere ai genitori dove sia). E' presente una home network e una visited network dove faccio roaming. Quando accedo alla visiting network la nuova rete mi assegna un indirizzo (spesso privato). Devo dunque dialogare con mms di quella rete in modo che possa indicare al hss che mi trovo attualmente nella sua rete. Quando un utente si sposta devo gestire _4 fasi_:
 
-- associazione alla nuova base station
-- configurare la control plane informando la rete dove si trova il dispositivo
-- configurazione della data plane per la creazione dei tunnel
-- mobile handover, se la cella dovesse cambiare (ad esempio durante la chiamata) dovrebbe essere eseguito l'handover
+- **associazione** alla nuova base station
+- **configurare** la **control plane** informando la rete dove si trova il dispositivo
+- **configurazione** della **data plane** per la creazione dei tunnel
+- **mobile handover**, se la cella dovesse cambiare (ad esempio durante la chiamata) dovrebbe essere eseguito l'handover
 
 La configurazione della data plane tunnel per i dispositivi avviene:
 
-- S-GW a BS tunnel: quando il dispositivo cambia base station, semplicemnte cambia l'endopoint ip address del tunnel
-- S-GW a home P-GW tunnel: implementazione del routing indiretto
+- **S-GW a BS tunnel**: quando il dispositivo cambia base station, semplicemnte cambia l'endopoint ip address del tunnel
+- **S-GW a home P-GW tunnel**: implementazione del routing indiretto
 - tunneling via GPT (GPRS tunneling protocol): i datagrammi del dispositivo vengono inviati allo streaming server incapuslati utilizzando GTP inside UDP, all'interno del datagramma
 
 ![Configuring data plane](../images/03_configurin_data_plane.png){width=450px}
 
 L'handover attraverso le base station all'interno della stessa rete cellulare avviene in quattro step:
 
-- il source BS seleziona il target BS, invia un Handover Request message al traget BS
-- Il target BS prealloca un radio time slots, risponde con HR ACK con le informazioni del dispositivo
-- Il source BS informa il dispositivo del nuovo BS (ora il dispositivo può inviare e ricevere attraverso la nuova BS) e l'handover risulta completato agli occhi del dispositivo
-- Il source BS smette di inviare i datagrammi al dispositivo, invece li inoltra alla nuova base station (che li inoltrerà al dispositivo attraverso il radio channel)
-- Il target Bs informa MME che del nuovo BS per il dispositivo (MME istruisce S-GW di cambiare l'endopooint del tunnel al nuovo BS)
-- La base station target inoltra un ack alla base station sorgente informando che l'handover è completato e la bs sorgente può rilasciare le sue risorse.
-- I datagrammi del dispositivo possono ora utilizzare il nuovo tunnel dal target BS al S-GW
+1. il source BS seleziona il target BS, invia un Handover Request message al traget BS
+2. Il target BS prealloca un radio time slots, risponde con HR ACK con le informazioni del dispositivo
+3. Il source BS informa il dispositivo del nuovo BS (ora il dispositivo può inviare e ricevere attraverso la nuova BS) e l'handover risulta completato agli occhi del dispositivo
+4. Il source BS smette di inviare i datagrammi al dispositivo, invece li inoltra alla nuova base station (che li inoltrerà al dispositivo attraverso il radio channel)
+5. Il target Bs informa MME che del nuovo BS per il dispositivo (MME istruisce S-GW di cambiare l'endopooint del tunnel al nuovo BS)
+6. La base station target inoltra un ack alla base station sorgente informando che l'handover è completato e la bs sorgente può rilasciare le sue risorse.
+7. I datagrammi del dispositivo possono ora utilizzare il nuovo tunnel dal target BS al S-GW
 
