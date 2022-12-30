@@ -1,19 +1,45 @@
 # polito_lectures
 
-Appunti presi durante i corsi di Computer Engineering.
+[![wakatime](https://wakatime.com/badge/user/374e1d76-0559-4ac6-89f1-96a22a7a774f/project/a36010c1-5c01-4e4f-970c-a54c5dd3c868.svg)](https://wakatime.com/badge/user/374e1d76-0559-4ac6-89f1-96a22a7a774f/project/a36010c1-5c01-4e4f-970c-a54c5dd3c868)
 
-**Ti piace come sono gestiti questi appunti? Dai un'occhiata a questo template che ho realizzato per la generazione di appunti in formato PDF e WEB.**
+Appunti presi durante i corsi di Computer Engineering orientamento _software_, presso il Politecnico di Torino.
+
+***Ti piace come sono gestiti questi appunti? Dai un'occhiata a questo template che ho realizzato per la generazione di appunti in formato PDF, WEB ed EPUB!***
 
 ```text
 https://github.com/guray00/template_lectures
 ```
+
+## Download
+
+L'ultima versione di ciascun appunto è disponibile nella seguente tabella:
+
+<table>
+<tr>
+	<td> Materia
+	<td> PDF
+	<td> WEB
+	<td> EPUB
+<tr>
+	<td> Architetture e sistemi di elaborazione
+	<td> 
+		<a href="https://github.com/Guray00/polito_lectures/raw/main/Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.pdf">PDF</a>
+	<td> Non disponibile
+	<td> Non disponibile
+<tr>
+	<td> Tecnologie e servizi di rete
+	<td> 
+		<a href="https://github.com/Guray00/polito_lectures/raw/main/Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.pdf">PDF</a>
+	<td> Non disponibile
+	<td> Non disponibile
+</table>
 
 ## Tecnologie
 
 Per la generazione dell'output viene utilizzato:
 
 - [Pandoc Latex Template](https://github.com/Wandmalfarbe/pandoc-latex-template), per i PDF
-- [Easy Pandoc Templates](https://github.com/ryangrose/easy-pandoc-templates), per la versione WEB.
+- [Easy Pandoc Templates](https://github.com/ryangrose/easy-pandoc-templates), per la versione WEB
 
 ## Requisiti
 
@@ -30,7 +56,7 @@ Per eseguire la compilazione devono essere correttamente installati:
 
 Inserisci nel file `includes.txt` i file da includere, uno per riga. I file con le immagini devono essere inseriti nella cartella `images` mentre i capitoli devono essere inseriti nella cartella `chapters`.
 
-_nota: nel file includes non bisogna specificare `./chapters/`, quindi il file in `./chapters/capitolo1.md` verrà indicato con `capitolo1.md`_
+_**Nota**: nel file includes non bisogna specificare `./chapters/`, quindi il file in `./chapters/capitolo1.md` verrà indicato con `capitolo1.md`_
 
 ### Configurazione
 

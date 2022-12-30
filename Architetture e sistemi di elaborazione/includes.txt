@@ -4,3 +4,6 @@
 03_mips64.md
 04_pipeline.md
 05_cache.md
+06_branch_prediction.md
+07_dynamic_scheduling.md
+08_speculation.md

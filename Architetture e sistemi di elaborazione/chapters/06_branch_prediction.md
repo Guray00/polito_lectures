@@ -10,7 +10,7 @@ Lo scopo è quello di eseguire correttamente il forecasting branches, riducendo 
 
 L'accuratezza della predizione non aumenta in modo significativo da un aumento della dimensione del buffer o del numero dei bit utilizzati per la predizione.
 
-## Static brancch prediction
+## Static branch prediction
 
 Può essere utile in combinazioni con altre tecniche statiche come l'ééenabling delayed branches** e il **rescheduling to avoid data hazards**.
 
@@ -139,3 +139,6 @@ La tabella di predizione è ottenuta effettuando lo XOR tra il branches global h
 Incredibilmente funziona meglio del gselect.
 
 ![](../images/06_perf_gshare.png){width=400px}
+
+<!-- Lezione13: 25-10-2022 -->
+
