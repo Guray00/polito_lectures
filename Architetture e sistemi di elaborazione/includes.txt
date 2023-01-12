@@ -7,3 +7,7 @@
 06_branch_prediction.md
 07_dynamic_scheduling.md
 08_speculation.md
+09_vliw.md
+10_arm.md
+11_stack.md
+12_svc.md
