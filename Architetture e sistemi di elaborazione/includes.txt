@@ -11,3 +11,8 @@
 10_arm.md
 11_stack.md
 12_svc.md
+14_interrupt_controller.md
+15_timer.md
+16_clocking_and_power.md
+17_bouncing.md
+18_display.md

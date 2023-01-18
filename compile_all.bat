@@ -1,15 +1,10 @@
 @ECHO OFF
 
-cd ".\Tecnologie e Servizi di Rete" & call .\compile.bat & cd ".."
-
-echo: 
-echo ========================================================================
-echo: 
-
-cd ".\Architetture e sistemi di elaborazione" & call .\compile.bat & cd ".."
-
-echo: 
-echo ========================================================================
-echo: 
-
-cd ".\Information Systems" & call .\compile.bat & cd ".."
+for /d %%I in (*) do (
+    echo: 
+    echo ========================================================================
+    echo %%I
+    echo ========================================================================
+    echo: 
+    cd ".\%%I" & call .\compile.bat & cd ".."
+)

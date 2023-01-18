@@ -18,7 +18,7 @@ Mentre il contenuto del top dello stack può essere anch'esso di due tipi:
 ![Esempio dopo 3 PUSH](../images/11_stack_examples.png){width=400px}
 
 :::note
-**Nota**: il nostro stack è _full descending_
+**Nota**: il nostro stack è _full descending_.
 :::
 
 ![Esempio dopo 1 POP](../images/11_stack_pop_examples.png){width=400px}

@@ -27,7 +27,6 @@ La scelta dipende dal tipo di indirizzamento che si vuole stabilire:
 
 Si ha una operazione di switching, ovvero trasferire verso una porta di output, e di trasmissione.
 
-
 ## Proactive routing algorithms
 
 Gli algoritmi di routing proactive si dividono in:
@@ -117,7 +116,6 @@ Il link state viene generato quando ci sono cambiamenti topologici. Nei protocol
 
 L'algoritmo di Dijkstra è un algoritmo per calcolare l'albero di copertura minimo di un grafo. Ha una bassa complessità pari ad $O(Llog(n))$, con $L$ numero di link ed $n£ numero di nodi. Utilizza un mecchanismo di **shortest path first**, dove il prossimo nodo è il più vicino alla sorgente e il next hop è inserito all'interno della routing table.
 
-
 ## Internet Routing Architecture
 
 I protocolli di routing viaggiano tra il livello IP e il livello TCP. Un protocollo di routing è il modo con cui vado a determinare le rotte per lo scambio di informazioni attraverso una rete, basandosi su un algoritmo di routing di partenza.
@@ -196,14 +194,13 @@ Per $N$ router si hanno $N^2$ adiacenze e dunque link. La complessità di Dijkst
 
 Variante del protocollo OSPF, è un estensione del protocollo OSI. Utilizza routing di tipo gerarchico con diversi livelli. E? ancora utilizzato, ma non è più diffuso nelle nuove strutture. Ha avuto utilizzo in grandi reti e ISP.
 
-![](../images/06_ospf_a1.png)
+<img title="" src="../images/06_ospf_a1.png" alt="" width="537" data-align="center">
 
 <!-- rivedi le slide intorno a 91 -->
 
 ### EGP
 
 Gli algoritmi di tipo Exterior Gateway Protocol sono **BGP** (Border Gateway Protocol) e **IDRP** (inter DOmain Routing Protocol). Anche il routing statico è una opzione possibile. Questi non sono ne completamente distance vector ne link state.
-
 
 #### BGP
 

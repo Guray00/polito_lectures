@@ -1,4 +1,5 @@
 # Instruction Set
+
 <!-- lezione4: 06-10-2022 -->
 
 L'instruction set Architecture (ISA) è come il computer è visto da un programmatore e dal compilatore. Ci sono molte alternative per un designer ISA, che possono essere valutati in base a vari criteri:

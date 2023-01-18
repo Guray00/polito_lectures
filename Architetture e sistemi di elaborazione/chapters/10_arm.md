@@ -8,11 +8,11 @@ L'architettura ARM si divide in:
 - Arm operationg Systems
 - ARM compile - support - debug tools
 
-![](../images/10_arm_soc.png){width=400px}
+![](../images/10_arm_soc.png){width=300px}
 
 La toolchain di sviluppo arm è illustrata nella seguente immagine:
 
-![](../images/10_toolchain.png){width=400px}
+![](../images/10_toolchain.png){width=300px}
 
 L'architettura generica di un processore arm è il seguente:
 
@@ -200,7 +200,28 @@ Riutilizzando il condition evaluation hardware, ARM incrementa il modo significa
 
 Questo permette di rimuovere la necessità di molti branch, che causano lo stallo delle pipeline (3 cicli per il refill). Ciò comporta un _very dense in-line code_ e la penalità di non eseguire le istruzioni condizionali è compensata dal fatto che non è necessario eseguire il branch.
 
-![Condition filed](../images/10_condition_field.png){width=450px}
+![Condition filed](../images/10_condition_field.png){width=400px}
+
+Codice | Significato
+-------|------------------------------------------
+`EQ`   | Equal
+`NE`   | Not equal
+`CS`   | Carry set (identical to HS), il carry vale `1`
+`HS`   | Unsigned higher or same (identical to CS)
+`CC`   | Carry clear (identico a LO), il carry vale `0`
+`LO`   | Unsigned lower (identical to CC)
+`MI`   | Minus or negative result
+`PL`   | Positive or zero result
+`VS`   | Overflow
+`VC`   | No overflow
+`HI`   | Unsigned higher
+`LS`   | Unsigned lower or same
+`GE`   | Signed greater than or equal
+`LT`   | Signed less than
+`GT`   | Signed greater than
+`LE`   | Signed less than or equal
+`AL`   | Always (this is the default
+
 
 To execute an instruction conditionally, simply 
 postfix it with the appropriate condition:
@@ -227,19 +248,19 @@ Molto importante!
 
 Moltiplicazione con risultato su 32 bit:
 
-```assembly
+```asm
 MUL <Rd>, <Rn>, <Rm>
 ```
 
 Moltiplicazione con risultato **unsigned** su 64 bit:
 
-```assembly
+```asm
 UMULL <Rd1>, <Rd2>, <Rn>, <Rm>
 ```
 
 Moltiplicazione con risultato **signed** su 64 bit:
 
-```assembly
+```asm
 SMULL <Rd1>, <Rd2>, <Rn>, <Rm>
 ```
 
@@ -253,27 +274,27 @@ SMULL <Rd1>, <Rd2>, <Rn>, <Rm>
 
 ## Moltiplicazione con accumulazione
 
-- MLA <Rd>, <Rn>, <Rm>, <Ra>
+- ```MLA <Rd>, <Rn>, <Rm>, <Ra>```
 	Rd = Rn * Rm + Ra
-- MLS <Rd>, <Rn>, <Rm>, <Ra>
+- ```MLS <Rd>, <Rn>, <Rm>, <Ra>```
 	Rd = Rn * Rm – Ra
-- UMLAL <Rd1>, <Rd2>, <Rn>, <Rm>
+- ```UMLAL <Rd1>, <Rd2>, <Rn>, <Rm>```
 	Rd1,Rd2 = Rn * Rm + Rd1,Rd2
-- SMLAL <Rd1>, <Rd2>, <Rn>, <Rm>
-	same as UMLAL, but with signed values.
+- ```SMLAL <Rd1>, <Rd2>, <Rn>, <Rm>```
+	uguale a `UMLAL`, ma con valori con segno
 
 
-### Divisione
+## Divisione
 
-unsigned division
+### Divisione senza segno (unsigned)
 
-```assembly
+```asm
 UDIV <Rd>, <Rn>, <Rm>
 ```
 
-signed division
+### Divisione con segno (signed)
 
-```assembly
+```asm
 SDIV <Rd>, <Rn>, <Rm>
 ```
 
@@ -283,48 +304,48 @@ SDIV <Rd>, <Rn>, <Rm>
 
 ## Shift
 
-Le istruzioni di shift operano nel seguente modo:
+### Logical Shift Left (LSL)
 
-Logical Shift Left (LSL)
-
-```assembly
+```asm
 LSL <Rd>, <Rn>, <op2>
 ```
 
-![](../images/10_lsl.png){width=400px}
+![Logical Shift Left](../images/10_lsl.png){width=400px}
 
-Logical Shift Right (LSR)
+### Logical Shift Right (LSR)
 
-```assembly
+Lo shift avviene come ci aspettiamo, inserendo nel bit più significativo degli zeri e spostando il meno significativo nel carry.
+
+```asm
 LSR <Rd>, <Rn>, <op2>
 ```
 
 ![](../images/10_lsr.png){width=400px}
 
-Arithmetic Shift Right (ASR)
+### Arithmetic Shift Right (ASR)
 
-```assembly
+```asm
 ASR <Rd>, <Rn>, <op2>
 ```
 
 ![](../images/10_asr.png){width=400px}
 
-## Rotate
+## Rotazioni
 
-Le istruzioni di rotate operano nel seguente modo:
+Le istruzioni di rotazione operano nel seguente modo:
 
-Rotate Right (ROR)
+### Rotate Right (ROR)
 
-```assembly
+```asm
 ROR <Rd>, <Rn>, <op2>
 ```
 
-![](../images/10_ror.png){width=400px}
+![Rotate right](../images/10_ror.png){width=400px}
 
-Rotate Right with Extend (RRX)
+### Rotate Right with Extend (RRX)
 
-```assembly
+```asm
 RRX <Rd>, <Rn>
 ```
 
-![](../images/10_rrx.png){width=400px}
+![Rotate Right with Extend](../images/10_rrx.png){width=400px}
