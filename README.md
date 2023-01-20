@@ -112,4 +112,4 @@ Le contribuzioni sono ben accette! Fai le correzioni che ritieni necessarie modi
 
 _Le seguenti dispense sono rilasciate sotto la [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)_.
 
-![Licenza](https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Cc-by-nc-sa_icon.svg/2560px-Cc-by-nc-sa_icon.svg.png){width=100px}
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Cc-by-nc-sa_icon.svg/2560px-Cc-by-nc-sa_icon.svg.png" width="100">
