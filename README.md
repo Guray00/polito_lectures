@@ -1,4 +1,4 @@
-# polito_lectures
+# Dispense Computer Engineering | PoliTO
 
 ![polito](logo_polito.jpg)
 
@@ -103,3 +103,13 @@ Copia i file contenuti in `html` al seguente path (se qualche cartella non esist
 
 - Linux: `~/.pandoc/templates`
 - Windows: `C:\Users\USERNAME_HERE\AppData\Roaming\pandoc\templates`
+
+## Contribuire
+
+Le contribuzioni sono ben accette! Fai le correzioni che ritieni necessarie modificando i file **markdown** all'interno della cartella `chapters` e apri una pull request.
+
+## Licenza
+
+_Le seguenti dispense sono rilasciate sotto la [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)_.
+
+![Licenza](https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Cc-by-nc-sa_icon.svg/2560px-Cc-by-nc-sa_icon.svg.png){width=100px}

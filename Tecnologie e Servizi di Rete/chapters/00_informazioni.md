@@ -1,10 +1,8 @@
 # Informazioni
 
-I seguenti appunti sono stati presi nell'anno accademico 2022-2023 durante il corso di Tecnologie e Servizi di Rete.
+La seguente dispensa è stata realizzata nell'anno accademico 2022-2023 durante il corso di _Tecnologie e Servizi di Rete_. Il materiale **non** è ufficiale e non è revisionato da alcun docente, motivo per cui non mi assumo responsabilità per eventuali errori o imprecisioni.
 
-Il materiale non è ufficiale e non è revisionato da alcun docente, motivo per cui non mi assumo responsabilità per eventuali errori o imprecisioni.
-
-Per qualsiasi suggerimento o correzione non esitate a contattarmi.
+Per qualsiasi suggerimento o correzione non esitate a contattarmi o a eseguire una pull request su GitHub.
 
 E' possibile riutilizzare il materiale con le seguenti limitazioni:
 
@@ -14,12 +12,16 @@ E' possibile riutilizzare il materiale con le seguenti limitazioni:
 
 E' per tanto possibile:
 
-- Modificar parzialmente o interamente il contenuto
+- Modificare parzialmente o interamente il contenuto
 
-Questi appunti sono disponbili su GitHub al seguente [link](https://github.com/Guray00/polito_lectures/tree/main/Tecnologie%20e%20Servizi%20di%20Rete):
+Questi appunti sono disponibili su GitHub al seguente [link](https://github.com/Guray00/polito_lectures):
 
 ```text
-https://github.com/Guray00/polito_lectures/tree/main/Tecnologie%20e%20Servizi%20di%20Rete
+https://github.com/Guray00/polito_lectures
 ```
 
-![Repository GitHub](../images/00_qrcode.png){width=200px}
+![Repository GitHub](../images/00_qrcode.png){width=150px}
+
+_La seguente dispensa è rilasciata sotto la [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)_.
+
+![](../images/00_license.png){width=75px}
