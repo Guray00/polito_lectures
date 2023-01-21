@@ -26,14 +26,14 @@ L'ultima versione di ciascun appunto è disponibile nella seguente tabella:
     <td> Architetture e sistemi di elaborazione
     <td> 
         <a href="./Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.pdf">PDF</a>
-    <td> <a href="https://github.com/Guray00/polito_lectures/raw/main/Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.html">WEB</a>
-    <td> <a href="https://github.com/Guray00/polito_lectures/raw/main/Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.epub">EPUB</a>
+    <td> <a href="./Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.html">WEB</a>
+    <td> <a href="./Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.epub">EPUB</a>
 <tr>
     <td> Tecnologie e servizi di rete
     <td> 
-        <a href="https://github.com/Guray00/polito_lectures/raw/main/Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.pdf">PDF</a>
-    <td> <a href="https://github.com/Guray00/polito_lectures/raw/main/Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.html">WEB</a>
-    <td> <a href="https://github.com/Guray00/polito_lectures/raw/main/Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.epub">EPUB</a>
+        <a href="./Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.pdf">PDF</a>
+    <td> <a href="./Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.html">WEB</a>
+    <td> <a href="./Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.epub">EPUB</a>
 </table>
 
 ## Tecnologie
