@@ -25,7 +25,7 @@ L'ultima versione di ciascun appunto è disponibile nella seguente tabella:
 <tr>
     <td> Architetture e sistemi di elaborazione
     <td> 
-        <a href="https://github.com/Guray00/polito_lectures/raw/main/Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.pdf">PDF</a>
+        <a href="./Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.pdf">PDF</a>
     <td> <a href="https://github.com/Guray00/polito_lectures/raw/main/Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.html">WEB</a>
     <td> <a href="https://github.com/Guray00/polito_lectures/raw/main/Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.epub">EPUB</a>
 <tr>
