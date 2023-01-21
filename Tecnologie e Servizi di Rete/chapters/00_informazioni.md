@@ -25,3 +25,15 @@ https://github.com/Guray00/polito_lectures
 _La seguente dispensa è rilasciata sotto la [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode)_.
 
 ![](../images/00_license.png){width=75px}
+
+\pagebreak
+
+## Contributi
+
+La condivisione è alla base del successo di qualsiasi progetto, citando:
+
+> _“Open source is about collaborating; not competing. ~ Kelsey Hightower”_
+
+La seguente dispensa ha avuto il prezioso contributo di:
+
+- [Marco Lampis](https://github.com/guray00/)

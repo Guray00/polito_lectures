@@ -3,17 +3,20 @@
 
 ## Introduzione
 
-Le reti wireless sono reti che permettono la comunicazione tra dispositivi senza la necessità di un cavo fisico. Questo tipo di reti è molto comune nei nostri giorni, e sono presenti in molti dispositivi, come ad esempio i cellulari, i tablet, i computer portatili, i router, i dispositivi di rete, e molti altri. Un altro aspetto molto importante è la mobilità (che con il cavo non si poneva).
+Le reti **wireless** permettono la comunicazione tra dispositivi senza la necessità di un cavo fisico. Queste sono molto comuni oggigiorno, e sono presenti in molti dispositivi come ad esempio i cellulari, i tablet, i computer portatili, i router, i dispositivi di rete, e molti altri. Un aspetto molto importante che ne deriva è la **mobilità**, anche se una parte rilevante di ogni rete wireless è in realtà la sua componente wired (oltre al wireless link).
 
-Una parte importante di ogni rete wireless è in realtà la sua componente wired, oltre al wireless link.
+![Elementi di una rete wireless](../images/03_elementi_rete_wireless.png){width=350px}
 
-I link wireless comportano però alcuni svantaggi rispetto a un link cablato:
+Nonostante i grandi vantaggi, iI link wireless comportano alcuni svantaggi rispetto a un link cablato:
 
-- Un degrado maggiore del segnale.
-- Interferenza tra i dispositivi.
-- Multipath propagation (fading): effetto dovuto ai rimbalzi sugli ostacoli.
+- **Degrado** maggiore del segnale.
+- **Interferenza** tra i dispositivi.
+- **Multipath propagation** (fading): effetto dovuto ai rimbalzi del segnale sugli ostacoli.
+- le **comunicazioni** tra punti diventa più **complicata**.
 
-Con SNR si identifica il _Signal to Noise Ratio_, ovvero la relazione tra il segnale ricevuto e il rumore. Questo valore è molto importante per la qualità del segnale.
+Un'altra importante caratteristica è il **Signal to Noise Ratio** (SNR), che esprime la relazione tra il segnale ricevuto e il rumore. Tale valore è molto importante per la qualità del segnale, più è alto più è semplice estrarre il segnale dal rumore. Dato un physical layer, aumentarne l'alimentazione ne comporta un aumente di SNR e una riduzione del _Bit Error Ratio_ (BER), mentre dato un SNR è necessario scegliere un livello fisico che rispetta i requisiti di BER in modo da ottenere il massimo throughput. Il valore di SNR può cambiare a causa della mobilità, adattandosi dinamicamente al livello fisico.
+
+![SNR e BER](../images/03_snr_graph.png){width=200px}
 
 La modulazione è il processo attraverso cui viene inviato un bit. Vi sono varie tipologie come:
 
@@ -23,47 +26,64 @@ La modulazione è il processo attraverso cui viene inviato un bit. Vi sono varie
 
 Un ulteriore problema che ritroviamo all'interno delle reti wireless è inerente al problema del nodo (o terminale) nascosto: dati 3 nodi `a`, `b`, `c` se `b` comunica con entrambi i rimanenti, questi potrebbero però non essere a conoscenza della reciproca presenza e generare interferenze.
 
+![Problema del nodo nascosto](../images/03_htp.png){width=400px}
+
 ## Wireless LAN
 
-Nel corso degli anni lo standard 802.11 si è evoluto dando origine a vari standard. Tutti quanti utilizzano il protocollo csma/ca.
+Nel corso degli anni lo standard 802.11 si è evoluto dando origine a vari standard, i quali utilizzano il protocollo _Carrier Sense Multiple Access_, **CSMA/CA**.
 
-Un BSS (Basic Service Set) contiene:
+![Protocolli Wireless 802.11x](../images/03_reti.png){width=400px}
 
-- host wireless
-- yb access point (base station)
-- ad hock mode
+Un **BSS** _(Basic Service Set)_ contiene:
 
-Ogni rete wifi lavora su un canale differente, è dunque in grado di gestire fino a 16 frequenze (di cui utilizza solo una) per la trasmissione dei dati. La configurazione può essere automatica o manuale.
+- hosts wireless
+- AP, access point (base station)
+- ad hock mode: solamente host
 
-Ogni host rimane in attesa di un `beacon frame`: un frame particolare inviato dagli access point per effettuare la connessione. Il dispositivo si connetterà al beacon frame più forte in modo da aumentare la qualità della connessione. Per poter iniziare a dialogare con la rete wifi sarà inoltre necessaria una autenticazione.
+Ogni rete wifi lavora su un canale differente ed è in grado di gestire fino a 16 frequenze (di cui utilizza solo una alla volta) per la trasmissione dei dati, con la possibilità che ci sia interferenza se il canale viene scelto male. La configurazione può essere automatica o manuale.
+
+Ogni host che vuole connettersi esegue prima una scansione delle reti e rimane poi in attesa di un **beacon frame**: un frame speciale inviato dagli access point per effettuare la connessione. Il dispositivo si connetterà al beacon frame più forte in modo da aumentare la qualità della connessione. Per poter iniziare a dialogare con la rete wifi sarà inoltre necessaria una autenticazione.
 
 Esistono due tipologie di scanning eseguite da un host che si connette a una rete:
 
-- passive scanning: il beacon frame viene inviato dall'access point e ricevuto dall'host
-- active scanning: è l'host a richiedere il beacon frame all'access point, in 4 fasi contraddistinte da un `probe request` dal host, un `probe response` dagli APs, un `association request` dall'host verso l'access point scelto e un `association response` dal APs in questione.
+- **Passive scanning**: il beacon frame viene inviato dal access point e ricevuto dal host.
+- **Active scanning**: l'host richiede il beacon frame all'access point, in 4 fasi che si dividono in:
+  - **probe request** dal host.
+  - **probe response** dagli APs.
+  - **association request** dal host verso l'access point scelto.
+  - **association response** dal APs in questione.
 
-## IEEE 802.11: multiple access (CSMA)
-
-L'accesso multiplo su un canale wireless è un problema molto complesso, che prevede l'utilizzo di CSMA per l'eliminazione di collisioni tra due o più nodi che trasmettono contemporaneamente.
-
-Mentre in ethernet viene utilizzato csma/cd (collision detection), in wireless viene utilizzato csma/ca (collision avoidance).
+![A sinistra passive scanning e a destra active scanning](../images/03_passive_active.png){width=400px}
 
 ### CSMA/CA
+
+L'accesso di multipli dispositivi su un canale wireless è un problema molto complesso, che prevede l'utilizzo di CSMA per l'eliminazione delle collisioni tra due o più nodi che trasmettono contemporaneamente.
+
+![Accessi multipli](../images/03_csma_ca.png){width=400px}
+
+Mentre in ethernet viene utilizzato _CSMA/CD_ (collision detection), in wireless viene utilizzato **CSMA/CA** (collision avoidance) con lo scopo di eseguire _sense before trasmitting_, in modo di evitare le collisioni con la trasmissione già in corso di altri nodi.
 
 Il dispositivo che invia:
 
 1. Se il canale è riconosciuto in idle per DIFS time, allora il dispositivo inizia a trasmettere.
-2. Se il canale è riconosciuto occupato, viene avviato un random backoff time che lo pone in attesa prima del nuovo tentativo. Se anche al nuovo tentativo il canale è occupato, il dispositivo ripete il processo aumentatdo il random backoff interval.
+2. Se il canale è riconosciuto occupato, viene avviato un random backoff time che lo pone in attesa prima del nuovo tentativo. Se anche al nuovo tentativo il canale è occupato, il dispositivo ripete il processo aumentando il random backoff interval.
 
-Il dispositivo che riceve:
+Il funzionamento è il seguente:
 
-- Se il frame è ricuvato correttamente, viene inviato un ACK frame dopo **SIFS** tempo.
+- Il dispositivo che invia:
+  1. Se il canale è in idle per **DIFS** tempo, allora il dispositivo inizia a trasmettere (no CD).
+  2. Se il canale è occupato, viene avviato un random backoff time che lo pone in attesa prima del nuovo tentativo. Se anche al nuovo tentativo il canale è occupato, il dispositivo ripete il processo aumentando il random backoff interval.
 
-Il collision avoidance mostrato sopra non è però deterministico, per riuscire ad ottenerlo è possibile utilizzare un sistema di "prenotazione" che riserva il canale per i data frame usando dei pacchetti di "prenotazione" (RTS/CTS) caratterizzati da trame piccole. Questi possono ancora collidere, ma sono molto più piccoli e quindi meno dannosi. RTS (ready to send) viene inviato dal dispositivo che vuole trasmettere, CTS (clear to send) viene inviato dal dispositivo che ha ricevuto il RTS verso tutti i dispositivi in ascolto in modo da far partire chi deve trasmettere e porre in attesa i rimanenti.
+- Il dispositivo che riceve:
+  1. Se il frame è ricevuto correttamente, viene inviato un ACK frame dopo **SIFS** tempo (necessario per evitare il problema del terminale nascosto).
 
-![Schema temporale RTS-CTS](../images/03_rts_cts.png){width=450px}
+![Schema di funzionamento](../images/03_csma_ca_scheme.png){width=200px}
 
-### Frame addressing
+Il collision avoidance mostrato sopra non è però deterministico, per riuscire ad ottenerlo è possibile utilizzare un sistema di "prenotazione" che riserva il canale per i data frame usando dei pacchetti di "prenotazione" (RTS/CTS) caratterizzati da trame piccole. Questi possono ancora collidere, ma sono molto più piccoli e quindi meno dannosi. Il pacchetto **RTS** (ready to send) viene inviato dal dispositivo che vuole trasmettere, mentre **CTS** (clear to send) viene inviato dal dispositivo che ha ricevuto il pacchetto RTS verso tutti i dispositivi in ascolto in modo da far partire la trasmissione da chi deve trasmettere e porre in attesa i rimanenti.
+
+![Schema temporale RTS-CTS](../images/03_rts_cts.png){width=300px}
+
+#### Frame addressing
 
 Il frame contiene:
 
@@ -79,105 +99,119 @@ Il frame contiene:
 
 Dentro frame control troviamo ulteriori campi, tra cui ad esempio:
 
-- protocol verison
+- protocol version
 - tipo (RTS, CTS, ACK, data)
 - sottotipo
-- bit per il powe management
+- bit per il power management
 
-### Mobilità
+#### Mobilità nella stessa sottorete
 
-Solitamente per le reti wirless l'host rimane all'interno della stessa subnet IP, motivo per cui è possibile riutilizzare lo stesso indirizzo.
+Solitamente per le reti wireless l'host rimane all'interno della stessa subnet IP, motivo per cui è possibile riutilizzare lo stesso indirizzo. 
 
-nswitch: which AP is associated with H1?
-nself-learning; switch will see frame from H1
-and “remember” which switch port can be used to reach H1
-H1 BBS 2BBS 1
-Wireless and Cellular Networks © see page 2 26
+Spesso gli switch sono self learning, ovvero quando vedono un frame transitare per H1 _ricordano_ a quale switch port è stato inviato e la memorizzano.
 
-Dal punto di vista energetico, esiste il `node-to-AP` attraverso il quale l'Access Point viene a conoscenza del fatto che non deve inoltrare i frame al nodo, il quale si sveglierà prima del prossimo beacon frame (contains list of mobiles with AP-to-mobile frames waiting to be sent).
+Dal punto di vista energetico, esiste il **node-to-AP** attraverso il quale l'Access Point viene a conoscenza del fatto che non deve inoltrare i frame al nodo, il quale si sveglierà prima del prossimo beacon frame (ha al suo interno la lista dei dispositive con gli AP-to-mobile frames in attesa di essere inviati).
 
 ## Reti Cellulari
 
-Le reti cellulari sono reti wireless che coprono aree geografiche molto vaste attraverso la definizione di zone adiacenti denominate celle. A differenza di altre reti, gli host si muovono anche attraverso lunghe distanza e diventa importante non far disconnettere l'utente attraverso la gestione della mobilità denominata `handover`.
+Le **reti cellulari** sono reti wireless che coprono aree geografiche molto vaste attraverso la definizione di zone adiacenti denominate celle. A differenza di altre reti, gli host si muovono anche attraverso lunghe distanza e diventa importante non far disconnettere l'utente attraverso la gestione della mobilità denominata **handover**.
 
-La copertura cellulare è garantita da reti isotopiche o con antenne direzionali da 120 gradi. L'emissione non è pero omni direzionale a causa della presenza di ostacoli (montagne, edifici), l'altezza, il guadagno dell'antenna, la morfologia del territorio, la potenza dell'antenna e infine le condizioni di propagazione (neve ecc).
+La copertura cellulare è garantita mediante reti isotopiche e antenne direzionali da 120 gradi. La forma non è esattamente esagonale e l'emissione non è omni direzionale a causa della presenza di ostacoli (montagne, edifici), altezza, il guadagno dell'antenna, la morfologia del territorio, la potenza dell'antenna e infine le condizioni di propagazione (atmosferici _ecc..._).
 
-Le celle si dividono in macrocelle e microcelle in base alle loro dimensioni.  Le prime coprono un'area ragionevolmente estesa.
+![Copertura cellulare](../images/03_celle.png){width=300px}
 
-Abbiamo nuovamente un problema di accesso multiplo condiviso sul canale, risoolti attraverso varie tecniche:
+Le celle si dividono in **macrocelle** e **microcelle** in base alle loro dimensioni e di conseguenza della copertura.
 
-- **FDMA**: scelgo una frequenza in cui trasmettere.
-- **TDMA**: scelgo uno slot temporale in cui trasmettere.
-- **CDMA**: assegno a ogni stazione un codice ortogonale agli altri, ovvero un gruppo di segnali da cui è possibile recuperare ogni singolo segnale.
-- **SDMA**: riutilizzo di frequenze a patto che siano luoghi sufficientemente distanti tra loro.
+Come nelle reti wireless, è nuovamente presente il problema di accesso multiplo condiviso sul canale, che viene risolto attraverso varie tecniche:
 
-Andremo quindi a riutilizzare le stesse frequenze in posti diversi in modo da non causare interferenze. Questo viene fatto a ccausa del numero ridotto di risorse, e allo scopo di coprire un'area più ampia e servire un alto numero di utenti.
+- **FDMA**: viene scelto una frequenza in cui trasmettere.
+- **TDMA**: viene scelto uno slot temporale in cui trasmettere.
+- **CDMA**: viene assegnato a ogni stazione un codice _ortogonale_ agli altri, ovvero un gruppo di segnali da cui è possibile recuperare ogni singolo segnale.
+- **SDMA**: ogni frequenza viene riutilizzata, a condizione che i luoghi siano fisicamente molto distanti tra loro.
 
-Un gruppo di celle viene definito cluster, come nell'esempio in figura.
+Andremo quindi a riutilizzare le stesse frequenze in posti diversi in modo da non causare interferenze. Questo viene fatto a causa del ridotto numero di risorse, nel tentativo di coprire un'area più ampia e servire un maggior numero di utenti.
 
-![3-Cell Cluster](../images/03_3_cell_cluster.png){width=450px}
+:::definition
+**Definizione**: Si definisce **handover** la gestione della mobilità di un dispositivo su una rete cellulare e il conseguente funzionamento di sgancio e riaggancio tra le celle.
+:::
+
+### Cluster
+
+Un gruppo di celle viene definito **cluster**, come nell'esempio in figura.
+
+![3-Cell Cluster](../images/03_3_cell_cluster.png){width=300px}
 
 Le celle verdi, rosa e blu usano un set differente di canali. Le celle dello stesso colore sono chiamate **"co-channel" cells**.
 
-Se io vario la dimensione delle celle _R_ cambio la capacità, ovvero il numero di utenti che posso soddisfare. Il numero di celle _G_ impatta invece sul costo, in quanto un numero maggiore di celle ha dei costi maggiori. Aumentando il cluster aumento la qualità, aumentando anche G aumento la qualità ma diminuisco la capacità. Non esiste una legge assoluta per definire il valore di R e di G, sono però presenti alcune tecniche per diminuire le interferenze ed aumentare la capacità come:
+Con la variazione della dimensione delle celle _R_ cambia la capacità, ovvero il numero di utenti che questa è in grado di soddisfare. Il numero di celle _G_ impatta invece sul costo, in quanto un numero maggiore di celle ha dei costi maggiori. Aumentando il cluster aumento la qualità, aumentando anche _G_ aumenta la qualità ma diminuisce la capacità.
 
-- **splitting**: non utilizzare celle delle stesse dimensioni, ma basarsi sulle necessità.
+![Fissando **G** e variando **R** (cell size)](../images/03_fixing_g.png){width=200px}
+
+![Fissando **R** r variando **G** (cluster size)](../images/03_fixing_r.png){width=200px}
+
+Non esiste una legge assoluta per definire i due parametri, ma è possibile sfruttare alcune tecniche per diminuire le interferenze ed aumentare la capacità:
+
+- **splitting**: non utilizzare celle delle stesse dimensioni, ma basarsi sulle necessità specifiche.
 - **sectoring**: utilizzare delle antenne non omnidirezionali per ridurre le interferenze e ridurre solo nelle direzioni in cui non è necessario.
 - **tilting**: non usare un angolo a 90 gradi per la trasmissione.
 - **creating femtocells**: possiamo creare delle celle non fisse in base alle necessità (esempio stadio o concerti).
 
-### Splitting
+![Splitting](../images/03_splitting.png){width=250px}
 
-Utilizzare celle di dimensioni scelte in base alle necessità delle zone, e non quindi tutte uguali.
+Inoltre è possibile utilizzare antenne direzionali per avere celle con dimensioni e forme ad-hoc, oppure adoperare una copertura multi livello (umbrella coverage) o infine utilizzare microcelle che seguano l'utente dove si muove.
 
-![Splitting](../images/03_splitting.png){width=450px}
-
-### Cell shaping
-
-Utilizzo di antenne direzionali per avere celle con dimensioni e forme ad-hoc. E' possibile utilizzare una copertura multi livello (umbrella coverage). Le microcelle seguono l'utente dove si muove.
-
-![Shaping](../images/03_shaping_exp.png){width=450px}
+![Shaping](../images/03_shaping_exp.png){width=250px}
 
 Altri esempi sono possibile tenendo conto di strade oppure ferrovie, dove le celle cercano di seguire la forma della strada.
 
-![Shaping su strade](../images/03_shaping_railway.png){width=450px}
+![Shaping su strade](../images/03_shaping_railway.png){width=250px}
 
 ### Power Control
 
-Metodo attraverso cui si gestiscono al meglio le capacità delle batterie a disposizione. Si cerca di ridurre l'utilizzo di potenza in base alle necessità. Per sapere la potenza necessaria da utilizzare si utilizzano strategie di due tipi:
+Il **Power Control** mira al gestire al meglio le capacità delle batterie a disposizione: l'obbiettivo è di ridurre l'utilizzo di potenza in base alle necessità. Per capire la potenza necessaria si utilizzano strategie di due tipi:
 
-- a catena aperta: sistema senza reazione
-- a catena chiusa: sistema con feedback
+- **a catena aperta** _(open loop)_: sistema senza reazione
+- **a catena chiusa** _(closed loop)_: sistema con reazione _(feedback)_
+
+In particolare in uplink (da terminale a ripetitore) si utlizzano le seguenti strategie:
+
+- closed loop power control
+- open loop power control
+- outer loop power control
+
+Mentre in downlink (da ripetitore a terminale) si utilizzano:
+
+- Downlink power control
 
 #### Open loop
 
-Il sistema, non avendo a disposizione un feedback, analizza e misura la qualità del segnale ricevuto per decidere se aumentare o diminuire la potenza in trasmissione. Questo adattamento non è preciso e non è detto che ciòò che succede su una frequenza sia uguale a un'altra. Not very accurate as uplink and downlink transmissions typically occur on different channels.
+Nel **open loop** il sistema, non avendo a disposizione un feedback, analizza e misura la qualità del segnale ricevuto per valutare se aumentare o diminuire la potenza di trasmissione. Questo adattamento non è preciso e non è detto che ciò che succede su una frequenza sia uguale a un'altra. Non è molto accurato in quanto solitamente uplink e downlink trasmettono su canali differenti.
 
-### Frequency allocation
+Solitamente si divide in due fasi:
 
-L'allocazione dele frequenze possono avvenire nei seguenti modi:
+- l'utente misura la qualità del segnale che riceve dalla base station.
+- l'utente utilizza poi un algoritmo per impostare la potenza di trasmissione in modo che la SINR _(Signal-to-interference-plus-noise ratio)_ sia sopra una certa soglia.
 
-- Fixed Channel Allocation (FCA), Based on the concept of cluster, Frequencies are assigned in a static way, Frequency plan is changed only rarely to improve performance and adapt to slow variations in user traffic
-- Dynamic Channel Allocation (DCA)
-  - Resources assigned to cells by a central controller when needed
-  - Frequency plan changes over time to adapt to the system status
-- Hybrid Channel allocation Scheme (HCS)
-  - One portion is statically allocated (FCA)
-  - One portion is dynamically allocated (DCA)
+In questa modalità il terminale _"si regola autonomamente"_ sulla potenza di trasmissione.
+
+### Allocazione della frequenza
+
+L'allocazione delle frequenze possono avvenire nei seguenti modi:
+
+- **Fixed Channel Allocation** (FCA): Basato sul concetto di cluster, le frequenze sono assegnate staticamente e vengono modificate raramente per aumentare performance e adattare piccole variazioni sull'utilizzo del traffico dell'utente.
+- **Dynamic Channel Allocation** (DCA): Le risorse sono assegnate da un controller centrale, quando necessarie. Il frequency plan varia nel tempo in modo da adattarsi allo stato del sistema.
+- **Hybrid Channel allocation Scheme** (HCS): Una porzione è allocata staticamente (FCA) mentre una dinamicamente (DCA)
 
 ### Architettura di rete
 
-Le reti sono costituite da mobile terminal che si connettono a dei BS (base station) radio che a loro volta si connettono a dei core network attraverso Switch Router (commutatori a pacchetto o circuito). I core network sono costituiti da un set di server che si occupano di gestire le connessioni e le risorse, in modo wired. Il database è molto importante ed è dove vengono memorizzate le informazioni degli utenti.
+Le reti sono costituite da mobile terminal che si connettono a delle BS (base station) radio che a loro volta si connettono a dei core network attraverso Switch Router (commutatori a pacchetto o circuito). I core network sono costituiti da un set di server che si occupano di gestire le connessioni e le risorse, in modalità cablata _(wired)_. Il database è molto importante in quanto è dove vengono memorizzate le informazioni degli utenti.
 
-![](../images/03_arc_net_cell.png){width=450px}
+![Architettura di rete](../images/03_arc_net_cell.png){width=400px}
 
-### Registrazione
+Il processo di **registrazione** permette a un terminale mobile di connettersi alla rete attraverso una registrazione che lo identifica e autentica. La procedura avviene periodicamente ogni volta che si deve accedere al servizio, oppure quando il terminale si accende e deve associarsi alla rete.
 
-Permette a un terminale mobile di connettersi alla rete attraverso una registrazione che lo identifica e autentica. La procedura avviene peridiocamente ogni volta che si deve accedere al servizio.
 
-### Mobility Management
-
-Per gestire la mobilità sono necessarie più procedure legate alla gestione:
+Un altra procedura è quella del **Mobility Management**, utilizzata per gestire la mobilità e che a sua volta utilizza le seguenti procedure:
 
 - Roaming
 - Location updating
@@ -186,125 +220,168 @@ Per gestire la mobilità sono necessarie più procedure legate alla gestione:
 
 #### Roaming
 
-Il roaming è la capacità di un terminale di essere tracciabile quando si sposta nella rete. Il sistema deve memorizzare la posizione in un database e localizzare l'utente quando necessario. Per salvere tali informazioni, la rete viene divisa in location areas (LAs), gruppi di celle adiacenti. Ogni LA ha un identificativo univoco.
+Il **roaming** è la capacità di un terminale di essere tracciabile quando si sposta nella rete. Il sistema deve memorizzare la posizione in un database e localizzare l'utente quando necessario. Per salvare tali informazioni, la rete viene divisa in location areas (LAs), gruppi di celle adiacenti. Ogni LA ha un identificativo univoco.
+
+![Roaming](../images/03_roaming.png){width=300px}
 
 #### Location updating
 
-La procedura che avviene ogni volta che un utente si sposta verso un'altra location area. Periodicamente l'utente deve comunicare la sua posizione alla rete, in modo da essere tracciato. Questa procedura è necessaria per mantenere aggiornate le informazioni sul database.
+Il location updating è la procedura che avviene ogni volta che un utente si sposta verso un'altra location area.
+
+Periodicamente l'utente deve comunicare la sua posizione alla rete, in modo da essere tracciato. Questa procedura è necessaria per mantenere aggiornate le informazioni sul database.
 
 #### Paging
 
-Procedure through which the system notifies a mobile terminal about an incoming
-call/data delivery
-The system broadcasts a paging message within the LA where the user is
+Il **Paging** è la procedura attraverso la quale il sistema notifica un terminale mobile di una chiamata o data delivery.
+
+Il sistema manda la richiesta in broadcast a tutti i terminali della location area, e il terminale che riceve la richiesta risponde con un messaggio di conferma.
 
 #### Handover
 
-Procedure that enables the transfer of an active connection from one cell to another,
-while the mobile terminal moves over the network area
-Complex procedure that poses constraints on the network architecture, protocols and
-signaling
+La procedura di **Handover** abilita il trasferimento di una connessione attiva da una cella verso un'altra, mentre il terminale mobile si sposta nella rete. Questa procedura è molto complessa e richiede una rete ben architettata, con protocolli e segnali adeguati.
 
-- Intra vs. Inter Cell: It indicates whether the handover is between frequencies within the same cell or different cells
-- Soft vs. Hard It indicates whether during handover both radio channels are active (soft) or only one at the time is active (hard)
-- MT vs. BS initiated It indicates whether the first control message to start a handover is sent by the mobile terminal (MT initiated) or by the BS (BS initiated), i.e., which entity performs measurements to understand where and when a handover has to be executed
-- Backward vs. Forward It indicates whether handover signaling occurs via the origin BS (backward) or the destination BS (forward)
+Si classifica nei seguenti tipi:
+
+- **Intra vs. Inter Cell**: Indica se l'handover avviene tra frequenze all'interno della stessa cella o di celle diverse.
+- **Soft vs. Hard**: Indica se durante l'handover sono attivi entrambi i canali radio (soft) o solo uno alla volta è attivo (hard).
+- **MT vs. BS initiated**: Indica se il primo messaggio di controllo per l'avvio di un handover è inviato dal terminale mobile (MT initiated) o dalla BS (BS initiated), ovvero quale entità esegue le misure per capire dove e quando deve essere eseguito un handover.
+- **Backward vs. Forward**: Indica se la segnalazione di handover avviene tramite la BS di origine (backward) o la BS di destinazione (forwarding).
 
 ## Evoluzione della rete cellulare
 <!-- lezione11: 26-10-2022 -->
 
 Nel corso degli ultimi anni la rete cellulare ha subito una serie di evoluzioni che hanno portato ad una maggiore capacità di trasmissione e ad una maggiore efficienza energetica.
 
-La prima generazione GSM era di tipo analogico, con ampio utilizzo di FDMA  e traffico esclusivamente voce. La qualità del segnale era bassa e l'efficienza nel riutilizzo della frequenza era basso.
+La prima generazione **GSM** era di tipo analogico, con ampio utilizzo di _FDMA_ e trasportava traffico esclusivamente voce. La qualità del segnale era bassa e l'efficienza nel riutilizzo della frequenza era scarsa.
 
-La seconda generazione comporta il passaggio al digitale, con il vantaggi in termini di servizi (sms) crittografia e e voice coding avanzato per ridurre la banda necessaria. La seconda generazione estesa, 2.5G, caratterizzata da GPRS/EDGE in europa e IS-95B in USA, viene introdotto il servizio dati con packet switched, 170kb/s in GPRS e 384kb/s in EDGE. Si passa a tariffe basate sul traffico e non più sul tempo.
+La seconda generazione ha comportato il passaggio al digitale, con il vantaggio in termini di servizi (sms), crittografia e voice coding avanzato per ridurre la banda necessaria. La seconda generazione estesa, **2.5G**, caratterizzata da **GPRS/EDGE** in europa e IS-95B in USA, vede l'introduzione del servizio dati con packet switched, 170kb/s in GPRS e 384kb/s in EDGE. Si ha il passaggio a tariffe basate sul traffico e non più sul tempo.
 
-La terza generazione, 3G, ha comportato dei miglioramenti in termini di data service (multimedia service), l'introduzione di  CDMA e l'avvento di UMTS e CDMA2000. Il rate dati ha raggiunto i 2Mb/s ed possibile l'handover tra reti differenti oltre alla exploit spatial diversity. La generazione 3.5G ha comportato una evoluzione di UMTS soprattutto sul livello fisico, con miglioramenti del trasferimento dati fino a 56Mb/s in download e 22Mb/s in upload.
+La terza generazione, **3G**, ha comportato dei miglioramenti in termini di data service (multimedia service), l'introduzione di  CDMA e l'avvento di UMTS e CDMA2000. Il rate dati ha raggiunto i 2Mb/s ed possibile l'handover tra reti differenti oltre alla exploit spatial diversity. La generazione **3.5G** ha comportato una evoluzione di **UMTS** soprattutto sul livello fisico, con miglioramenti del trasferimento dati fino a 56Mb/s in download e 22Mb/s in upload.
 
-La quarta generazione, conosciuta come LTE, ha raggiunto un rate di 250Mb/s. Utilizza MIMO (multiple input multiple output) che consentono performance di modulazione più elevate. Per la prima volta abbiamo una rete completamente IP con l'introduzione di VoLTE per consentire il passaggio della voce sulla rete dati.
+La quarta generazione, conosciuta come **LTE**, ha raggiunto un rate di 250Mb/s. Utilizza MIMO (multiple input multiple output) che consentono performance di modulazione più elevate. Per la prima volta abbiamo una rete completamente IP con l'introduzione di VoLTE per consentire il passaggio della voce sulla rete dati.
 
-La quinta generazione, il 5G, ha lo scopo di unificare le tecnologie di accesso wireless rimuovendo la differenza tra rete wireless e cellulare, attraverso mmWave che consentono trasmissioni ad alto throughput. Introduce il NFV (network function virtualization) che permette di virtualizzare le funzioni di rete, come il routing, il firewall, il load balancing, il caching, il DPI (deep packet inspection) e il DDoS (distributed denial of service) protection. Inoltre, anche il SDN (software defined networking) permette di virtualizzare il controllo della rete consentendo di utilizzare un hardware general purpose.
+La quinta generazione, il **5G**, ha lo scopo di unificare le tecnologie di accesso wireless rimuovendo la differenza tra rete wireless e cellulare, attraverso mmWave che consentono trasmissioni ad alto throughput. Introduce il **NFV** (network function virtualization) che permette di virtualizzare le funzioni di rete, come il routing, il firewall, il load balancing, il caching, il DPI (deep packet inspection) e il DDoS (distributed denial of service) protection. Inoltre, anche il **SDN** (software defined networking) permette di virtualizzare il controllo della rete consentendo di utilizzare un hardware general purpose.
 
-### GSM
+![Evoluzione della rete cellulare](../images/03_evoluzione.png){width=350px}
 
-Rete con full rate di 13 kbit/s e half rate di 6.5Kbit/s. Consente l'invio di SMS e servizi supplementari come call forward, recall, e busy tone.
+### GSM - Seconda generazione
 
-![Architettura GSM](../images/03_gsm_architecture.png){width=450px}
+Il GSM è una rete con full rate di 13 kbit/s e half rate di 6.5Kbit/s. Consente l'invio di SMS e servizi supplementari come call forward, recall, e busy tone.
 
-La Mobile Station (MS), ovvero il dispositivo, sono quelli in grado di connettersi alla rete GSM (come telefoni, antenne dei veicoli). Hanno differenti potenze di trasmissione all'antenaa:
+![Architettura GSM](../images/03_gsm_architecture.png){width=400px}
+
+I **Mobile Station** (MS), ovvero i dispositivi, sono quelli in grado di connettersi alla rete GSM (come telefoni, antenne dei veicoli) ed hanno differenti potenze di trasmissione all'antenna:
 
 - fino a 2W per i telefoni
 - fino a 8W per dispositivi mobili
 - fino a 20W per le antenne dei veicoli
 
-La MS p però unicamente hardware, per connetteri alla rete è necessaria una SIM, ovvero una smart card con un processore e una memoria in grado di memorizzare, crittografato, le informazioni dell'utente come il numero di telefono, i servizi accessibili, parametri di sicurezza etc. MSI è l'identificativo univoche della SIM.
+La MS è però unicamente hardware, per connettersi alla rete è necessaria una SIM, ovvero una smart card con un processore e una memoria in grado di memorizzare, crittografate, le informazioni dell'utente come il numero di telefono, i servizi accessibili, parametri di sicurezza _ecc_. L'identificativo univoco della SIM si chiama **MSI**.
 
-La Base Station Subsystem (BSS) comprende:
+![Mobile Terminal](../images/03_sim.png){width=400px}
 
-- BTS (base transceiver station): interfaccia fisica con il compito di trasmettere e ricevere.
-- BSC (base station controller): gestisce il controllo delle risorse sull'interfaccia radio. BSC e BTS comuniciano con un link cablto. Un BSC controlla un alto unmero di BTS (da decine a centinaia). Tipicamente, BSC sono collocate con un MSC, invece di essere allocate vicino ai BTS. Il suo ruolo principale è quello di eseguire il transcodig vocale a 13 kb/s / 64 kb/s, eseguire il paging, radio resource control (assegnamento dinamico delle frequenze ai BTS), misurazione della qualità del segnale e controllo dell'handover tra BTS controllato dallo stesso BSC.
+#### Base Station Subsystem
 
-Il network and switching subsystem (NSS) ha il compito di gestire le chiamate, il service support, mobility support e autenticazione. E' composto da:
+La **Base Station Subsystem** (BSS) comprende:
 
-- **MSC**: mobile switching center, ha il compito di gestire la mobility support, call routing tra MT, GSMC ovvero l'interfaccia tra GSM e le altre reti
-- **HLR**: home location register, si occupa di salvare le informazioni nel database come le informazioni permanenti dell'utente (id, servizi abilitati, parametri di sicurezza) e dati dinamici per la gestione della user mobilità (VLE identifier).
-- **VLR**: visitor location register, salva nel dtatabase le informazioni relative a dove si trova il MT attualmente nell'area controllata dal MSC come id, stato on/of, LAI, informazioni di routing e sicurezza.
-- AUC: authetication center, autenticazione basata su un protocollo challenge & response con generazione di chiave di crittograzia per comunicazioni over-the-air.
-- EIR: equipment identity register, memorizza le informazioni dei dispositivi rubati.
+- **Base Transceiver Station** (BTS): interfaccia fisica con il compito di trasmettere e ricevere. Rappresenta il punto d'accesso per i dispositivi e a differenza di altri sorgenti di segnale (ad esempio radio e TV) trasmette segnale solo verso gli utenti attivi. Arriva fino a 32 canali FDM per BTS.
+- **Base station controller** (BSC): gestisce il controllo delle risorse sull'interfaccia radio.
 
-![NSS](../images/03_nss.png)  {width=450px}
+I BSC e i BTS comunicano mediante un collegamento cablato. Un BSC controlla un alto numero di BTS _(da decine a centinaia)_. Tipicamente, BSC sono collocate con un MSC, invece di essere allocate vicino ai BTS.
 
-Le frequenze allocate sono 859, 900 1800, 1900 MHz. Le frequenze sono differenti in base alla ricezione e alla trasmissione e funzionano attraverso FDD (frequency division duplex) system.
+Le funzionalità principali dei BSC comprendono:
 
-I canali GSM sono composti da una frequenza e uno slot, che identificano un canale fisico. Le trasmissioni sono organizzate in burst (da non confondere con pacchetti),  blocchi di dati trasmessi su canali fisici. Sono simili ai pacchetti, ma funzionano su switching a circuito. La velocità di trasmissione è di 272 kbit/s. I cnali possono essere acceduti con FDMA o TDM, e le frequenze sono divise in FDM channels, ciascuno largo 200kHz. Ognuno è diviso in TDM frames, che a loro volta sono divisi in 8 slot.
+- Eseguire il transcodig vocale a 13 kb/s / 64 kb/s
+- Eseguire il paging
+- signal quality measurement
+- Gestione dell'handover tra BTS controllati dallo stesso BSC
 
-Lo slot time dura 0.577 ms, e ogni time slot porta 1 trasmission burst. Gli slot sono raggruppati in TDM frames, ciascuno di 8 slot.
+#### Network and Switching Subsystem
 
-![Accesso al canale](../images/03_summart_fdm_tdm.png){width=450px}
+Il network and switching subsystem (NSS) ha il compito di gestire le chiamate, il service support, mobility support e autenticazione.
 
-Il GSM non prevede una trasmissione simultanea (non è dunque full duplex), per limitare costi abbiamo un unico transceiver per cui è possibile o solo trasmettere o solo ricevere. Ogni MT trasmette per un time slot un burst di dati e rimane silezioso per gli altri 7 slot. I frame su UL e DL  sono sincronizzati in base ai time slot e shiftati di 3 slot.
+![NSS](../images/03_nss.png){width=400px}
 
-![GSM frame](../images/03_gsm_frame.png){width=450px}
+E' composto da:
 
-I tempi di propagazioni però non sono nulli, per cui possono nascere problemi nella struttura di questi slot. I burst trasmessi da MT potrebbero arrivare al BTS quando lo slot è già finito. Inoltre è possibile ci siano collisioni. La soluzione è utilizzare la timing advance, ovvero la trasmissione del MT comincia prima del reale inizio del timeslot. a inizio e fine birst sono presenti dei "bit di guardia" che permettono di sincronizzare i burst.
+- **MSC**: mobile switching center, ha il compito di gestire la mobility support, call routing tra MT e il GSMC _(ovvero l'interfaccia tra GSM e le altre reti)_.
+- **HLR**: home location register, si occupa di salvare le informazioni degli utenti nel database (anche permanenti come id, servizi abilitati, parametri di sicurezza) e dati dinamici per la gestione della user mobility (VLE identifier).
+- **VLR**: visitor location register, salva nel database le informazioni relative a dove si trova il dispositivo (MT) attualmente nell'area controllata dal MSC _(come id, stato on/of, LAI, informazioni di routing e sicurezza)_.
+- **AUC**: authetication center, si occupa della autenticazione basata su un protocollo challenge & response con generazione di chiave crittografiche per comunicazioni over-the-air.
+- **EIR**: equipment identity register, memorizza le informazioni dei dispositivi rubati.
 
-![Timing advance](../images/03_timing_advance.png){width=450px}
+#### Canali fisici
 
-La struttura di un burst è caratterizzato dai bit di guardia, il coded data, stealing bit viene utilizzato per comunicare all'utente informazioni importanti.
+Le frequenze utilizzate per il GSM sono: 859, 900 1800, 1900 MHz e variano in base allo scopo (ricezione o trasmissione) e funzionano attraverso il sistema **FDD** (frequency division duplex).
 
-![Burst structure](../images/03_burst_structure.png){width=450px}
+I canali GSM sono composti da una frequenza e uno slot, che identificano un canale fisico. Le trasmissioni sono organizzate in **burst** (da non confondere con pacchetti), ovvero blocchi di dati trasmessi su canali fisici. Sono simili ai pacchetti, ma funzionano su switching a circuito. La velocità di trasmissione è di 272 kbit/s. I canali possono essere acceduti con FDMA o TDMA mentre le frequenze sono divise in **FDM channels** (ciascuno largo 200kHz), che a loro volta sono divisi in **TDM frames** composti da 8 slot _(ciascuno dalla durata di 0.577ms per un totale di 4.615ms)_.
 
-I canali fisici del GSM soon composti da 8 canali, con timeslots da 0 a 7, mentre i canali logici mantengono le informazioni e specificano "cosa" è trasmesso. Sono mappati nel livello fisico in accordo a determinati criteri. I canali logici si dividono in control channels che trasportano le informazioni di controllo, e traffic channels che trasportano le informazioni.
+:::note
+**Nota**: Data una frequenza è uno time slot è possibile identificare un canale fisico.
+:::
 
-### 4G/LTE
+![Accesso al canale](../images/03_summart_fdm_tdm.png){width=400px}
 
-Una delle caratteristiche è l'utilizzo del FDMA che va a soppiantare il CDMA, che era stato pensato per gestire in efficienza il fading e sembrava una tecnologia migliore per il trasferimento dei dati. Il CDMA è però difficile da mantenere in termini tecnologici e i rapporti costi/benevici non era sufficientemente buono, per questo motivo per LTE è stato pensato FDMA, ovvero un FDM dove le frequenze portanti sono più vicine e ortogonali (posso sovrapporre lo spettro) in modo da non generale interferenze.
+Il GSM non prevede una trasmissione simultanea (non è full duplex), per limitare i costi è presente un unico transceiver che consente la sola ricezione o trasmissione. Ogni MT trasmette per un time slot un burst di dati e rimane silenzioso per i rimanenti 7 slot. I frame su UL e DL  sono sincronizzati in base ai time slot e shiftati di 3 slot.
 
-Abbiamo una diffusione dei MIMO e il livello fisico è statp migliorato per arrivare ad downlink di 300Mb/s e uplink da 50Mb/s.
+![GSM frame](../images/03_gsm_frame.png){width=400px}
 
-Le frequenze utilizzate dipende dalla distanza:
+I tempi di propagazioni però non sono nulli, per cui possono nascere problemi nella struttura degli slot in quanto i burst trasmessi dai MT potrebbero arrivare al BTS quando lo slot è già finito, causando anche la possibilità di collisioni. La soluzione utilizzata è la **timing advance**: la trasmissione del MT comincia prima del reale inizio del timeslot. a inizio e fine burst sono presenti dei "bit di guardia" che permettono di sincronizzare i burst.
 
-- 2600 MHz utilizzata per massimizzare la capacità in aree urbane
-- 1800 MHz alta capacita ma limitata interferenza
-- 800 MHz alta coperture e alta interferenza, per esempio nelle aree rurali.
+![Timing advance](../images/03_timing_advance.png){width=350px}
 
-Nella terminologia compaiono inoltre i termini:
+Analizzando più nel dettaglio la struttura di un burst, notiamo come questo è caratterizzato dai bit di guardia, il coded data e infine lo stealing bit, il quale viene utilizzato per comunicare all'utente informazioni importanti.
 
-- user plane: tutte le operazioni legate al trasporto di dato utente in dl o ul (access stratum)
-- control plane: tutte le operazioni legate al setup, controllo e mantenimento delle comunicazioni tra utente e la rete (non access stratum)
+![Burst structure](../images/03_burst_structure.png){width=400px}
 
-La radio access network prende il nome di E-UTRAN, mentre il core network, che include tutti i dispositivi responsabili al trasporto da/a internet verso gli utenti, viene deniminato EPC.
+I canali fisici del GSM sono composti da 8 canali, con timeslot da 0 a 7, mentre i canali logici mantengono le informazioni e specificano "cosa" è trasmesso. Sono mappati nel livello fisico in accordo a determinati criteri. I canali logici si dividono in **control channels**, i quali trasportano le informazioni di controllo (relative all'utente o alla rete), e traffic channels che trasportano le informazioni dell'utente.
 
-Le BS vengono denominate eNodeB.
+### 4G/LTE - quarta generazione
 
-![LTE architecture](../images/03_lte_architecture.png){width=450px}
+Una delle caratteristiche di **LTE** è l'utilizzo del **FDMA** al posto del _CDMA_, che era stato pensato per gestire in efficienza il _fading_ e sembrava essere una tecnologia migliore per il trasferimento dei dati. Il CDMA è però difficile da mantenere in termini tecnologici e i rapporti costi/benefici, inoltre nonostante tutto si è rivelato non essere sufficientemente buono. FDMA è un _FDM_ con frequenze portanti più vicine e ortogonali (è possibile sovrapporre lo spettro) in modo da non generale interferenze.
 
-MME setup di un home tunnel da rete di casa a rete di un operatore, si occupa della mobilità. Attenzione: si riparla di pacchetti a differenza del gsm.
+Abbiamo una diffusione dei MIMO e il livello fisico è stato migliorato per arrivare ad downlink di 300Mb/s e uplink da 50Mb/s.
 
-L'approccio utilizzato per EPC di tipo clean state design, di fatto ripensandolo completamente da zero. Utilizzo del packet switching transport per il traffico appartenente a tutte le classi QoS inclusi conversazione, streaming, tempo reale, non in tempo reale e in background.
+![Statistiche del LTE](../images/03_lte_stats.png){width=250px}
 
-- Radio resource management for: end-to-end QoS, transport for higher layers, load sharing/balancing, policy management/enforcement across different radio access technologies
-- Integration with existing 3GPP 2G and 3G networks
+In LTE  WCDMA wè stato sostituito con OFDMA (DL) e SC-FDM (UL).
+
+Le frequenze utilizzate sono differenti al variare della distanza:
+
+- **2600MHz** utilizzata per massimizzare la capacità in aree urbane.
+- **1800MHz** alta capacita ma limitata interferenza.
+- **800MHz** alta coperture e alta interferenza, per esempio nelle aree rurali.
+
+![Utilizzo delle frequenze](../images/03_ufb.png){width=300px}
+
+Nella terminologia compaiono inoltre i seguenti termini:
+
+- **user plane**: tutte le operazioni legate al trasporto dei dati degli utenti in DL o UL _(access stratum)_.
+- **control plane**: tutte le operazioni legate al setup, controllo e mantenimento delle comunicazioni tra utente e la rete _(non access stratum)_.
+
+La **Radio Access Network** (RAN), la quale include tutti i dispositivi che interagiscono con i dispositivi utente, prende il nome di **E-UTRAN**, mentre il **Core Network**, che include tutti i dispositivi responsabili al trasporto da/a internet verso gli utenti, viene denominato **EPC**.
+
+:::note
+**Nota**: Le BS vengono denominate **eNodeB**.
+:::
+
+#### Architettura di LTE
+
+A differenza del GSM che utilizzava burst, in LTE avviene l'utilizzo di veri e propri pacchetti. La connessione alla rete avviene attraverso un **MME setup**, ovvero la configurazione di un home tunnel dalla rete di casa a quella dell'operatore.
+
+Come mostrato nella figura di seguito, la rete si divide in **Long Term Evolution** (Access Network), ovvero E-UTRAN, ed **Evolved Packet Core** (core network) con l'acronimo di **EPC**, che rappresenta il cuore della rete e comprende tutti i nodi che forniscono funzioni di gestione della mobilità, autenticazione, session management, QoS e beares configuration.
+
+![LTE architecture](../images/03_lte_architecture.png){width=400px}
+
+##### EPC
+
+L'approccio utilizzato per **EPC** è di tipo clean state design, ovvero ripensato completamente da zero rispetto al passato.
+
+Adopera il **packet switching transport** per il traffico appartenente a tutte le classi QoS comprendente di conversazione, streaming, dirette, non in tempo reale e in background.
+
+Viene utilizzato il **Radio resource management** per: end-to-end QoS, trasporto verso i livelli più alti, load sharing/balancing, policy management/enforcement tra differenti accessi a tecnologie radio.
+
+Integration with existing 3GPP 2G and 3G networks
 
 <!-- todo ha saltato un po' le slide -->
 

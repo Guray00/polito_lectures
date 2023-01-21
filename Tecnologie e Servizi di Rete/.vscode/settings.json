@@ -4,7 +4,10 @@
 		".md": "cd $dir../ && compile.bat"
 	},
 	"cSpell.words": [
+		"macrocelle",
+		"microcelle",
 		"MPLS",
-		"Subnetwork"
+		"Subnetwork",
+		"timeslot"
 	]
 }
