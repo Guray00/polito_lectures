@@ -2,7 +2,8 @@
 
 ![polito](logo_polito.jpg)
 
-[![wakatime](https://wakatime.com/badge/user/374e1d76-0559-4ac6-89f1-96a22a7a774f/project/a36010c1-5c01-4e4f-970c-a54c5dd3c868.svg)](https://wakatime.com/badge/user/374e1d76-0559-4ac6-89f1-96a22a7a774f/project/a36010c1-5c01-4e4f-970c-a54c5dd3c868) [![Github](https://img.shields.io/github/stars/guray00/polito_lectures?style=social)](https://github.com/guray00/polito_lectures)
+[![wakatime](https://wakatime.com/badge/user/374e1d76-0559-4ac6-89f1-96a22a7a774f/project/a36010c1-5c01-4e4f-970c-a54c5dd3c868.svg)](https://wakatime.com/@guray00) [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Flectures.mlampis.dev&count_bg=%230F81C0&title_bg=%23555555&icon=icon=&icon_color=%23E7E7E7&title=views&edge_flat=false)](https://hits.seeyoufarm.com) [![Github](https://img.shields.io/github/stars/guray00/polito_lectures?style=social)](https://github.com/guray00/polito_lectures)
+
 
 Appunti presi durante i corsi di Computer Engineering orientamento _software_, presso il Politecnico di Torino. _Il materiale non è da ritenersi ufficiale e non è stato verificato da alcun docente o ente relativo al Politecnico._
 
@@ -110,6 +111,16 @@ Copia i file contenuti in `html` al seguente path (se qualche cartella non esist
 ## Contribuire
 
 Le contribuzioni sono ben accette! Fai le correzioni che ritieni necessarie modificando i file **markdown** all'interno della cartella `chapters` e apri una pull request.
+
+## Donazioni
+
+Realizzare le dispense e verificarne la correttezza del contenuto richiede molto tempo e sacrificio. Se questi appunti ti sono stati utili, prendi in considerazione l'idea di [offrirmi](https://www.paypal.com/donate/?hosted_button_id=X8ALKDVSK5B6Q) un caffè!
+
+<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="X8ALKDVSK5B6Q" />
+<input type="image" src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donate_SM.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Fai una donazione con il pulsante PayPal" />
+<img alt="" border="0" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
+</form>
 
 ## Licenza
 

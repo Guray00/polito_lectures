@@ -52,23 +52,25 @@ Le linee guida per la misurazione della performance si basano su due principi:
 
 La legge di Amdahl è una formula che descrive il miglioramento della performance in funzione del numero di processori. La formula è la seguente:
 
-$$\text{speedup} = \frac{\text{performance with enhancement}}{\text{performance with without enhancement}}$$
+$$ \text{speedup} = \frac{\text{performance with enhancement}}{\text{performance with without enhancement}} $$
 
 Lo speedup risultante da un miglioramento dipende da due fattori:
 
 - fraction enhanced: la frazione del tempo di computazione che può essere migliorata
 - speedup enhanced: la dimensione del miglioramento che le parti ricevono.
 
-$$ \text{execution time new} = \text{execution time old} * ((1 - \text{fraction enhanced}) + \frac{\text{fraction enhanced}}{\text{speedup enhanced}})$$
+$$ \text{execution time new} = \text{execution time old} * ((1 - \text{fraction enhanced}) + \frac{\text{fraction enhanced}}{\text{speedup enhanced}}) $$
 
-$$\text{speedup overall} = \frac{\text{execution time old}}{\text{execution time new}} = \frac{1}{(1 - \text{fraction enhanced}) + \frac{\text{fraction enhanced}}{\text{speedup enhanced}}}$$
+$$ \text{speedup overall} = \frac{\text{execution time old}}{\text{execution time new}} = \frac{1}{(1 - \text{fraction enhanced}) + \frac{\text{fraction enhanced}}{\text{speedup enhanced}}} $$
 
 #### Esempio 1
 
 Supponiamo di avere una macchina che è 10 volte più veloce nel 40% dei programmi che girano. Quale è lo speedpup totale?
 
 $$\text{fraction enhanced} = 0.4$$
+
 $$\text{speedup enhanced} = 10$$
+
 $$\text{speedup overall} = \frac{1}{(1 - 0.4) + \frac{0.4}{10}} = 1.56$$
 
 #### Esempio 2

@@ -11,6 +11,6 @@ for /d %%I in (*) do (
 
 
 echo ========================================================================
-    echo Aggiornamento del readme
+echo Aggiornamento del readme
 echo ========================================================================
 pandoc --standalone -c github.css -f gfm -t html README.md -o index.html

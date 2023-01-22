@@ -4,3 +4,6 @@ esercizi/
 materiale/
 labs/
 esami/
+*.zip
+*.exe
+*.elf

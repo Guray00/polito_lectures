@@ -36,13 +36,13 @@ echo:
 
 :: export per la visualizzazione web
 echo Creazione "%OUTPUT%.html" in corso...
-pandoc -s %files% -o %WEBNAME% --template=elegant_bootstrap_menu.html --toc --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --mathjax
+pandoc -s %files% -o %WEBNAME% --template=elegant_bootstrap_menu.html --toc --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --katex
 echo Compilazione HTML terminata.
 echo:
 
 :: export per la visualizzazione epub
 echo Creazione "%OUTPUT%.epub" in corso...
-pandoc -s %files% -o %EPUBNAME% --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --toc --css ./assets/epub.css --mathjax
+pandoc -s %files% -o %EPUBNAME% --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --toc --css ./assets/epub.css
 echo Compilazione EPUB terminata.
 echo:
 

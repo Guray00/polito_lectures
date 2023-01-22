@@ -381,24 +381,51 @@ Adopera il **packet switching transport** per il traffico appartenente a tutte l
 
 Viene utilizzato il **Radio resource management** per: end-to-end QoS, trasporto verso i livelli più alti, load sharing/balancing, policy management/enforcement tra differenti accessi a tecnologie radio.
 
-Integration with existing 3GPP 2G and 3G networks
+Sono presenti integrazioni con le reti già esistenti 3GPP, 2G e 3G.
 
-<!-- todo ha saltato un po' le slide -->
+Le funzioni principali di EPC sono:
 
-#### Beares
+- **Network access control**: include network selection, authentication, authorization, admission control, policy e charge enforcement e infine lawful interception.
+- **Routing** e **trasferimento** di pacchetti.
+- **Sicurezza**: include cifratura, integrity protection e network interface physical link protection.
+- **Gestione della mobilità** per tenere traccia della posizione corrente all'interno del User Equipment (UE).
+- R**adio resource management** per assegnare, riassegnare e rilasciare le risorse radio prese dalle singole o multiple celle.
+- **Gestione della rete** per operazioni di manutenzione.
+- Funzionalità di **networking IP** per le connessioni di eNodeB, condivisione di E-UTRAN, supporto in condizioni di emergenza e altre.
 
-Tutte le comunicazioni sono gestite attraverso dei "tunnel" denominati Bear. Tra il pwg e swg si crea un tunnel, e a sua volta dal svg e la base station si crea un altro tunnel, o ancora tra user agent e eNodeB. All'interno della rete i tunnel possono essere creati per soddisfare dei requisiti in termini di qualità del servizio. Possono essere creati dei bearer dedicati per dei servizi specifici.  E' presente un bearer default che stabilisce una connessione con il PGW quando UE è attivato. the UE can establish other dedicated bearers to other networks, based on
-quality-of-service (QoS) requirements.
+Le principali componenti sono:
 
-Sono presenti in particolare tre differenti beares:
+- **Mobility Management Entity** (MME): si trova all'interno del Control Plane, supporta equipment context, identity, authentication e authorization. Perlopiù esegue procedure di tipo _Non Access Stratum_ che si dividono prevalentemente in due gruppi funzioni relative al bearer management e Funzioni relative alla connessione e alla gestione della mobilità.
+- **Serving Gateway** (SGW): si trova all'interno del User Plane, riceve e invia i pacchetti tra gli eNodeB e la core network. Esegue il packet routing e forwarding tra gli EPC, oltre al lawful intercept. E' uno dei punti chiave per la _intra LTE-mobility_.
+- **Packet Data Network Gateway** (PGW): si trova all'interno del User Plane, connette l'EPC con le reti esterne/internet ed esegue operazioni di assegnamento UE IP, user packet filtering e servizi di NAT. E' uno dei punti chiave per l'accesso di reti _non 3GPP_.
+- **Home Subscriber Server** (HSS): database di informazioni relative all'utente  e agli iscritti. Viene utilizzato, insieme al MME, per l'autorizzazione. Funziona in modo simile al HLR dell'architettura GSM.
 
-- The S5 bearer: connects the Serving Gateway (S-GW) to the P-GW. (The tunnel can extend from P-GW to the Internet).
-- The S1 bearer: connects the eNodeB with the S-GW. Handover establishes a new S1 bearer for end-to-end connectivity.
-- The radio bearer: connects the UE to the eNodeB. This bearer follows the mobile user under the direction of the MME as the radio network performs handovers when the user moves from one cell to another.
+![Componenti di EPC](../images/03_epc_components.png){width=300px}
+
+##### Beares
+
+Tutte le comunicazioni sono gestite attraverso dei "tunnel" denominati **bearers**, situati tra il PWG e SGW che e a loro volta sono connessi a un ulteriore tunnel che parte dal SGW e arriva alla base station, e ancora tra user agent ed eNodeB. All'interno della rete i tunnel possono essere creati per soddisfare dei requisiti in termini di qualità del servizio, creando bearer dedicati a servizi specifici. E' presente un bearer default che stabilisce una connessione con il PGW quando un UE è attivato.
+
+![Bearers](../images/03_bearers.png){width=300px}
+
+Esistono tre differenti tipologie di bearer:
+
+- **S5 bearer**, connette SGW con PGW _(può estendersi da P-GW al Internet).
+- **S1 bearer**, connette eNodeB con SGW. Il meccanismo di handover stabilisce un nuovo S1 bearer per le connessioni end-to-end.
+- **Radio bearer**, connette UE e eNodeB. Questa tipologie segue l'utente in movimento in direzione del MME in quanto la radio esegue degli handover quando l'utente si muova da una cella all'altra.
+
+![Tipologie di Bearers](../images/03_tipologie_bearer.png){width=300px}
 
 #### E-UTRAN
 
-Principalmente sono dei eNodeB con un interfaccia X2 connetere eNodeB. Le funzioni principali sono di management delle risorsse audio come radio bearer control, radio mobility control, schedulinc ed allocazione dinamica delle risorse radio per uplink e downliik. Gestiscono la compressione (senza perdita) degli header, la sicurezza e la connettività verso EPC.
+La E-UTRAN consiste principalmente di eNodeB con un interfaccia X2 per connettere gli eNodeB (due tipologie: X2 control e X2 user).
+
+Le funzioni principali sono:
+
+- **Gestione delle risorse radio** come radio bearer control, radio mobility control, scheduling ed allocazione dinamica delle risorse radio per uplink e downlink.
+- **Compressione** (senza perdita) **degli header**.
+- Sicurezza.
+- **connettività** verso EPC.
 
 #### Data Plane e Control Plane
 
@@ -406,7 +433,7 @@ control plane è new protocols for mobility management , security, authenticatio
 
 Nel data plane abbiamo un estensivo uso dei tunnel che a livello datalink e fisico ha causato la creazione di nuovi protocolli per giustire gli accessi, oltre a nuovi standard di compressione per migliorare l'utilizzo del canale.
 
-![Data Plane (basso) e Control Plane (alto)](../images/03_data_pane_control_plane.png){width=450px}
+![Data Plane (basso) e Control Plane (alto)](../images/03_data_pane_control_plane.png){width=400px}
 
 A livello 3 abbiamo IP, a livello data link abbiamo tre sottolivelli:
 
@@ -512,4 +539,3 @@ L'handover attraverso le base station all'interno della stessa rete cellulare av
 5. Il target Bs informa MME che del nuovo BS per il dispositivo (MME istruisce S-GW di cambiare l'endopooint del tunnel al nuovo BS)
 6. La base station target inoltra un ack alla base station sorgente informando che l'handover è completato e la bs sorgente può rilasciare le sue risorse.
 7. I datagrammi del dispositivo possono ora utilizzare il nuovo tunnel dal target BS al S-GW
-
