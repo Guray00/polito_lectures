@@ -4,9 +4,14 @@
 		".md": "cd $dir../ && compile.bat"
 	},
 	"cSpell.words": [
+		"datagrammi",
+		"Extranet",
+		"interconette",
+		"ISAKMP",
 		"macrocelle",
 		"microcelle",
 		"MPLS",
+		"proxying",
 		"Subnetwork",
 		"taggate",
 		"timeslot"

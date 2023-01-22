@@ -40,14 +40,9 @@ del .\assets\.actual.md
 exit /b
 )
 
-:: aggiorno il file per il controllo del precedente
-del ".\assets\.previous.md"
-cd assets && ren ".actual.md" ".previous.md" && cd ..
-
-
 :: notifica l'utente della creazione del file
 echo Creazione in corso dei file:
-for /f "Tokens=* Delims=" %%x in (includes.txt) do echo - "%%x"
+for /f "Tokens=* Delims=" %%x in (includes.txt) do echo - %%x
 echo:
 
 :: esegue il comando di creazione
@@ -71,6 +66,10 @@ echo:
 :: --resource-path="./output/" specifica a partire da quale path recuperare le risorse, lo rende coerente al md
 :: --standalone --embed-resources permette il funzionamento anche fuori dalla cartella
 :: --mathjax permette l'uso di formule matematiche
+
+:: aggiorno il file per il controllo del precedente
+del ".\assets\.previous.md"
+cd assets && ren ".actual.md" ".previous.md" && cd ..
 
 echo Esportazione terminata.
 timeout 5

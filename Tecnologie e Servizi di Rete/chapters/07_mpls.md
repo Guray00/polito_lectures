@@ -51,7 +51,7 @@ L'header MPLS è di livello 2 ed è composta da più moduli uniti, che formano u
 
 - label: 20 bit
 - exp: experimental bits, 3 bit
-- s: bottom of stack, 1 bit, che viene messo a 1 al fondo dello stack, qunado viene trovato a zero significa che sarà presente un altro modulo.
+- s: bottom of stack, 1 bit, che viene messo a 1 al fondo dello stack, quando viene trovato a zero significa che sarà presente un altro modulo.
 - TTL: time to live, 8 bit
 
 Nel caso di ATM e frame relay alcune informazione sono già presenti, per cui si riutilizzano alcuni campi invece di raggiungere un nuovo modulo:

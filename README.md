@@ -20,10 +20,7 @@ L'ultima versione di ciascun appunto è disponibile nella seguente tabella:
 <table>
 <tr>
     <td> Materia
-    <td> PDF
-    <td> WEB
-	<td> HTML
-    <td> EPUB
+    <td colspan=4 align="center"> Formati
 <tr>
     <td> Architetture e sistemi di elaborazione
     <td> 
