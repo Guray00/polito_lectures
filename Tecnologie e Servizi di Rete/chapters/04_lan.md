@@ -168,4 +168,4 @@ Le porte si dividono in:
 
 ![Trunk ports](../images/04_trunk.png){width=300px}
 
-<!-- le slide da 73 compresa in poi non fanno parte dell'esame! -->
+<!-- le slide da 73 compresa in poi non fanno parte dell'esame -->

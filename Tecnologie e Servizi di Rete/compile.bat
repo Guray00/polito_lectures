@@ -1,5 +1,9 @@
 @ECHO OFF
 
+:: permette di stampare in utf-8
+REM change CHCP to UTF-8 > nul
+CHCP 65001 > nul
+
 :: nome del file di output, modifica questo campo per avere un nome personalizzato
 set OUTPUT=
 
@@ -11,6 +15,8 @@ for %%I in (.) do set OUTPUT=%%~nxI
 :: crea la cartella per gli output
 if not exist ".\output" mkdir .\output
 
+:: se non esiste creo il file delle precedenze
+if not exist ".\assets\.previous.md" copy NUL ".\assets\.previous.md" > nul
 
 :: nomi dei file di output che verranno generati
 set PDFNAME="./output/%OUTPUT%.pdf"
@@ -22,6 +28,22 @@ SETLOCAL EnableDelayedExpansion
 
 :: recupera la lista di file contenuti in includes.txt
 for /f "Tokens=* Delims=" %%x in (includes.txt) do set files=!files! "./chapters/%%x"
+
+:: creo il file unito
+pandoc -s %files% -o .\assets\.actual.md
+
+:: verifico se sono presenti differenze
+fc ".\assets\.previous.md" ".\assets\.actual.md" > nul && (
+echo %OUTPUT% è già aggiornato.
+timeout 5
+del .\assets\.actual.md
+exit /b
+)
+
+:: aggiorno il file per il controllo del precedente
+del ".\assets\.previous.md"
+cd assets && ren ".actual.md" ".previous.md" && cd ..
+
 
 :: notifica l'utente della creazione del file
 echo Creazione in corso dei file:

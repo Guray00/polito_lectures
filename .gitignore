@@ -7,3 +7,5 @@ esami/
 *.zip
 *.exe
 *.elf
+.actual.md
+.previous.md
