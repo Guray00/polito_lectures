@@ -2,57 +2,63 @@
 
 ## Introduzione
 
-Con routing si fa riferimento al percorso che i pacchetti devono compiere nella rete, mentre il forwarding  è il processo di inviare pacchetti nella rete e include decisioni di routing. Distinguiamo il concetto di:
+Con il termine **routing** si fa riferimento al percorso che i pacchetti devono compiere nella rete, mentre **forwarding** il processo di inviare pacchetti nella rete, includendo decisioni di routing.
 
-- routing (proactive)
-- forwarding (on the fly routing)
+Distinguiamo il concetto di:
+
+- **routing** (proactive)
+- **forwarding** (on the fly routing)
 
 ### Proactive routing
 
-Il proactive routing è indipendente dal traffico attuale, e in base a qualche metrica definisce quale percorso è migliore rispetto a un altro. Determina quali siano le destinazioni raggiungibili. 
+Il **proactive routing** è indipendente dal traffico attuale, definisce quale percorso è migliore rispetto a un altro (in base a una metrica scelta). Determina inoltre quali siano le destinazioni raggiungibili.
 
-:::note
+:::tip
 **Nota**: è solitamente chiamato semplicemente _routing_.
 :::
 
 ### On the fly routing
 
-Comunemente definito forwarding, si occupa di gestire i pacchetti mediante informazioni locali come routing/forwarding table. E' il risultato del proactive routing o signaling e viene chiamato anche route.
+Comunemente definito **forwarding**, il **On the fly routing** si occupa di gestire i pacchetti mediante informazioni locali come routing/forwarding table. E' il risultato del proactive routing o signaling.
 
 La scelta dipende dal tipo di indirizzamento che si vuole stabilire:
 
-- routing by network address: in base alla destinazione
-- label swapping
-- source routing
+- **routing by network address**: routing in base alla destinazione
+- **label swapping** (es. MPLS)
+- **source routing**
 
-Si ha una operazione di switching, ovvero trasferire verso una porta di output, e di trasmissione.
+Si ha una operazione di switching, ovvero trasferire verso una porta di output, oltre che di trasmissione. Ogni protocollo può adoperare una o più di queste strategie.
+
+:::tip
+**Nota**: è solitamente chiamato semplicemente _route_.
+:::
 
 ## Proactive routing algorithms
 
 Gli algoritmi di routing proactive si dividono in:
 
-- non-adaptive alogorithms, statici
-- adaptive algorithms, dinamici
+- **non-adaptive algorithms**: statici
+- **adaptive algorithms**: dinamici
 
 ### Non adaptive algorithms
 
-I non adaptive algorithms si dividono a loro volta in Fixed Directory routing, configurato manualmente e di tipo statico, e il flooding and derivates (selective), anche questo è un tipo di approccio statico e non cambia in base alla rete.
+I **non adaptive algorithms*** si dividono a loro volta in **Fixed Directory routing**, il quale compie static routing ed è configurato manualmente, e il **flooding and derivates** (selective), anche questo con approccio statico che non cambia in base alla rete.
 
-![Fixed Directory Routing](../images/06_fdr.png){width=400px}
+![Fixed Directory Routing](../images/06_fdr.png){width=350px}
 
-Il vantaggio è che l'amministratore ha pieno controllo della rete, ma si è più soggetti ad eventuale errore e non si adatta al cambio di topologia.
+Il vantaggio principale è il pieno controllo della rete da parte dell'amministratore, ma al costo di essere più soggetti ad eventuali errori e di un architettura che non si adatta al cambio di topologia.
 
-![Static vs Dynamic](../images/06_svsd.png){width=400px}
+![Statico vs Dinamico](../images/06_svsd.png){width=350px}
 
 ### Adaptive algorithms
 
-Gli alogoritmi dinamici si dividono in:
+Gli algoritmi dinamici si dividono in:
 
-- centralized routing
-- isolated routing
-- distributed routing: distance vector e link state
+- **centralized routing**
+- **isolated routing**
+- **distributed routing**, distance vector e link state
 
-Quando parliamo di **centralized routing**, si fa riferimento ad un unico nodo che si occupa di gestire la rete denominato Routing Control Center (RCC). Ha bisogno di sapere le informazioni di tutti i nodi per prendere le strategie di routing migliori e ottimizzare le performance. Inoltre, effettua il calcolo e distribuzione delle routing table. Il vantaggio è che semplifica il troubleshooting anche se è presente un carico di rete significativo in prossimità del RCC. Lo svantaggio è però il rischio che RCC diventi un bottleneck o un single point of failure, per tale motivo non è adatto per reti dinamiche di grandi dimensioni.
+In riferimento al **centralized routing**, un unico nodo si occupa di gestire la rete denominata **Routing Control Center** (RCC). Ha bisogno di sapere le informazioni di tutti i nodi per prendere le strategie di routing migliori e ottimizzare le performance. Inoltre, effettua il calcolo e la distribuzione delle routing table. Il vantaggio è che semplifica il troubleshooting anche se è presente un carico di rete significativo in prossimità del RCC. Lo svantaggio è però il rischio che RCC diventi un bottleneck o un single point of failure, per tale motivo non è adatto per reti dinamiche di grandi dimensioni.
 
 Nella **isolated routing** ogni nodo si comporta in modo indipendente senza alcun scambio di informazione. Non si ha dunque garanzia che il pacchetto venga effettivamente trasmesso. Uno scenario plausibile è in una rete lineare.
 
@@ -60,37 +66,37 @@ Nell'approccio **distributed routing** i router collaborano nello scambiare le i
 
 ## Distance vector (Bellman-Ford)
 
-Ogni nodo invia e riceve le informazioni ai nodi vicini. E' un algoritmo distribuito e le informazioni che si scambiano è la distanza rispetto agli altri router (raggiungibili o meno). A disposizione hanno la lista dei destinatari (tutti). Sono inoltre necessari i transitori (router che non sono destinatari ma che sono necessari per raggiungere la destinazione). Visto che ogni nodo comunica con i vicini, è importante tenere conto della distanza dal announcing routing. 
+Nel algoritmo **Distance Vector** (DV), facente parte dei _distributed routing_ _(adaptive algorithms)_, ogni nodo invia e riceve informazioni inerenti alla distanza con gli altri router ai nodi vicini. E' un algoritmo distribuito in cui ogni nodo ha la lista completa dei destinatari (tutti). Sono inoltre necessari i transitori (router che non sono destinatari ma che sono necessari per raggiungere la destinazione). Visto che ogni nodo comunica con i vicini, è importante tenere conto della distanza dal announcing routing.
 
-DV (Distance Vector) rappresenta la distanza tra un nodo e un altro. Ad esempio:
+![Scenario d'esempio (1)](../images/06_dv1.png){width=300px}
 
-![Scenario d'esempio (1)](../images/06_dv1.png){width=400px}
+![Scenario d'esempio (2)](../images/06_dv2.png){width=300px}
 
-![Scenario d'esempio (2)](../images/06_dv2.png){width=400px}
+![Scenario d'esempio (3) con cambio di topologia](../images/06_changed_top.png){width=300px}
 
-Si cerca ogni volta la distanza minore per raggiungere un determinato nodo, tenendo conto dei percorsi alternativi in caso di guasto.
+L'algoritmo cerca ogni volta la distanza minore per raggiungere un determinato nodo, tenendo conto dei percorsi alternativi in caso di guasto.
 
 All'inizio ogni router ha solo le informazioni in locale, deve dunque mandare le proprie informazioni ai vicini in modo che si possa propagare nella rete la possibilità di poter raggiungere il nuovo nodo, ad esempio `a`. Il routing avviene a livello 3.
 
-![Cold Start](../images/06_cold_start.png){width=400px}
+![Cold Start](../images/06_cold_start.png){width=350px}
 
 I problemi che si possono riscontrare sono:
 
-- black hole: un nodo non risponde ai messaggi di routing, quindi non si ha più informazioni sulla rete.
-- count to infinity: scenario di loop, 
-- balancing effect: se un nodo è più vicino ad un altro, ma il percorso è più lungo, allora il nodo più vicino non sarà scelto.
+- **Black hole**: un nodo non risponde ai messaggi di routing, quindi non si ha più informazioni sulla rete.
+- **Count to infinity**: scenario di loop, le informazioni sono propagate all'infinito.
+- **Balancing effect**: se un nodo è più vicino ad un altro, ma il percorso è più lungo, allora il nodo più vicino non sarà scelto.
 
-![Esempio count to infinity](../images/06_cti.png){width=400px}
+![Esempio count to infinity](../images/06_cti.png){width=350px}
 
-![Esempio bouncing effect](../images/06_be.png){width=400px}
+![Esempio bouncing effect](../images/06_be.png){width=350px}
 
 <!-- Lezione16: 23-11-2022 -->
 
-Alcune soluzioni a questi problemi sono:
+Alcune soluzioni a tali problematiche sono:
 
-- **split horizon**: se `C` raggiunge A attraverso `B`, è inutile per `B` provare a raggiungere `A` tramite `C`. Previene cicli tra due nodi, velocizza la convergenza e consente di "personalizzare le DV per i vicini. Non risolve tutti i problemi quando abbiamo delle maglie chiuse (mesh)
-- **path hold down**: se un link `L` fallisce, le destinazioni raggiungibili da `L` vengono considerate non raggiungibili per un certo periodo di tempo (in quarantena).
-- **route poisoning**: invia una informazione volutamente scorretta al fine di scoprire prima cosa succede nella rete, alla ricerca di guasti. Quando il link fallisce il costo è incrementato, fino a quanto non si raggiunge il costo massimo (denominato infinito) si ricerca un altro percorso. Il tempo di convergenza è più rapido e può sostituire o essere complementare al path hold down e split horizon.
+- **Split horizon**: se `C` raggiunge `A` mediante `B`, è inutile per `B` provare a raggiungere `A` tramite `C`. Previene cicli tra due nodi, velocizza la convergenza e consente di _"personalizzare"_ le DV per i vicini. Non risolve tutti i problemi quando abbiamo delle maglie chiuse _(mesh)_. Nelle attuali implementazioni la route deve _"scadere"_ dopo un po' di tempo.
+- **Path hold down**: se un link `L` fallisce, le destinazioni raggiungibili da `L` vengono considerate non raggiungibili per un certo periodo di tempo _(in quarantena)_. Ha un tempo di copertura elevato e i router che hanno notato l'errore potrebbero non partecipare a un loop fino a quando non è scaduto un _Hold Down timer_.
+- **Route poisoning**: invia una informazione volutamente scorretta (invece di ometterla) al fine di scoprire prima cosa succede nella rete, alla ricerca di guasti. Quando il link fallisce il costo è incrementato, fino a quanto non si raggiunge il costo massimo (denominato infinito) e si ricerca un altro percorso. Il tempo di convergenza è più rapido e può sostituire o essere complementare al _path hold down_ e _split horizon_.
 
 Più varianti sono possibili contemporaneamente, in base al protocollo che viene utilizzato.
 
@@ -98,49 +104,63 @@ Più varianti sono possibili contemporaneamente, in base al protocollo che viene
 
 I vantaggi complessivi sono dunque la semplicità di implementazione è la semplicità di deploy per i protocolli, senza necessitare particolare configurazione.
 
-La complessità del caso peggiore relativo al tempo di convergenza va da `O(n^2)` a `O(n^3)`, risulta inoltre limitata dai router più lenti e il set space dei router. Anche il numero di link presenti risulta essere un fattore limitante in termini di prestazioni.
+I _routing loops_ si verificano quando le _routes_ hanno un incremento di costo, per questo motivo non vengono utilizzate (sono identificate da due advertisements successivi). E' possibile che succeda con il path hold down, potrebbero essere bloccate route con un incremento legittimo dei costi.
 
-## Path vector
+Un esempio di utilizzo può essere _Split Horizon with Poisonous Reverse_, che risulta essere più aggressivo e consente di non aspettare per la _expiration_ di una _route_.
 
-Elimina i loop inviando, oltre le informazioni della distanza, ma anche i nodi attraversati per raggiungere una determinata destinazione. In questo modo si eevitano i loop all'interno dei transitori, ma non è molto utilizzato in quanto è un compromesso con gli svantaggi di entrambi.
+Il caso più estremo ci consente di fare in modo che i router non siano a conoscenza della topologia della quale fanno parte.
+
+Il vantaggio di tali soluzioni è la semplicità di implementazione, protocolli facili per il _deploy_ con poche configurazioni.
+
+La complessità nel caso peggiore relativo al tempo di convergenza va da `O(n^2)` a `O(n^3)`, risulta inoltre limitata dai router più lenti e il set space dei router. Anche il numero di link presenti risulta essere un fattore limitante in termini di prestazioni.
+
+## Path Vector
+
+L'algoritmo **Path Vector** elimina i loop inviando, in aggiunta alle informazioni sulla distanza, i nodi attraversati per raggiungere una determinata destinazione. In questo modo si evitano i loop all'interno dei transitori, ma nonostante ciò è molto utilizzato in quanto è un compromesso con gli svantaggi di entrambi.
+
+![Esempio di Path Vector](../images/06_path_vector.png){width=350px}
 
 ## Link State Routing Algorithm
 
-Vengono inoltrate le informazioni relative a tutte la rete, relativa allo stato di ogni nodo. Permette di creare su ogni nodo una mappa locale, inviando le informazioni attraverso un _selective flooding_.
+Nel **Link State Routing Algorithm** vengono inoltrate le informazioni relative a tutta la rete, contenente lo stato di ogni nodo. In questo modo ogni nodo è in grado di realizzare una mappa locale, inviando le informazioni attraverso un _selective flooding_.
 
-La convergenza è rapida, inoltre i link state sono piccoli. Il traffico di rete e lo storage sono limitati, in quanto il neighbor greeting è veloce ed efficiente. Raramente genera loop ed è semplice da comprendere e "riparare", ma è più complesso da implementare, cosa che comporta protocolli con configuraizoni complesse.
+In questo modo La convergenza è rapida e i _link state_ sono piccoli. Il traffico di rete e lo storage sono limitati, in quanto il _neighbor greeting_ è veloce ed efficiente. Raramente genera loop ed è semplice da comprendere e "riparare", ma è più complesso da implementare, cosa che comporta protocolli con configurazioni complesse.
 
-Il link state viene generato quando ci sono cambiamenti topologici. Nei protocolli attuali i link state sono generati periodicamente in modo da generare un aumento di affidabilità.
+I _link state_ vengono generati quando avvengono cambiamenti topologici. Nei protocolli attuali i link state sono generati periodicamente in modo da aumentare l'affidabilità.
 
-### Algoritmo di Dijkstra
+![Link state database](../images/06_link_state.png){width=350px}
 
-L'algoritmo di Dijkstra è un algoritmo per calcolare l'albero di copertura minimo di un grafo. Ha una bassa complessità pari ad $O(Llog(n))$, con $L$ numero di link ed $n£ numero di nodi. Utilizza un mecchanismo di **shortest path first**, dove il prossimo nodo è il più vicino alla sorgente e il next hop è inserito all'interno della routing table.
+## Algoritmo di Dijkstra
+
+L'**algoritmo di Dijkstra** viene utilizzato per calcolare l'albero di copertura minimo di un grafo. Ha una bassa complessità pari ad $O(L\log n)$, con $L$ numero di link ed $n$ numero di nodi. Utilizza un meccanismo di **shortest path first**, dove il prossimo nodo è il più vicino alla sorgente e il next hop è inserito all'interno della routing table.
+
+I vantaggi sono una rapida convergenza (i LS sono analizzati rapidamente e non c'è processazione intermedia) oltre a un limitato storage e routing del traffico (Link State piccoli e rapido _neighbor greeting_). Inoltre, raramente genera loop ed è semplice fare troubleshoot (tutti i nodi hanno un database identico).
+
+![Esempio con Dijkstra](../images/06_dijkstra_example.png){width=350px}
 
 ## Internet Routing Architecture
 
-I protocolli di routing viaggiano tra il livello IP e il livello TCP. Un protocollo di routing è il modo con cui vado a determinare le rotte per lo scambio di informazioni attraverso una rete, basandosi su un algoritmo di routing di partenza.
+I protocolli di routing viaggiano tra il livello IP e il livello TCP. Un protocollo di routing è il modo con cui si determina le rotte per lo scambio di informazioni attraverso una rete, basandosi su un algoritmo di routing di partenza.
 
-![Protocol Architecture](../images/06_protocol_architecture.png){width=400px}
+![Protocol Architecture](../images/06_protocol_architecture.png){width=350px}
 
-Per i routing protocol è necessario definire delle metriche e il loro meccanismo di encoding per il pacchetto, i parametri configuramibili e lo specifico timing.
+Per i routing protocol è necessario definire delle metriche, il meccanismo di encoding per il pacchetto, i parametri configurabili e lo specifico timing.
 
-Il dominio di routing è un insieme di router che utilizzano lo stesso protocollo di routing, che sono connessi a una porzione della rete. Un router potrebbe far parte di più routing domains (utilizzando più protocolli di routing) e può **ridistribuire** le informazioni imparate con un protocollo attraverso un altro. Questo processo è possibile attraverso una conversione delle metriche, utilizzo di filtri di advertisement e information source priority mediante una configurazione ell'amministratore.
+Il **dominio di routing** è un insieme di router che utilizzano lo stesso protocollo di routing, che sono connessi a una porzione della rete. Un router potrebbe far parte di più routing domains (utilizzando più protocolli di routing) e può **ridistribuire** le informazioni imparate con un protocollo mediante uno differente. Questo processo è possibile attraverso una conversione delle metriche, utilizzo di filtri di advertisement e _information source priority_ tramite una configurazione dell'amministratore.
 
 ### Autonomous System
 
-Un autonomous System è un set di sottoreti raggruppate in base alla topologia o un criterio organizzativo (ad esempio una subnet di un grande ISP). L'indirizzamento e l'instradamento sono strettamente coordinati e l'interfaccia AS è controllata (data, informazioni di routing). Dal punto di vista amministrativo esiste è possibile indicare delle scelte di routing interno autonomo e negoziare scelte di routing esterno. E' inoltre scalabile, in quanto nessuna delle informazioni è propagata "ovunque".
+Un **Autonomous System** (AS) è un set di sottoreti raggruppate in base alla topologia o un criterio organizzativo (ad esempio una subnet di un grande ISP). L'indirizzamento e l'instradamento sono strettamente coordinati e l'interfaccia AS è controllata (data, informazioni di routing). Dal punto di vista amministrativo è possibile indicare delle scelte di routing interno autonome e negoziare scelte di routing esterno. E' scalabile, in quanto nessuna delle informazioni è propagata _"ovunque"_ ma è il singolo AS a decdere dove far passare i propri dati.
 
-E' identificato da **due byte** numerici assegnati dalla IANA (Internet Assigned Numbers Authority). Il range di numeri privati va da 64512 a 65534.
+E' identificato da **due byte** numerici assegnati dalla _IANA (Internet Assigned Numbers Authority)_. Il range di numeri privati va da _64512_ a _65534_, lo scambio di informazioni di routing è controllato.
 
-Distinguiamo i protocolli di tipo iBGP (intra Border Gateway Protocol) e eBGP (inter Border Gateway Protocol). Il primo è utilizzato per comunicare tra i router di un AS, mentre il secondo è utilizzato per comunicare tra AS diversi.
+Distinguiamo i protocolli di tipo **iBGP** _(intra Border Gateway Protocol)_ e **eBGP** _(inter Border Gateway Protocol)_. Il primo è utilizzato per comunicare tra i router di un AS, mentre il secondo è utilizzato per comunicare tra _AS_ diversi.
 
 ![iBGP e eBGP](../images/06_as_modes.png){width=400px}
 
-E' il singolo AS che decide dove far passare i propri dati.
+Il concetto di percorso più breve non è più applicabile nel caso dell'_exterior routing_, ma bensì si parla di percorso _migliore_ (che non necessariamente è relativo alla lunghezza). Le scelte vengono fatte  in base a delle _policies_ e riflette gli accordi tra gli AS.
 
-Il concetto di percorso più breve non è più applicabile nel caso dell'exterior routing, ma bensì il percorso _migliore_. Le scelte vengono fatte  in base a delle policies e riflette gli accordi che avvengono tra gli AS.
-
-Le destinazioni possono essere aggregate (`195.1.2.0/24` e `195.1.3.0/24` in `192.1.2.0/23`) e si esegue un routing _gerarchico_.
+Le destinazioni possono essere aggregate (`195.1.2.0/24` e `195.1.3.0/24` in `192.1.2.0/23`) secondo un routing _gerarchico_.
 
 **Neutral Access Point** (NAP) è un punto di accesso neutrale, che permette di collegare più AS tra loro, mentre un Internet eXchange Point (IXP) è un punto di scambio di traffico tra più AS. Sono realizzabili mediante BGP.
 
@@ -148,68 +168,68 @@ Le destinazioni possono essere aggregate (`195.1.2.0/24` e `195.1.3.0/24` in `19
 
 ## Protocolli di routing
 
-I protocolli di routing distinguiamo in iBGP e eBGP.
+I protocolli di routing si distinguono in **iGP** (Interior Gateway Protocol) e **EGP** (Exterior Gateway Protocol).
 
-Le feature del IGP sono:
+Le _feature_ di **IGP** sono:
 
-- informazioni distribuite nella topologia
-- le route sono scelte in base alle iinformazioni della topologia
-- trova la migliore route
+- Informazioni distribuite nella topologia
+- Le route sono scelte in base alle informazioni della topologia
 
-Le feature del EGP:
+Le _feature_ di **EGP**:
 
-- Distribute Autonomous System information
-- Distribute administrative costs
-- Decide based on policies
+- informazioni degli Autonomous System distribuite
+- Costi amministrativi distribuiti
+- Decisioni prese in base alle _policies_ (trova la route _"preferita"_, non necessariamente la migliore)
 
-### IGP
+### Algoritmi IGP
 
-Gli algoritmi di tipo Interior Gateway Protocol li distinguiamo in **distance vector**, che comprende **RIP** (Routing Information Protocol) e **IGRP** (Interior Gateway Routing Protocol), e **link state**, che comprende OSPF e Integrated IS-IS.
+Gli algoritmi di tipo _Interior Gateway Protocol_ si distinguono in:
 
-Permetteva di utilizzare differenti metriche rispetto all'hop count come delay, bandwidth, reliability, load, maximum packet lenght. Inoltre, consente il **multipath routing**, ovvero la possibilità di utilizzare più percorsi per raggiungere una destinazione.
+- **Distance Vector**: comprende **RIP** (Routing Information Protocol) e **IGRP** (Interior Gateway Routing Protocol).
+- **Link State**: comprende **OSPF** e Integrated **IS-IS**.
 
-#### RIP
+Tali algoritmi consentono di utilizzare differenti metriche rispetto all'hop count, come: delay, bandwidth, reliability, load, maximum packet length. Inoltre, consentono il **multipath routing**, ovvero la possibilità di utilizzare più percorsi per raggiungere una destinazione.
 
-Primo protocollo di routing proposto, di tipo distance vector, nel 1988. Veniva supportato da macchine Unix e Linux. Come metrica utilizza come metrica Hop Count, con un tempo di convergenza di 3 minuti e un massimo di distanza di 15 hop.
+#### RIP (Distance Vector)
 
-#### IGRP
+**Rip** è stato il primo protocollo di routing proposto, di tipo distance vector, nel 1988. Veniva supportato da macchine Unix e Linux. Come metrica utilizza _Hop Count_, con un tempo di convergenza di 3 minuti e un massimo di distanza di 15 hop.
 
-E' un sistema proprietario di Cisco, ch supera alcuni dei problemi di RIP, diventandone l'unica alternativa.
+#### IGRP (Distance Vector)
 
-#### OSPF
+E' un sistema proprietario di Cisco, ch supera alcuni dei problemi di RIP, diventandone l'unica alternativa nel primo periodo.
 
-OSPF fa parte degli algoritmi di link state e utilizza un routing di tipo gerarchico. Il routing domain è diviso in aree, in ciascuna delle quali avviene una aggregazione delle informazioni. I router sanno tutti i dettagli delle zone/domain/area, ma non sanno nulla o hanno informazioni limitate relative all'esterno. Può essere iterato.
+#### OSPF (Link State)
 
-Nello strictly hierarchical routing non si hanno informazioni sull'esterno. Quando il destinatario del pacchetto non è nella stessa area, viene forwardato attraverso un edge router. Il routing è limitato in termini di efficacia, ma è maximum scale. I path sono sub-ottimali, si ha però perdita di connettività in caso di errori.
+**OSPF** fa parte degli algoritmi di _link state_, utilizza un routing di tipo gerarchico. Il routing domain è diviso in aree, in ciascuna delle quali avviene una aggregazione delle informazioni. I router sanno tutti i dettagli delle zone/domain/area, ma non sanno nulla o hanno informazioni limitate relative all'esterno. Può essere iterato.
 
-Nel loosely hierarchical routing si ha una scalabilità minore in quanto i router devono mantenere e scambiare più informazioni, ma non è richiede strictly hierarchical addressing. Tutti gli host nel _dominio B_ non hanno bisogno di un identificatore comune, bensì si utilizzano dei prefissi. E' possibile in IPv4.
+Nello _strictly hierarchical routing_ non si hanno informazioni sull'esterno. Quando il destinatario del pacchetto non è nella stessa area, viene eseguito il forwarding mediante un edge router. Il routing è limitato in termini di efficacia, ma è altamente scalabile. I path sono _sub-ottimali_, ma si ha perdita di connettività in caso di errori.
 
-##### Architettura
+Nel _loosely hierarchical routing_ si ha minore scalabilità in quanto i router devono mantenere e scambiare più informazioni, ma non è richiede _strictly hierarchical addressing_. Tutti gli host nel _dominio B_ non hanno bisogno di un identificatore comune, bensì vengono utilizzati dei prefissi. E' possibile implementarlo in IPv4.
 
 Ogni area avrà una visione completa della propria topologia interna, ma verso l'esterno soltanto i collegamenti per parlare con le altre aree, avendone una visione aggregata conoscendone i router di _frontiera_.
 
-Per $N$ router si hanno $N^2$ adiacenze e dunque link. La complessità di Dijkstra è lineare nel numero di link.
+Per $N$ router si hanno $N^2$ adiacenze (dunque link). La complessità di Dijkstra è lineare nel numero di link.
 
-#### IS-IS
+![OSPF](../images/06_ospf_a1.png){width=350px}
 
-Variante del protocollo OSPF, è un estensione del protocollo OSI. Utilizza routing di tipo gerarchico con diversi livelli. E? ancora utilizzato, ma non è più diffuso nelle nuove strutture. Ha avuto utilizzo in grandi reti e ISP.
+#### IS-IS (Link State)
 
-<img title="" src="../images/06_ospf_a1.png" alt="" width="537" data-align="center">
+L'algoritmo **IS-IS** è una variante del protocollo **OSPF**, oltre a essere una estensione del protocollo _OSI_. Utilizza routing di tipo gerarchico con diversi livelli. Viene ancora utilizzato, ma non è più diffuso nelle nuove strutture (soppiantato da _OSPF_). Ha avuto utilizzo in grandi reti e _ISP_.
 
 <!-- rivedi le slide intorno a 91 -->
 
-### EGP
+### Algoritmi EGP
 
-Gli algoritmi di tipo Exterior Gateway Protocol sono **BGP** (Border Gateway Protocol) e **IDRP** (inter DOmain Routing Protocol). Anche il routing statico è una opzione possibile. Questi non sono ne completamente distance vector ne link state.
+Gli algoritmi di tipo _Exterior Gateway Protocol_ sono **BGP** (Border Gateway Protocol) e **IDRP** (Inter Domain Routing Protocol). Anche il routing statico è una opzione possibile. Questi non sono ne completamente distance vector ne link state.
 
 #### BGP
 
-Attualmente alla versione 4. Utilizza Path vector dove la destinazione è la sequenza degli Autonomous System attraversati. Ha molti attributi ed è possibile configurare la route computation policy.
+**BGP** è attualmente alla versione 4. Utilizza Path vector dove le destinazioni sono una sequenza di Autonomous System attraversati. E' ricco di attributi ed è possibile configurare la route computation policy.
 
-Il vector exchange avviene su tcp (per maggiore affidabilità), solo a seguito di un cambiamento. Vado a creare delle sessioni tra vicini per lo scambio di informazioni attraverso una explicit configuraation of neighbors, senza necessità per la connettività diretta.
+Il _vector exchange_ avviene su TCP (per maggiore affidabilità) solo a seguito di un cambiamento. Vengono create delle sessioni tra _vicini_ per lo scambio di informazioni mediante una configurazione specifica, senza la necessità per la connettività diretta.
 
-![](../images/06_bgp_img.png){width=400px}
+![BGP](../images/06_bgp_img.png){width=350px}
 
 #### Inter Domain Routing Protocol (IDRP)
 
-IDRP utilizza TCP/IP e rappresenta un evoluzione di BGP  per OSI. E' supposto per essere la scelta per IPv6, ma non è molto utilizzato.
+L'algoritmo **IDRP** utilizza TCP/IP e rappresenta un evoluzione di BGP per OSI. Doveva essere _"la"_ soluzione per IPv6, ma nel concreto non è molto utilizzato.

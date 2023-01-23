@@ -6,14 +6,32 @@
 	"cSpell.words": [
 		"datagrammi",
 		"Extranet",
+		"IDRP",
+		"IGRP",
 		"interconette",
 		"ISAKMP",
 		"macrocelle",
 		"microcelle",
 		"MPLS",
+		"multipath",
+		"OSPF",
 		"proxying",
 		"Subnetwork",
 		"taggate",
 		"timeslot"
+	],
+	"MarkdownPaste.path": "${fileDirname}/../images",
+	"MarkdownPaste.rules": [
+
+		{
+			"regex": "^(?:https?://)?(?:(?:(?:www\\.?)?youtube\\.com(?:/(?:(?:watch\\?.*?v=([^&\\s]+).*)|))?))",
+			"options": "g",
+			"replace": "[![](https://img.youtube.com/vi/$1/0.jpg)](https://www.youtube.com/watch?v=$1)"
+		},
+		{
+			"regex": "^(https?://.*)",
+			"options": "ig",
+			"replace": "[]($1)"
+		}
 	]
 }

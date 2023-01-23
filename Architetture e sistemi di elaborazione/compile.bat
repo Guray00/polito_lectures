@@ -12,11 +12,31 @@ if [%OUTPUT%] == [] (
 for %%I in (.) do set OUTPUT=%%~nxI
 )
 
+:: verifico che pandoc sia effettivamente installato
+pandoc --version 1> nul 2>nul || (
+echo [ERROR] Pandoc non risulta installato.
+echo: 
+exit /b
+)
+
+:: verifico che latex sia effettivamente installato
+latex --version 1> nul 2>nul || (
+echo [ERROR] Latex non risulta installato.
+echo: 
+exit /b
+)
+
+:: nascondo la cartella .vscode
+if exist ".\.vscode" attrib +h ".\.vscode"
+
 :: crea la cartella per gli output
 if not exist ".\output" mkdir .\output
 
 :: se non esiste creo il file delle precedenze
-if not exist ".\assets\.previous.md" copy NUL ".\assets\.previous.md" > nul
+if exist ".\assets\.previous.md" (
+copy NUL ".\assets\.previous.md" > nul
+attrib +h ".\assets\.previous.md"
+)
 
 :: nomi dei file di output che verranno generati
 set PDFNAME="./output/%OUTPUT%.pdf"
@@ -26,11 +46,23 @@ set EPUBNAME="./output/%OUTPUT%.epub"
 
 SETLOCAL EnableDelayedExpansion 
 
+:: verifico se python e il pacchetto "pandoc-latex-environment" per i colorbox sono installati
+set PANDOC_LATEX_ENVIRONMENT=
+python --version 1> nul 2>nul && python -m pip show pandoc-latex-environment 1>nul 2>nul && (
+set PANDOC_LATEX_ENVIRONMENT=--filter pandoc-latex-environment
+) || (
+echo [WARNING] Si consiglia l'utilizzo del pacchetto "pandoc-latex-environment"
+echo [WARNING] Per installare: python -m pip install pandoc-latex-environment
+echo: 
+)
+
 :: recupera la lista di file contenuti in includes.txt
 for /f "Tokens=* Delims=" %%x in (includes.txt) do set files=!files! "./chapters/%%x"
 
 :: creo il file unito
-pandoc -s %files% -o .\assets\.actual.md
+pandoc -s %files% -o ".\assets\.actual.md"
+attrib +h ".\assets\.actual.md"
+
 
 :: verifico se sono presenti differenze
 fc ".\assets\.previous.md" ".\assets\.actual.md" > nul && (
@@ -47,7 +79,7 @@ echo:
 
 :: esegue il comando di creazione
 echo Creazione "%OUTPUT%.pdf" in corso...
-pandoc -s %files% -o %PDFNAME% --from markdown --template eisvogel --listings --number-sections --top-level-division=chapter -V toc=true --resource-path="./output/" --standalone --embed-resources --metadata-file=config.yaml --filter pandoc-latex-environment --mathjax
+pandoc -s %files% -o %PDFNAME% --from markdown --template eisvogel --listings --number-sections --top-level-division=chapter -V toc=true --resource-path="./output/" --standalone --embed-resources --metadata-file=config.yaml %PANDOC_LATEX_ENVIRONMENT% --mathjax
 echo Compilazione PDF terminata.
 echo:
 
