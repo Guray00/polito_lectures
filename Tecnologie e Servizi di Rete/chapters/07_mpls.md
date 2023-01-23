@@ -1,9 +1,9 @@
 # MPLS
 <!-- lezione17: 29-11-2022 -->
 
-MPLS è una tecnologia importante in quanto abilita la realizzazione di un nuovo tipo di rete pubblica basata su IP, dove con rete pubblica si intende una rete con traffico di diversi utenti e aziende su cui è possibile vendere dei servizi.
+**MPLS** è una tecnologia importante in quanto permette la realizzazione di un nuovo tipo di rete pubblica basata su IP, dove con rete pubblica si intende una rete con traffico di diversi utenti e aziende su cui è possibile vendere dei servizi.
 
-Una tecnica molto utilizzata in passato era a _cipolla_, ovvero con vari strati di livelli protocollari che parlano tra di loro per implementare varie funzionalità. Ciò comportava però una conoscenza orizzontale su più tecnologie che dovevano comunicare tra di loro.
+Una struttura utilizzata molto in passato era a _"cipolla"_, con vari strati di livelli protocollari che comunicano tra di loro per implementare varie funzionalità. Ciò comportava però una conoscenza orizzontale da parte dei tecnici su più tecnologie che dovevano comunicare tra di loro.
 
 ![Struttura a cipolla](../images/07_onion.png){width=400px}
 
@@ -11,39 +11,48 @@ MPLS consente di eliminare questa struttura utilizzando un solo livello protocol
 
 ![La promessa di MPLS](../images/07_onion_mpls.png){width=400px}
 
-L'inoltro dei pacchetti avviene attraverso l'aggiunta di una **etichetta**, in base alla quale il routing effettua il forwarding invece di guardare l'indirizzo IP di destinazione. Il motivo di questa modalità è più veloce in quanto se utilizzassimo l'indirizzo bisognerebbe eseguire il max prefix routing cercando il prefisso più lungo nel quale l'indirizzo IP di destinazione è contenuto (tabelle enormi). Oggi è ancora molto utilizzata per il _traffic engineering_, ovvero distribuire il traffico della rete.
+L'inoltro dei pacchetti avviene attraverso l'aggiunta di una **etichetta**, in base alla quale il routing effettua il forwarding invece di guardare l'indirizzo IP di destinazione. Il motivo di questo approccio risiede nella maggiore rapidità: se utilizzassimo l'indirizzo di destinazione bisognerebbe eseguire il max prefix routing cercando il prefisso più lungo nel quale l'indirizzo IP di destinazione è contenuto (tabelle molto grandi). Oggi è ancora molto utilizzata per il _traffic engineering_, ovvero distribuire il traffico della rete.
 
-Quello che fa MPLS è dunque far diventare IP connection oriented. Lo svantaggio dell'approccio connection oriented è che è necessario creare una connessione per la comunicazione e poi eliminarla, ma aver implementato IP in modo connection-less ha però generato dei problemi più grandi.
+![Etichetta](../images/07_label.png){width=400px}
+
+Quello che fa MPLS è dunque far diventare IP _connection oriented_. Lo svantaggio di tale approccio è la necessità di creare una connessione per la comunicazione per poi eliminarla, ma aver implementato IP in modo connection-less ha però generato dei problemi più grandi.
 
 ## Architettura di rete
 
-MPLS non utilizza gli hand system e può essere utilizzato in una porzione di una rete, denominata **MPLS Cloud** (non ha correlazione con il cloud computing).
+_MPLS_ non utilizza gli _end system_ e può essere utilizzato in una porzione di una rete, denominata **MPLS Cloud** (non ha correlazione con il cloud computing).
 
 ![Architettura di rete](../images/07_na.png){width=400px}
 
 Osservando l'immagine si può vedere:
 
-- LSR: Label Switching Router
-- Label Edge Router: router che non ha altri router MPLS collegati
-- lSP: label switch path, è un percorso di comunicazione attraverso cui dei pacchetti viaggiano
+- **LSR**: Label Switching Router.
+- **Label Edge Router**: router che non ha altri router MPLS collegati.
+- **LSP**: label switch path, è un percorso di comunicazione attraverso cui viaggiano i pacchetti.
+
+![LSP tunnel](../images/07_lsp_tunnel.png){width=400px}
+
+L'etichetta viene cambiata a ogni nodo, in modo da mantenere una etichetta più corta e poterla riutilizzare senza dover mettere d'accordo i nodi. Questa tecnica prende il nome di **label switching** e consente di ottenere scalabilità.
 
 ![Label Switching](../images/07_label_switching.png){width=400px}
 
-Il vantaggio dunque è quello di utilizzare un solo protocollo per la gestione delle comunicazioni tra i nodi e anche verso l'esterno. L'etichetta viene cambiata a ogni nodo,in modo da tenere una etichetta più corta e poterla riutilizzare senza doversi mettere d'accordo con i nodi rimanente (su quali etichette sono disponibili). Questa tecnica prende il nome di **label switching** e consente di ottenere scalabilità.
 
-## MPLS Key Elements
-
-Le cose più importanti di MPLS sono:
+Gli elementi chiave di MPLS sono:
 
 - l'header MPLS, che contiene l'etichetta
 - protocolli per la distribuzione delle etichette
 - protocolli di routing migliorati e modificati
 
+:::tip
+**Riassumendo**: Il vantaggio è quello di utilizzare un solo protocollo per la gestione delle comunicazioni tra i nodi e anche verso l'esterno.
+:::
+
 ## Storia di MPLS
 
-A differenza di IPv6, MPLS è stato utilizzato da subito in produzione riuscendo a risolvere problemi di attori differenti. 
+A differenza di _IPv6_, **MPLS** è stato utilizzato da subito in produzione riuscendo a risolvere problemi di attori molto differenti.
 
-Inizialmente venne implementato il tag switching da parte di Cisco per sostituire il longest path matching. Qualche anno fa si ipotizzava che ATM avrebbe soppiantato internet in quanto molto superiore ma purtroppo troppo costosa (nessun problema di risoluzione indirizzi, signaling semplificato e un solo piano di controllo). Una prima soluzione fu quello di utilizzare ATM con IP, riutilizzando l'hardware del ATM switching. Venne successivamente introdotto MPlS (lambda!) che significava Multi-Protocol Lambda Switching).
+Inizialmente venne implementato il _tag switching_ da parte di Cisco nei propri sistemi per sostituire il _longest path matching_.
+
+Fino a qualche anno fa si ipotizzava che lo standard di trasmissione **ATM** _(Asynchronous Transfer Mode)_ avrebbe soppiantato internet in quanto molto superiore, ma ha come problematica il costo troppo elevato per la struttura (nessun problema di risoluzione indirizzi, signaling semplificato e un solo piano di controllo). Una prima soluzione fu quello di utilizzare ATM con IP, riutilizzando l'hardware del ATM switching. Venne successivamente introdotto MPλS (lambda!) che significava Multi-Protocol Lambda Switching).
 
 ## Header MPLS
 

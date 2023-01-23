@@ -80,7 +80,7 @@ echo:
 
 :: esegue il comando di creazione
 echo Creazione "%OUTPUT%.pdf" in corso...
-pandoc -s %files% -o %PDFNAME% --from markdown --template eisvogel --listings --number-sections --top-level-division=chapter -V toc=true --resource-path="./output/" --standalone --embed-resources --metadata-file=config.yaml %PANDOC_LATEX_ENVIRONMENT% --mathjax
+pandoc --pdf-engine=xelatex -s %files% -o %PDFNAME% --from markdown --template eisvogel --listings --number-sections --top-level-division=chapter -V toc=true --resource-path="./output/" --standalone --embed-resources --metadata-file=config.yaml %PANDOC_LATEX_ENVIRONMENT% --mathjax
 echo Compilazione PDF terminata.
 echo:
 
