@@ -6,7 +6,7 @@
 overflow-y: hidden !important; font-size: smaller !important;
 
 }
-p, h1, h2, h3, h4, h5, a, span, li, ul, ol, th, tr, table {
+p, h1, h2, h3, h4, h5, a, span, li, ul, ol, th, tr, table, figcaption {
 font-family: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif !important;
 }
 [class*="span"] {
@@ -61,6 +61,9 @@ margin: 0 !important;
 padding: 0.2em 0.4em !important;
 font-family: Monaco, Menlo, Consolas, "Courier New", monospace !important;
 }
+table th {
+background-color: #f6f8fa !important;
+}
 .math * {
 font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif !important;
 }
@@ -80,12 +83,48 @@ font-size: 2.2em !important;
 
 h2 {
 margin-top: 30px !important;
-font-size: 1.8em !important;
+font-size: 1.6em !important;
 }
 
 h3 {
 margin-top: 20px !important;
-font-size: 1.35em !important;
+font-size: 1.3em !important;
+}
+h4 {
+font-size: 1em !important;
+}
+
+.note, .tip, .caution, .warning, .attention, .error, .danger, .definition {
+border-radius: 5pt;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 1px;
+padding-bottom: 1px;
+line-height: normal;
+color: #000000c4;
+margin: 6pt 0pt 6pt 0pt;
+}
+.note code, .tip code, .caution code, .warning code, .attention code, .error code, .danger code, .definition code, .danger code {
+background-color: #000000ab;
+}
+.note {
+background-color: #88d3f9;
+}
+.tip {
+background-color: #87f0b8;
+}
+.caution, .warning, .attention {
+background-color: #ffe162;
+}
+.error, .danger {
+background-color: #ff7474;
+}
+.definition {
+background-color: #f191ff;
+}
+.table {
+border-top: 1px solid #ddd;
+margin-top: 15px;
 }
 </style>
 

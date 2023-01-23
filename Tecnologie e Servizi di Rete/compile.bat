@@ -33,7 +33,7 @@ if exist ".\.vscode" attrib +h ".\.vscode"
 if not exist ".\output" mkdir .\output
 
 :: se non esiste creo il file delle precedenze
-if exist ".\assets\.previous.md" (
+if not exist ".\assets\.previous.md" (
 copy NUL ".\assets\.previous.md" > nul
 attrib +h ".\assets\.previous.md"
 )
@@ -68,6 +68,7 @@ attrib +h ".\assets\.actual.md"
 fc ".\assets\.previous.md" ".\assets\.actual.md" > nul && (
 echo %OUTPUT% è già aggiornato.
 timeout 5
+attrib -h ".\assets\.actual.md"
 del .\assets\.actual.md
 exit /b
 )
@@ -100,6 +101,7 @@ echo:
 :: --mathjax permette l'uso di formule matematiche
 
 :: aggiorno il file per il controllo del precedente
+attrib -h ".\assets\.previous.md"
 del ".\assets\.previous.md"
 cd assets && ren ".actual.md" ".previous.md" && cd ..
 
