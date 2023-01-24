@@ -33,10 +33,14 @@ Dal punto di vista del deployment:
 - **Intranet VPN**: interconette uffici remoti della stessa azienda.
 - **Extranet VPN**: interconette aziende diverse.
 
-A livello di extranet è di interesse ridurre l'accesso alle risorse di rete mediante **firewall**, ottenere **Overlapping Address Spaces** mediante _Network Address Translation_ e **controllare il traffico** in modo che quello dei partner non possa compromettere il funzionamento della rete aziendale.
+Nelle extranet si hanno alcune limitazioni, in quanto è di interesse ridurre l'accesso alle risorse di rete mediante **firewall**, ottenere **Overlapping Address Spaces** mediante _Network Address Translation_ e **controllare il traffico** in modo che quello dei partner non possa compromettere il funzionamento della rete aziendale.
 
 :::note
 **Nota**: Quello che contraddistingue i due tipi di rete sono perlopiù motivi di sicurezza.
+:::
+
+:::caution
+**Quindi tutto il traffico sulle reti VPN è sicuro?** No, sono necessari degli ulteriori protocolli appositi (e nelle connessione s2s bisogna "fidarsi" che la rete locale sia affidabile).
 :::
 
 ![Esempio di intranet](../images/06_sample_intranet.png){width=300px}
@@ -109,7 +113,8 @@ L'host deve necessariamente avere 2 indirizzi, il remote host deve terminare il 
 
 Nel **Provider Provisioned VPN** il provider implementa la soluzione VPN (quindi sotto il controllo dell'azienda), e la VPN stessa è mantenuta dal provider che si occupa di gestire i dispositivi. Il customer equipment si potrebbe comportare come se si trovasse all'interno di una rete privata, i terminatori dei tunnel sono dei Provider Equipment. E' meno costosa ma richiede la _"fiducia"_ del provider.
 
-Il remote host deve essere sempre nella VPN, obbligando l'utente ad installare determinati dispositivi. In questo modo si ha un solo indirizzo in quanto si è sempre all'interno della VPN, necessitando di un accesso a uno specifico _Internet Service Provider_. In quest modalità l'accesso è centralizzato.
+Il remote host deve essere sempre nella VPN, obbligando l'utente ad installare determinati dispositivi. In questo modo si ha un solo indirizzo in quanto si è sempre all'interno della VPN, necessitando di un accesso a uno specifico _Internet Service Provider_.
+<!-- l'accesso non dovrebbe essere centralizzato -->
 
 ![Provider Provisioned VPN](../images/05_provider_provisioned_vpn.png){width=400px}
 
@@ -187,6 +192,10 @@ Possiamo notare alcuni campi dell'header:
 - **Recur**: massimo numero di volte che il pacchetto può essere incapsulato (deve essere 0).
 - **protocol**: id del protocollo per il payload _(non è vietato metterci ulteriori protocolli)_.
 - **routing**: Sequenza di indirizzi dei router IP per ASs o per _source routing_.
+
+:::note
+**Nota**: anche se GRE è di livello 3, può incapsulare qualsiasi protocollo.
+:::
 
 ### Enhanced GRE (version 1)
 
@@ -317,7 +326,7 @@ Dal punto di vista del trasporto, l'header IP non è completamente protetto ma s
 
 ![Header non completamente protetto](../images/05_ip_header.png){width=350px}
 
-Le cose cambiano se la trasmissione avviene tramite tunnel, in questo caso l'header IP è completamente protetto sia nel header che nel payload.
+Le cose cambiano se la trasmissione avviene tramite tunnel, in questo caso l'header IP è completamente protetto sia nel header che nel payload mediante l'incapsulazione attraverso un ulteriore header di livello 3.
 
 ![Tunnel Mode](../images/05_tunnel_mode.png){width=350px}
 
@@ -328,6 +337,10 @@ Le **Security Association** (SA) sono canali logici unidirezionali. Questi negoz
 ![Security Association](../images/05_sa_info.png){width=300px}
 
 Il protocollo **Internet Key Exchange** (IKE) viene utilizzato per stabilire e mantenere le SA in ipsec, al fine di ottenere una comunicazione sicura per lo scambio dei messaggi IKE. Al fine di far avvenire una comunicazione sicura dei dati, vengono utilizzati uno o più SA _"figli"_. Tutte le SA figlie utilizzano la negoziazione di chiavi tramite IKE SA (potrebbero tutti partire da uno shared secret), con la possibilità di utilizzare certificati. In particolare si parla di **Internet Security Association Key Management Protocol** (ISAKMP), utilizzato per la negoziazione di parametri IKE e dello shared secret, oltre a chiavi pubbliche, certificati e dati firmati ed autenticati (e verifica della Certificate Revocation List, CRL).
+
+:::tip
+**Vi sono problemi tra l'utilizzo di IPsec e il NAT?** Si, in quanto IPsec deve garantire l'autenticazione, che non è possibile se il NAT modifica l'indirizzo IP dei pacchetti.
+:::
 
 ## SSL VPN
 

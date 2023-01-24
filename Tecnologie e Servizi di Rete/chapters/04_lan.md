@@ -145,7 +145,7 @@ Un altro modo è connettere il router a un unica interfaccia che lavora per entr
 
 Per connettere più VLAN è necessario un router (device del livello 3) per eseguire il lookup, l'header di livello 2 viene buttato in favore di uno nuovo creato con un differente MAC address.
 
-Il broadcast non può attraversare VLAN differenti, in quanto non è possibile utilizzare ARP per individuare i MAC address di un'altra VLAN. Gli host di Virtual LANs differenti devono fare riferimento a reti IP differenti.
+Il broadcast non può attraversare VLAN differenti,per questo non è possibile utilizzare ARP per individuare i MAC address di un'altra VLAN. Gli host di Virtual LANs differenti devono fare riferimento a reti IP differenti.
 
 ![VLAN e indirizzi IP](../images/04_vlan_ip.png){width=400px}
 
@@ -157,11 +157,11 @@ Il modo più semplice per associare un frame a una VLAN è marcarlo all'arrivo i
 
 ![Tag encoding](../images/04_tagging.png){width=300px}
 
-Per apportare le modifiche citate sopra è necessario apportare delle piccole modifiche ai mac già esistenti, in particolare un nuovo framing (per il tagging) indipendente dal MAC e la lunghezza massima dei frame deve essere estesa di 4 byte.
+Per apportare le modifiche citate sopra è necessario apportare delle piccole modifiche al protocollo MAC già esistente, in particolare un nuovo framing (per il tagging) indipendente dall'indirizzo MAC e la lunghezza massima dei frame deve essere estesa di 4 byte.
 
 Le porte si dividono in:
 
-- **access**: invia e riceve trame non taggate (default su host, switches, servers, routers _ecc_), vengono solitamente utilizzato per connettere end-stations alla rete. La tipologia di frame non deve essere cambiata dal host (che non sa dell'esistenza della VLAN).
+- **access**: invia e riceve trame non taggate (default sugli end systems come host, switches, servers, routers _ecc_), vengono solitamente utilizzato per connettere end-stations alla rete. La tipologia di frame non deve essere cambiata dal host (che non sa dell'esistenza della VLAN).
 - **trunk**: invia e riceve trame taggate, deve essere configurato esplicitamente. Spesso viene utilizzato nelle connessioni switch-to-switch e per connettere server/router.
 
 ![Access Ports](../images/04_access.png){width=300px}
