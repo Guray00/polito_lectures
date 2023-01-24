@@ -92,7 +92,7 @@ echo:
 
 :: export per la visualizzazione epub
 echo Creazione "%OUTPUT%.epub" in corso...
-pandoc -s %files% -o %EPUBNAME% --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --toc --css ./assets/epub.css --webtex
+pandoc -s %files% -o %EPUBNAME% --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --toc --css ./assets/epub.css 
 echo Compilazione EPUB terminata.
 echo:
 
@@ -102,8 +102,10 @@ echo:
 
 :: aggiorno il file per il controllo del precedente
 attrib -h ".\assets\.previous.md"
+attrib -h ".\assets\.actual.md"
 del ".\assets\.previous.md"
 cd assets && ren ".actual.md" ".previous.md" && cd ..
+attrib +h ".\assets\.previous.md"
 
 echo Esportazione terminata.
 timeout 5
