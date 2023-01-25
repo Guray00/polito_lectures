@@ -12,6 +12,11 @@ if [%OUTPUT%] == [] (
 for %%I in (.) do set OUTPUT=%%~nxI
 )
 
+:: environment variables
+SET CHAPTERS_PATH=.\chapters\
+SET RESOURCES_PATH=.\chapters\
+SET ASSETS_PATH=.\assets\
+
 :: verifico che pandoc sia effettivamente installato
 pandoc --version 1> nul 2>nul || (
 echo [ERROR] Pandoc non risulta installato.
@@ -33,9 +38,9 @@ if exist ".\.vscode" attrib +h ".\.vscode"
 if not exist ".\output" mkdir .\output
 
 :: se non esiste creo il file delle precedenze
-if not exist ".\assets\.previous.md" (
-copy NUL ".\assets\.previous.md" > nul
-attrib +h ".\assets\.previous.md"
+if not exist "%ASSETS_PATH%.previous.md" (
+copy NUL "%ASSETS_PATH%.previous.md" > nul
+attrib +h "%ASSETS_PATH%.previous.md"
 )
 
 :: nomi dei file di output che verranno generati
@@ -57,42 +62,67 @@ echo:
 )
 
 :: recupera la lista di file contenuti in includes.txt
-for /f "Tokens=* Delims=" %%x in (includes.txt) do set files=!files! "./chapters/%%x"
+for /f "Tokens=* Delims=" %%x in (includes.txt) do set files=!files! "%CHAPTERS_PATH%%%x"
 
 :: creo il file unito
-pandoc -s %files% -o ".\assets\.actual.md"
-attrib +h ".\assets\.actual.md"
+pandoc -s %files% -o "%ASSETS_PATH%.actual.md"
+attrib +h "%ASSETS_PATH%.actual.md"
 
 
 :: verifico se sono presenti differenze
-fc ".\assets\.previous.md" ".\assets\.actual.md" > nul && (
+fc "%ASSETS_PATH%.previous.md" "%ASSETS_PATH%.actual.md" > nul && (
 echo %OUTPUT% è già aggiornato.
+if [%1]==[--quick] (
+echo: 
+) || (
 timeout 5
-attrib -h ".\assets\.actual.md"
-del .\assets\.actual.md
+)
+attrib -h "%ASSETS_PATH%.actual.md"
+del "%ASSETS_PATH%.actual.md"
 exit /b
 )
 
+:: -------- stampa --------
+set "STR=%OUTPUT%"
+set "SIZE=50"
+set "LEN=0"
+
+:strLen_Loop
+   if not "!!STR:~%LEN%!!"=="" set /A "LEN+=1" & goto :strLen_Loop
+
+set "stars=****************************************************************************************************"
+set "stars=***************************************************************************************************"
+set "spaces=                                                                                                    "
+
+echo: 
+call echo %%stars:~0,%SIZE%%%
+set /a "pref_len=%SIZE%-%LEN%-2"
+set /a "pref_len/=2"
+set /a "suf_len=%SIZE%-%LEN%-2-%pref_len%"
+call echo *%%spaces:~0,%pref_len%%%%%STR%%%%spaces:~0,%suf_len%%%*
+call echo %%stars:~0,%SIZE%%%
+:: ------------------------
+
 :: notifica l'utente della creazione del file
-echo Creazione in corso dei file:
+echo: 
 for /f "Tokens=* Delims=" %%x in (includes.txt) do echo - %%x
 echo:
 
 :: esegue il comando di creazione
 echo Creazione "%OUTPUT%.pdf" in corso...
-pandoc --pdf-engine=xelatex -s %files% -o %PDFNAME% --from markdown --template eisvogel --listings --number-sections --top-level-division=chapter -V toc=true --resource-path="./output/" --standalone --embed-resources --metadata-file=config.yaml %PANDOC_LATEX_ENVIRONMENT% --mathjax
+pandoc --pdf-engine=xelatex -s %files% -o %PDFNAME% --from markdown --template eisvogel --listings --number-sections --top-level-division=chapter -V toc=true --resource-path=%RESOURCES_PATH% --standalone --embed-resources --metadata-file=config.yaml %PANDOC_LATEX_ENVIRONMENT% --mathjax
 echo Compilazione PDF terminata.
 echo:
 
 :: export per la visualizzazione web
 echo Creazione "%OUTPUT%.html" in corso...
-pandoc -s %files% -o %WEBNAME% --template=elegant_bootstrap_menu.html --toc --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --katex
+pandoc -s %files% -o %WEBNAME% --template=elegant_bootstrap_menu.html --toc --standalone --embed-resources --resource-path=%RESOURCES_PATH% --metadata-file=config.yaml --katex
 echo Compilazione HTML terminata.
 echo:
 
 :: export per la visualizzazione epub
 echo Creazione "%OUTPUT%.epub" in corso...
-pandoc -s %files% -o %EPUBNAME% --standalone --embed-resources --resource-path="./output/" --metadata-file=config.yaml --toc --css ./assets/epub.css 
+pandoc -s %files% -o %EPUBNAME% --standalone --embed-resources --resource-path=%RESOURCES_PATH% --metadata-file=config.yaml --toc --css %ASSETS_PATH%epub.css 
 echo Compilazione EPUB terminata.
 echo:
 
@@ -101,11 +131,15 @@ echo:
 :: --mathjax permette l'uso di formule matematiche
 
 :: aggiorno il file per il controllo del precedente
-attrib -h ".\assets\.previous.md"
-attrib -h ".\assets\.actual.md"
-del ".\assets\.previous.md"
-cd assets && ren ".actual.md" ".previous.md" && cd ..
-attrib +h ".\assets\.previous.md"
+attrib -h "%ASSETS_PATH%.previous.md"
+attrib -h "%ASSETS_PATH%.actual.md"
+del "%ASSETS_PATH%.previous.md"
+cd "%ASSETS_PATH%" && ren ".actual.md" ".previous.md" && cd ..
+attrib +h "%ASSETS_PATH%.previous.md"
 
 echo Esportazione terminata.
+if [%1]==[--quick] (
+exit /b
+) || (
 timeout 5
+)

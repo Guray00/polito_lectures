@@ -6,3 +6,5 @@
 05_vpn.md
 06_routing.md
 07_mpls.md
+08_optical.md
+09_QoS.md

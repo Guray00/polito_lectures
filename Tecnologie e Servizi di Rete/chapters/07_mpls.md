@@ -265,3 +265,49 @@ Nel **Penultimate Hop Popping** _(PHP)_, il penultimo nodo esegue il pop della l
 La distribuzione di label 3 indica un implicito PHP, in quanto l'edge router vede che il next hop è all'esterno.
 
 Per qualsiasi router sull'ultimo hop avviene lo swap sull'etichetta 0.
+
+## MPLS VPN
+
+### PWE3
+
+E' possibile collegare vari router attraverso l'emulazione di uno "pseudo wire", ovvero un cavo che end-to-end.
+
+Esistono molti servizi nella stessa rete come IP, leased lines, frame relay, ATM ed ethernet.
+
+Vengono utilizzate due etichette:
+
+- esterne: per il roituing nella rete, identifica l'access point alla rete.
+- interne: per il multiplexing di molti utenti/servizi sullo stesso access point.
+
+Esiste una soluzione di livello 3, ovvero MPLS, che permette di creare una rete peer (no overlay) che utilizza politiche implementate da un Service Provider.
+
+### Componenti
+
+Le componenti principali di un MPLS VPN sono:
+
+- CE router: crea collegamenti con PE router. Fa advertise verso le destinazioni e riceve gli advertise da altre destinazioni VPN. Utilizza static routing o IGP (Interior Gateway Protocol).
+- P routers: hanno route solo verso PE router. Si occupano di eseguire il setup degli LSP.
+- PE routers: sono utilizzati per scambiare le informazioni di routing. Viene utilizzato I-BGP (Interior-Border Gateway Protocol) in soluzioni basate su BGP, oppure IGP in soluzioni VR. Vengono memorizzate solo le routes per le VPN connesse a questo. I PE hanno diverse tabelle denominate VRF (VPN Routing and Forwarding Table) che consentono di creare delle tabelle di routing separate. Viene effettuato il forwarding delle informazioni utilizzate per il traffico ricevuto mediante la porta.
+
+![Componenti](../images/07_componenti_vpn.png){width=400px}
+
+### Benefici
+
+Un benefici è la non necessità della cifratura, in quanto il traffico va sulla rete del service provider (di cui ti fidi) e dunque non passa da router di terze parti non affidabili.
+
+
+### VPN basate su BGP
+
+PN-IPv4 Address family, Route Distinguisher + IPv4 address
+
+
+### MPLS Virtual Router VPNS
+
+Utilizzo dei protocolli standard per la comunicazione. I PE eseguono un istanza virtuale del router per ciascuna VPN. Ciascun VR instance ha una struttura dati separati. I VR di uno stesso  VPN comunicano attraverso gli LSP. 
+
+
+## 6PE
+
+Utilizzo di protocolli IPv4. I PE eseguono un istanza virtuale del router per ciascuna VPN. Ciascun VR instance ha una struttura dati separati. I VR di uno stesso  VPN comunicano attraverso gli LSP.
+
+le destinazioni sono IPv4.
