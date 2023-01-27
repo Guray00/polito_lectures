@@ -13,13 +13,13 @@ Solitamente quando un procedura di conteggio raggiunge la fine, il sistema regis
 
 ## Funzionamento
 
-I timer sono dotati di un clock signal dedicato, attraverso il quale il timer incrementa il suo contatore. I timer hanno dei registri che possono essere programmati con un numero di clock cycle da contare.
+I timer sono dotati di un clock signal dedicato, attraverso il quale il timer incrementa il suo contatore.Hanno dei registri che possono essere programmati con un numero di clock cycle da contare.
 
 ![Clock del timer](../images/15_clk.png){width=400px}
 
 Un timer potrebbe seguire differenti modalità di funzionamento:
 
-- **decrasing count**: si interrompe quando il contatore raggiunge 0
+- **decreasing count**: si interrompe quando il contatore raggiunge 0
 - **increasing count**: si interrompe quando il contatore raggiunge un valore massimo
 
 $$ \text{time}[s] = \text{count} * \text{Clock\_Period}[s] $$

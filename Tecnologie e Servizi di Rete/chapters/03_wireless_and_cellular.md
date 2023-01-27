@@ -63,16 +63,11 @@ L'accesso di multipli dispositivi su un canale wireless è un problema molto com
 
 Mentre in ethernet viene utilizzato _CSMA/CD_ (collision detection), in wireless viene utilizzato **CSMA/CA** (collision avoidance) con lo scopo di eseguire _sense before trasmitting_, in modo di evitare le collisioni con la trasmissione già in corso di altri nodi.
 
-Il dispositivo che invia:
-
-1. Se il canale è riconosciuto in idle per DIFS time, allora il dispositivo inizia a trasmettere.
-2. Se il canale è riconosciuto occupato, viene avviato un random backoff time che lo pone in attesa prima del nuovo tentativo. Se anche al nuovo tentativo il canale è occupato, il dispositivo ripete il processo aumentando il random backoff interval.
-
 Il funzionamento è il seguente:
 
 - Il dispositivo che invia:
   1. Se il canale è in idle per **DIFS** tempo, allora il dispositivo inizia a trasmettere (no CD).
-  2. Se il canale è occupato, viene avviato un random backoff time che lo pone in attesa prima del nuovo tentativo. Se anche al nuovo tentativo il canale è occupato, il dispositivo ripete il processo aumentando il random backoff interval.
+  2. Se il canale è occupato, viene avviato un _random backoff time_ che lo pone in attesa prima del nuovo tentativo. Se anche al nuovo tentativo il canale è occupato, il dispositivo ripete il processo aumentando il _random backoff interval_.
 
 - Il dispositivo che riceve:
   1. Se il frame è ricevuto correttamente, viene inviato un ACK frame dopo **SIFS** tempo (necessario per evitare il problema del terminale nascosto).
@@ -145,16 +140,18 @@ Le celle verdi, rosa e blu usano un set differente di canali. Le celle dello ste
 
 Con la variazione della dimensione delle celle _R_ cambia la capacità, ovvero il numero di utenti che questa è in grado di soddisfare. Il numero di celle _G_ impatta invece sul costo, in quanto un numero maggiore di celle ha dei costi maggiori. Aumentando il cluster aumento la qualità, aumentando anche _G_ aumenta la qualità ma diminuisce la capacità.
 
-![Fissando **G** e variando **R** (cell size)](../images/03_fixing_g.png){width=200px}
+Fissando _G_, se si diminuisce il  raggio  _R_  delle  celle  si  guadagna  in  capacità  ma aumentano  anche  i  costi.  Se  si  va  a  diminuire  il  raggio,  oltre  che  i  costi  possono  aumentare  anche  le interferenze perché le co-channel cells saranno molto più vicine.
 
-![Fissando **R** r variando **G** (cluster size)](../images/03_fixing_r.png){width=200px}
+Fissando _R_ e facendo variare _G_ si nota che, aumentando il numero G del cluster diminuisce il numero di canali per cella e dunque la capacità decresce. Al contrario, aumentando la grandezza di G aumenta la distanza tra le co-channel cells e dunque le interferenze sono minori e aumenta la qualità.
+
+![A sinistra fissando G, a destra fissando R](../images/03_fixing_parameters.png){width=400px}
 
 Non esiste una legge assoluta per definire i due parametri, ma è possibile sfruttare alcune tecniche per diminuire le interferenze ed aumentare la capacità:
 
 - **splitting**: non utilizzare celle delle stesse dimensioni, ma basarsi sulle necessità specifiche.
 - **sectoring**: utilizzare delle antenne non omnidirezionali per ridurre le interferenze e ridurre solo nelle direzioni in cui non è necessario.
-- **tilting**: non usare un angolo a 90 gradi per la trasmissione.
-- **creating femtocells**: possiamo creare delle celle non fisse in base alle necessità (esempio stadio o concerti).
+- **tilting**: non usare un angolo a 90 gradi per la trasmissione 8cercando di variare l'angolo).
+- **Creazione di femptocelle**: possiamo creare delle celle non fisse in base alle necessità (esempio stadio o concerti).
 
 ![Splitting](../images/03_splitting.png){width=250px}
 
@@ -168,24 +165,24 @@ Altri esempi sono possibile tenendo conto di strade oppure ferrovie, dove le cel
 
 ### Power Control
 
-Il **Power Control** mira al gestire al meglio le capacità delle batterie a disposizione: l'obbiettivo è di ridurre l'utilizzo di potenza in base alle necessità. Per capire la potenza necessaria si utilizzano strategie di due tipi:
+Il **Power Control** mira al gestire al meglio le capacità delle batterie a disposizione: l'obbiettivo è di ridurre l'utilizzo di potenza in base alle necessità in relazione alla qualità di trasmissione e alla distanza tra cellulare e antenna. Per effettuare la regolazione della potenza necessaria si utilizzano strategie di due tipi:
 
 - **a catena aperta** _(open loop)_: sistema senza reazione
 - **a catena chiusa** _(closed loop)_: sistema con reazione _(feedback)_
 
-In particolare in uplink (da terminale a ripetitore) si utlizzano le seguenti strategie:
+In particolare in uplink (da terminale a ripetitore) si utilizzano le seguenti strategie:
 
-- closed loop power control
-- open loop power control
-- outer loop power control
+- _closed loop power control_
+- _open loop power control_
+- _outer loop power control_
 
-Mentre in downlink (da ripetitore a terminale) si utilizzano:
+Mentre in _downlink_ (da ripetitore a terminale) si utilizzano:
 
 - Downlink power control
 
 #### Open loop
 
-Nel **open loop** il sistema, non avendo a disposizione un feedback, analizza e misura la qualità del segnale ricevuto per valutare se aumentare o diminuire la potenza di trasmissione. Questo adattamento non è preciso e non è detto che ciò che succede su una frequenza sia uguale a un'altra. Non è molto accurato in quanto solitamente uplink e downlink trasmettono su canali differenti.
+Nel **open loop** il sistema, non avendo a disposizione un feedback, analizza e misura la qualità del segnale ricevuto per valutare se aumentare o diminuire la potenza di trasmissione. Questo adattamento non è preciso e non è detto che ciò che succede su una frequenza sia uguale a un'altra. Non è molto accurato in quanto solitamente uplink e downlink trasmettono su canali differenti, dunque la qualità potrebbe essere differente.
 
 Solitamente si divide in due fasi:
 
@@ -287,11 +284,11 @@ La **Base Station Subsystem** (BSS) comprende:
 - **Base Transceiver Station** (BTS): interfaccia fisica con il compito di trasmettere e ricevere. Rappresenta il punto d'accesso per i dispositivi e a differenza di altri sorgenti di segnale (ad esempio radio e TV) trasmette segnale solo verso gli utenti attivi. Arriva fino a 32 canali FDM per BTS.
 - **Base station controller** (BSC): gestisce il controllo delle risorse sull'interfaccia radio.
 
-I BSC e i BTS comunicano mediante un collegamento cablato. Un BSC controlla un alto numero di BTS _(da decine a centinaia)_. Tipicamente, BSC sono collocate con un MSC, invece di essere allocate vicino ai BTS.
+I BSC e i BTS comunicano mediante un collegamento cablato. Un BSC controlla un alto numero di BTS _(da decine a centinaia)_. Tipicamente, BSC sono collocate con un MSC (Mobile Switching Center, ovvero switch a circuito per la creazione di un circuito _end-to-end_), invece di essere allocate vicino ai BTS.
 
 Le funzionalità principali dei BSC comprendono:
 
-- Eseguire il transcodig vocale a 13 kb/s / 64 kb/s
+- Eseguire il transcoding vocale a 13 kb/s / 64 kb/s
 - Eseguire il paging
 - signal quality measurement
 - Gestione dell'handover tra BTS controllati dallo stesso BSC
@@ -304,20 +301,20 @@ Il network and switching subsystem (NSS) ha il compito di gestire le chiamate, i
 
 E' composto da:
 
-- **MSC**: mobile switching center, ha il compito di gestire la mobility support, call routing tra MT e il GSMC _(ovvero l'interfaccia tra GSM e le altre reti)_.
-- **HLR**: home location register, si occupa di salvare le informazioni degli utenti nel database (anche permanenti come id, servizi abilitati, parametri di sicurezza) e dati dinamici per la gestione della user mobility (VLE identifier).
-- **VLR**: visitor location register, salva nel database le informazioni relative a dove si trova il dispositivo (MT) attualmente nell'area controllata dal MSC _(come id, stato on/of, LAI, informazioni di routing e sicurezza)_.
-- **AUC**: authetication center, si occupa della autenticazione basata su un protocollo challenge & response con generazione di chiave crittografiche per comunicazioni over-the-air.
-- **EIR**: equipment identity register, memorizza le informazioni dei dispositivi rubati.
+- **MSC**: _mobile switching center_, ha il compito di gestire la mobility support, call routing tra _MT_ e _GSMC_ _(ovvero l'interfaccia tra GSM e le altre reti)_.
+- **HLR**: _home location register_, si occupa di salvare le informazioni degli utenti nel database (anche permanenti come id, servizi abilitati, parametri di sicurezza) e dati dinamici per la gestione della user mobility (VLE identifier).
+- **VLR**: _visitor location register_, salva nel database le informazioni relative a dove si trova il dispositivo (MT) attualmente nell'area controllata dal MSC _(come id, stato on/of, LAI, informazioni di routing e sicurezza)_.
+- **AUC**: authentication center, si occupa della autenticazione basata su un protocollo di tipo _challenge & response_ con generazione di chiave crittografiche per comunicazioni _over-the-air_.
+- **EIR**: _Equipment Identity Register_, memorizza le informazioni dei dispositivi rubati.
 
 #### Canali fisici
 
-Le frequenze utilizzate per il GSM sono: 859, 900 1800, 1900 MHz e variano in base allo scopo (ricezione o trasmissione) e funzionano attraverso il sistema **FDD** (frequency division duplex).
+Le frequenze utilizzate per il GSM sono: 859, 900 1800, 1900 MHz, variano in base allo scopo (ricezione o trasmissione) e funzionano attraverso il sistema **FDD** _(frequency division duplex)_.
 
 I canali GSM sono composti da una frequenza e uno slot, che identificano un canale fisico. Le trasmissioni sono organizzate in **burst** (da non confondere con pacchetti), ovvero blocchi di dati trasmessi su canali fisici. Sono simili ai pacchetti, ma funzionano su switching a circuito. La velocità di trasmissione è di 272 kbit/s. I canali possono essere acceduti con FDMA o TDMA mentre le frequenze sono divise in **FDM channels** (ciascuno largo 200kHz), che a loro volta sono divisi in **TDM frames** composti da 8 slot _(ciascuno dalla durata di 0.577ms per un totale di 4.615ms)_.
 
 :::note
-**Nota**: Data una frequenza è uno time slot è possibile identificare un canale fisico.
+**Nota**: Data una frequenza è uno time slot è possibile identificare un canale fisico, dunque $\text{frequenza} + \text{slot di tempo} = \text{canale fisico}$
 :::
 
 ![Accesso al canale](../images/03_summart_fdm_tdm.png){width=400px}
@@ -389,7 +386,7 @@ Le funzioni principali di EPC sono:
 - **Routing** e **trasferimento** di pacchetti.
 - **Sicurezza**: include cifratura, integrity protection e network interface physical link protection.
 - **Gestione della mobilità** per tenere traccia della posizione corrente all'interno del User Equipment (UE).
-- R**adio resource management** per assegnare, riassegnare e rilasciare le risorse radio prese dalle singole o multiple celle.
+- **Radio resource management** per assegnare, riassegnare e rilasciare le risorse radio prese dalle singole o multiple celle.
 - **Gestione della rete** per operazioni di manutenzione.
 - Funzionalità di **networking IP** per le connessioni di eNodeB, condivisione di E-UTRAN, supporto in condizioni di emergenza e altre.
 
@@ -404,13 +401,13 @@ Le principali componenti sono:
 
 ##### Beares
 
-Tutte le comunicazioni sono gestite attraverso dei "tunnel" denominati **bearers**, situati tra il PWG e SGW che e a loro volta sono connessi a un ulteriore tunnel che parte dal SGW e arriva alla base station, e ancora tra user agent ed eNodeB. All'interno della rete i tunnel possono essere creati per soddisfare dei requisiti in termini di qualità del servizio, creando bearer dedicati a servizi specifici. E' presente un bearer default che stabilisce una connessione con il PGW quando un UE è attivato.
+Tutte le comunicazioni sono gestite attraverso dei "tunnel" denominati **bearers**, situati tra il _PGW_ e _SGW_ che e a loro volta sono connessi a un ulteriore tunnel che parte dal _SGW_ e arriva alla base station, e ancora tra user agent ed eNodeB. All'interno della rete i tunnel possono essere creati per soddisfare dei requisiti in termini di qualità del servizio, creando bearer dedicati a servizi specifici. E' presente un bearer default che stabilisce una connessione con il _PGW_ quando un UE è attivato.
 
 ![Bearers](../images/03_bearers.png){width=300px}
 
 Esistono tre differenti tipologie di bearer:
 
-- **S5 bearer**, connette SGW con PGW _(può estendersi da P-GW al Internet).
+- **S5 bearer**, connette SGW con PGW _(può estendersi da P-GW al Internet)_.
 - **S1 bearer**, connette eNodeB con SGW. Il meccanismo di handover stabilisce un nuovo S1 bearer per le connessioni end-to-end.
 - **Radio bearer**, connette UE e eNodeB. Questa tipologie segue l'utente in movimento in direzione del MME in quanto la radio esegue degli handover quando l'utente si muova da una cella all'altra.
 
@@ -429,62 +426,70 @@ Le funzioni principali sono:
 
 #### Data Plane e Control Plane
 
-control plane è new protocols for mobility management , security, authentication (later)
+In LTE avviene una separazione netta tra il **Control Plane** e il **Data Plane**.
 
-Nel data plane abbiamo un estensivo uso dei tunnel che a livello datalink e fisico ha causato la creazione di nuovi protocolli per giustire gli accessi, oltre a nuovi standard di compressione per migliorare l'utilizzo del canale.
+Il **Control Plane** introduce nuovi protocolli per la gestione della mobilità, sicurezza e autenticazione.
+
+Il **Data Plane**, analogamente, vede l'introduzione di nuovi protocolli al livello di data link (2) e fisico (1). Inoltre, è presente un uso esteso di tunnel per facilitare la mobilità.
 
 ![Data Plane (basso) e Control Plane (alto)](../images/03_data_pane_control_plane.png){width=400px}
 
-A livello 3 abbiamo IP, a livello data link abbiamo tre sottolivelli:
+A livello 3 è utilizzato IP mentre a quello _data link_ (2) sono presenti tre sottolivelli:
 
 - **medium access**: equivalente del sottolivello mac, si occupa dell'accesso al canale
-- **radio link**: si occupa della frammentazione e assemblaggio dei dati. Offre un reliable data transfer, ovvero si assicura che la comunicazione avvenga con successo.
-- **Packet data convergence**: si occupa della compressione dell'header e dell'encryption.
+- **Radio Link Control** _(RLC)_: si occupa della frammentazione e assemblaggio dei dati. Offre un _reliable data transfer_, ovvero si assicura che la comunicazione avvenga con successo.
+- **Packet data convergence**: compressione dell'header e della cifratura.
 
-Il livello fisico è gestito attraverso OFDM (tante frequenze ortogonali che minimizzano l'interferenza tra i canali) e definisce degli slot TDM (non diversamente dalla gestione del canale link wireless su GSM).
+Il livello fisico è gestito attraverso **OFDM** _(Orthogonal Frequency Division Multiplexing)_, ovvero tante frequenze ortogonali che minimizzano l'interferenza tra i canali. Inoltre, sono definiti degli slot TDM (non diversamente dalla gestione del canale link wireless su GSM).
 
-- downstream channel: FDM, TDM within frequency channel (OFDM - orthogonal frequency division multiplexing)
-  - “orthogonal”: minimal interference between channels
-- upstream: FDM, TDM similar to OFDM
-- each active mobile device allocated two or more 0.5 ms time slots over 12 frequencies
-  - scheduling algorithm not standardized – up to operator
-  - 100’s Mbps per device possible
+Il **downstream channel** (canale di scaricamento) utilizza **FDM**, TDM within frequency channel (OFDM - orthogonal frequency division multiplexing).
 
-Qui abbiamo tanto slot piccolini e la rete può assegnare più o meno slot in modo dinamico, in modo da adattarsi a quello che deve essere inviato in modo efficiente.
+Per **upstream** si utilizza FDM, TDM similar to OFDM. Ciascun dispositivo attivo alloca uno o più slot di 0,5 ms su 12 frequenze. L'algoritmo di scheduling non è standardizzato, ma è lasciato all'operatore. E' possibile raggiungere fino a 100 Mbps per dispositivo.
 
-I bit trasmessi sono inseriti all'interno di un frame che ha una struttura suddivisa in modo predefinito denominata Physical channels. Ciascun channel ha informazioni specifiche relative a user data, tx/rx parameters, eNB identity, network control etc come il format del canale stesso. iascun canale fisico è mappato in una porzione del LTE subframe. I canali fisici sono divisi in downlink e uplink channels, ciascun u/d channel è ulteriormente diviso in data e control.
+Qui abbiamo tanti piccoli slot che devono essere assegnati dalla rete in modo dinamico, in modo da adattarsi a quello che deve essere inviato in modo efficiente.
+
+I bit trasmessi sono inseriti all'interno di un frame che ha una struttura suddivisa in modo predefinito denominata _Physical channels_. Ciascun channel ha informazioni specifiche relative a user data, tx/rx parameters, eNB identity, network control e molto altro, oltre al format del canale stesso. Ciascun canale fisico è mappato in una porzione di un subframe LTE. I canali fisici sono divisi in downlink e uplink channels, ciascun u/d channel è ulteriormente diviso in data e control.
 
 <!-- slide 113/114/115 volate -->
 
-In uplink è possibile utilizzare gruppi di 3 TTIs per aumentare la performance e ridurrre l'overhead dei livelli superiori..
+In uplink è possibile utilizzare gruppi di 3 TTIs per aumentare la performance e ridurre l'overhead dei livelli superiori..
 
 La tecnologia tunneling utilizzata per le reti cellulari si chiama **GPRS Tunneling Protocol**, ovvero tunnel realizzati su UDP.
 
-Un nodo per associarsi a una base station deve eseguire vari step. Periodicamente la base station invia su tutte le frequenze un broadcast primary synch signal ogni 5ms. Il dispositivo troa il primary sync signal e a quel punto attende il second synch signal alla medesima frequenza. In questo modo si trovano le informazioni dalla base station come la bandwith del canale, la configurazion, cellular carrier info etc. Il dispositivo sceglie il BS a cui associarsi e inizia il processo di autenticazione e set up data plane.
+#### Step di associazione
 
-I terminali possono andare in una delle due fasi di sleep, che consente un risparmio del consumo energetico. Le fasi di sleep sono:
+Un nodo per associarsi a una base station deve eseguire vari step:
 
-- light sleep: ogni 100ms il dispositivo si sveglia per controllare se ci sono messaggi da inviare o ricevere. Se non ci sono messaggi il dispositivo torna a dormire.
-- deep sleep: dopo 5 o 10 secondi di innatività, il dispositivo si mette in deep sleep. In questo modo si risparmia molto energia. Si da per scontato che l'utente debba ripartire da zero in quanto  anche la cella potrebbe essere cambiata.
+1. Ogni 5ms la _base station_ invia su tutte le frequenze un _broadcast primary synch signal_.
+2. Il dispositivo riceve il _primary sync signal_ e manda un secondo _synch signal_ alla medesima frequenza. In questo modo si trovano le informazioni dalla base station come la bandwith del canale, la configurazione, cellular carrier info etc.
+3. Il dispositivo sceglie il BS a cui associarsi.
+4. inizia il processo di autenticazione e set up data plane.
 
-### 5G
+## Modalità di sleep
 
-L'obbiettivo del 5G è superare la differenza tra rete cellulare e wifi, e raggiungere un alta mobilità e connettere la società. Per riuscire a fornire i nuovi servizi saranno necessari, oltre al miglioramento della rete, di una integrazione di risorse di rete, di computing e storage. Per ottenere ciò è necessario dislocare le varie risorse e di "networks slices", porzioni di risorse riservate a una certa comunicazione che consentano di emulare ciò che faceva il "circuito" ovvero qualità. Per fare ciò è richiesto l'utilizzo del SDN. Abbiamo bisogno di gestire tutte queste risorse e la relativa creazione in modo flessibile e dinamico, attraverso quello che è un "orchestratore di rete" denominato orchestrator function (o network).
+I terminali possono andare in _sleep mode_ in modo da risparmiare energia. Le modalità di sleep sono:
+
+- **light sleep**: ogni 100ms il dispositivo si sveglia per controllare se ci sono messaggi da inviare o ricevere, se non ci sono messaggi torna a _dormire_.
+- **deep sleep**: dopo 5 o 10 secondi di inattività, il dispositivo si mette in deep sleep. In questo modo si risparmia molto più energia. Si da per scontato che l'utente debba ripartire da zero in quanto  anche la cella potrebbe essere cambiata.
+
+### 5G - quinta generazione
+
+L'obbiettivo del **5G** è **superare la differenza tra rete cellulare e wifi**, riuscendo a raggiungere un'alta mobilità. Per riuscire a fornire i nuovi servizi saranno necessari, oltre al miglioramento della rete, una integrazione di risorse di rete, potenza di calcolo e archiviazione. Per ottenere ciò è necessario dislocare le varie risorse e di effettuare _"networks slices"_, porzioni di risorse riservate a una certa comunicazione che consentano di emulare ciò che faceva il "circuito" (ovvero qualità). Per fare ciò è richiesto l'utilizzo del **SDN** (virtualizzazione della rete). E' necessario gestire tutte queste risorse e la relativa creazione in modo flessibile e dinamico, attraverso quello che è un _"orchestratore di rete"_ denominato _orchestrator function_ (o network).
 
 Alcuni utilizzi potrebbero essere:
 
-- **eMBB**: enanched mobile broadband, come in una rete 5G sia possibile usare servizi ad alta qualità per utenti mobili
-- **mMTC**: massive machine type communication, comunicazione industriale a bassa latenza.
-- **URLLC**: Ultra-Reliable Low-Latency Communication, in grado di garantire latenze fino a 1ms in modo da mettere in comunicazione la rete cellulare con, ad esempio, il robot.
+- **eMBB**: _enhanced mobile broadband_, servizi ad alta qualità per utenti mobili.
+- **mMTC**: _massive machine type communication_, comunicazione industriale a bassa latenza.
+- **URLLC**: _Ultra-Reliable Low-Latency Communication_, in grado di garantire latenze fino a 1ms in modo da mettere in comunicazione la rete cellulare con, ad esempio, il robot.
 
-Le tecnologie che si usano, e che si useranno, saranno:
+Le tecnologie utilizzate sono:
 
-- forme d'onda avanzate
-- MIMO avanzate (antenne), che superano l'efficienza delle MIMO di LTE
-- Millimeter Wave, ovvero uno spettro ad altissime sequenze con chunk fino a 2Ghz
-- software define networking, SDN is an approach to networking in which routing control is centralized and decoupled from the physical infrastructure (data plane), which is distributed
-- Network Function virtualization, muove i servizi di rete dall'hardware al software, creando una virtual building blocks capace di connettersi semplicemente.
-- SDN/NFV Orchestration, ovvero la gestione di tutte queste risorse in modo dinamico e flessibile.
+- forme d'onda avanzate.
+- MIMO avanzate (antenne), che superano l'efficienza delle MIMO di LTE.
+- Millimeter Wave, ovvero uno spettro ad altissime sequenze con chunk fino a 2Ghz.
+- software define networking, SDN is an approach to networking in which routing control is centralized and decoupled from the physical infrastructure (data plane), which is distributed.
+- **Network Function Virtualization**, sposta i servizi di rete dall'hardware al software, creando una virtual building blocks capace di connettersi semplicemente.
+- **SDN/NFV Orchestration**, la gestione di tutte le risorse in modo dinamico e flessibile.
 
 La Radio access Network è basata sui gNodeB, evoluzione dei eNodeB. E sono presenti gli Edge Network (MEC) che ha computing e storage elements per i servizi locali, mentre il Core Network include tutti i dispositivi responsabili per il trasporto dei dati da e verso internet attraverso i dispositivi utenti.
 
@@ -509,7 +514,7 @@ L'infrastruttura edge network fornisce servizi IT e cloud computing ai dispositi
 
 #### Radio Access Network
 
-Introduzione di un framework flessibile basato slot, che consenta l'utilizzo di un numero variabile di slot per subframe. La trasmissione può iniziare in un punto qualsiasi dello slot. Supporta lo slot aggregation per trassmissioni con dati molto pesanti. Different subcarrier spacing (“numerology”): shorter slots for higher spacing.
+Introduzione di un framework flessibile basato slot, che consenta l'utilizzo di un numero variabile di slot per subframe. La trasmissione può iniziare in un punto qualsiasi dello slot. Supporta lo slot aggregation per trasmissioni con dati molto pesanti. Different subcarrier spacing (“numerology”): shorter slots for higher spacing.
 
 <!-- slide 140-141 volate -->
 

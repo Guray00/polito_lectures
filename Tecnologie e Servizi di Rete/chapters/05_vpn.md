@@ -12,7 +12,7 @@ Gli elementi chiave sono:
 - **Tunnel**: Consente di incapsulare in modo sicuro il traffico in transito sulla rete condivisa (non presente in alcune soluzioni).
 - **VPN gateway**: Apre e termina i tunnel, dovranno supportare uno tra i vari protocolli specifici per fare tunneling.
 
-Il motivo per cui utilizziamo le VPN è dunque quello di non dover utilizzare cavi per la realizzazioni di reti private.
+Il motivo per cui utilizziamo le VPN è dunque quello di non dover utilizzare cavi per la realizzazione di reti private.
 
 Alcune funzionalità chiave garantite dalle VPN sono:
 
@@ -24,19 +24,19 @@ Alcune funzionalità chiave garantite dalle VPN sono:
 
 Definiremo anche alcune soluzioni:
 
-- **site to site**: vpn a livello di sottorete (gateway).
-- **end to end**: sottorete a livello di host (terminali).
+- **site to site**: vpn a livello di sottorete (gateway), connette due reti remote (virtualizzazione del cavo).
+- **end to end**: sottorete a livello di host (terminali), connette due terminali remoti (virtualizzazione del cavo).
 - **Access VPN / Remote VPN / Dial In**: canale sicuro tra un terminale verso un'intera sottorete (es smart working per collegarsi alla rete aziendale).
 
-Dal punto di vista del deployment:
+Dal punto di vista della distribuzione, si dividono in:
 
 - **Intranet VPN**: interconette uffici remoti della stessa azienda.
-- **Extranet VPN**: interconette aziende diverse.
+- **Extranet VPN**: interconette aziende diverse, partner, clienti in modo da fornire una accesso controllato.
 
-Nelle extranet si hanno alcune limitazioni, in quanto è di interesse ridurre l'accesso alle risorse di rete mediante **firewall**, ottenere **Overlapping Address Spaces** mediante _Network Address Translation_ e **controllare il traffico** in modo che quello dei partner non possa compromettere il funzionamento della rete aziendale.
+Nelle extranet sono presenti alcune limitazioni, in quanto è si vuole ridurre l'accesso alle risorse di rete mediante **firewall**, ottenere **Overlapping Address Spaces** mediante _Network Address Translation_ e **controllare il traffico** in modo che quello dei partner non possa compromettere il funzionamento della rete aziendale.
 
 :::note
-**Nota**: Quello che contraddistingue i due tipi di rete sono perlopiù motivi di sicurezza.
+Quello che contraddistingue i due tipi di rete sono perlopiù motivi di sicurezza.
 :::
 
 :::caution
@@ -49,8 +49,8 @@ Nelle extranet si hanno alcune limitazioni, in quanto è di interesse ridurre l'
 
 L'accesso a internet può essere:
 
-- **Centralizzato**: gli utenti remoti utilizzano una rete IP pubblica per connettersi, disponibile solo negli headquarters e trasmette il traffico nella sua interezza da e verso internet. L'accesso è centralizzato e controllato da firewall. Il vantaggio di tale modalità è un maggior controllo.
-- **Distribuito**: gli utenti remoti si connettono attraverso la propria rete IP e la VPN è utilizzata solo per il traffico aziendale. Il vantaggio lo si ha nei costi che risultano essere ridotti.
+- **Centralizzato**: gli utenti remoti utilizzano una rete IP pubblica per connettersi, disponibile solo negli headquarters e trasmette il traffico nella sua **interezza** da e verso internet. L'accesso è centralizzato e controllato da firewall. Il vantaggio di tale modalità è un maggior controllo.
+- **Distribuito** (voluntary connection): gli utenti remoti si connettono attraverso la propria rete IP e la VPN è utilizzata solo per il traffico aziendale. Il vantaggio lo si ha nei costi che risultano essere ridotti.
 
 ![Accesso centralizzato](../images/05_centralized_internet_access.png){width=300px}
 
@@ -69,7 +69,14 @@ Dal punto di vista della sicurezza gli obbiettivi sono:
 - **Integrità dei dati**, assicurando che non vengano cambiati.
 - **Confidenzialità dei dati**, assicurando che non possano essere letti da altri al di fuori del destinatario.
 
-## Modalità di deployment
+Riassumendo, le VPN consentono di ottenere:
+
+- Separazione dei dati, mediante tunneling.
+- Aumentare la sicurezza, mediante crittografia per _end point authentication_, _integrità dei dati_ (dti non modificati) e _confidenzialità dei dati_ (dati acceduti solo dal destinatario).
+- Prevenire il _tempering_, ovvero la modifica dei dati.
+- Identificare le sorgenti, mediante autenticazione.
+
+## Modalità di distribuzione
 
 ### Site to Site VPN Tunneling (s2s)
 
@@ -91,9 +98,13 @@ Il **Remote VPN Tunneling** connette un endpoint con un vpn gateway. E' possibil
 
 ### Overlay Model
 
-Nel **Overlay Model** la rete pubblica non partecipa alla realizzazione della vpn, non sa quale siano le destinazioni e la connessione avviene attraverso VPN gateways. Ciascuno di questi deve essere in contatto con tutti gli altri generando molti tunnel mesh. Il routing è ottenuto attraverso i gateway.
+Nel **Overlay Model** la rete pubblica non partecipa alla realizzazione della VPN, non sa quale siano le destinazioni e la connessione avviene attraverso VPN gateways. Ciascuno di questi deve essere in contatto con tutti gli altri generando molti tunnel mesh. Il routing è ottenuto attraverso i gateway.
 
 La creazione dei tunnel va a influenzare anche gli aspetti di routing: perdiamo il vantaggio del routing ma costa meno ed è del tutto trasparente (anche se il pacchetto potrebbe metterci un po' di più).
+
+:::tip
+Si può pensare come una rete _parallela_ che si sovrappone a quella fornita dal _ISP_.
+:::
 
 ### Peer Model
 
@@ -111,7 +122,7 @@ L'host deve necessariamente avere 2 indirizzi, il remote host deve terminare il 
 
 ### Provider Provisioned VPN
 
-Nel **Provider Provisioned VPN** il provider implementa la soluzione VPN (quindi sotto il controllo dell'azienda), e la VPN stessa è mantenuta dal provider che si occupa di gestire i dispositivi. Il customer equipment si potrebbe comportare come se si trovasse all'interno di una rete privata, i terminatori dei tunnel sono dei Provider Equipment. E' meno costosa ma richiede la _"fiducia"_ del provider.
+Nel **Provider Provisioned VPN** il provider implementa la soluzione VPN (quindi sotto il controllo dell'azienda), e la VPN stessa è mantenuta dal provider che si occupa di gestire i dispositivi. Il _Customer Equipment_ si potrebbe comportare come se si trovasse all'interno di una rete privata, i terminatori dei tunnel sono dei Provider Equipment. E' meno costosa ma richiede la _"fiducia"_ del provider.
 
 Il remote host deve essere sempre nella VPN, obbligando l'utente ad installare determinati dispositivi. In questo modo si ha un solo indirizzo in quanto si è sempre all'interno della VPN, necessitando di un accesso a uno specifico _Internet Service Provider_.
 <!-- l'accesso non dovrebbe essere centralizzato -->
@@ -138,19 +149,19 @@ Le VPN si differenziano in due topologie (virtuali):
 - **Hub and spoke**: Ciascun branch comunica direttamente con l'headquarter e raggruppa il data flow di molte aziende (centralizzate in mainframe o data center). Il routing è sub-ottimo e sono richiesti pochi tunnel, con però il rischio che l'hub possa diventare un bottleneck rallentando le prestazioni.
 - **Mesh**: Utilizza un gran numero di tunnel, più difficile da gestire ma migliora il routing.
 
-## Layers
+## Livelli
 
 Un qualsiasi servizio di trasporto di pacchetti mediante tunneling funziona o come _Layer N Service_ oppure mediante un _Layer N Protocol_.
 
-### Layer 2
+### Livello 2
 
 Il livello 2 si suddivide in:
 
-- **Virtual Private LAN service**: emula le funzionalità di Lan e può essere utilizzato per connettere alcuni segmenti LAN (funziona come una lan singola attraverso la rete pubblica). La soluzione emula anche i learning bridges, con routing basato sul MAC address.
+- **Virtual Private LAN service**: emula le funzionalità della _LAN_ e può essere utilizzato per connettere alcuni segmenti LAN (funziona come una lan singola attraverso la rete pubblica). La soluzione emula anche i _learning bridges_, con routing basato sul _MAC address_.
 - **Virtual Private Wire Service**: emula una leased line, può trasportare qualsiasi protocollo.
 - **IP-only Lan-like Service**: i CE sono IP routers o IP hosts (non ethernet switches), viene utilizzato  solo IP (insieme a ICMP e ARP) per far viaggiare i dati nella VPN.
 
-### Layer 3
+### Livello 3
 
 Le soluzioni di livello 3 sono standard: i pacchetti sono inviati attraverso la rete pubblica con routing basato su indirizzi di livello 3, che possono essere **peer** (vpn/corporate/indirizzi cliente) oppure **overlay** (backbone addresses), mentre i CE possono essere sia ip routers che IP hosts. 
 
@@ -163,7 +174,7 @@ I pacchetti (o frame) sono trasportati attraverso la rete IP come pacchetti IP n
 
 In particolare nel tunneling basato su **IP in IP**, dati due nodi A e B, dotati di indirizzo aziendale (non necessariamente pubblico), il tunneling abilita la comunicazione ma non assicura la sicurezza.
 
-### Layer 4
+### Livello 4
 
 Le soluzioni VPN di livello 4 provvedono solo alla sicurezza. Hanno come grande svantaggio l'utilizzo di soluzioni non standard.
 
