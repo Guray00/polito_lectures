@@ -159,7 +159,7 @@ Il livello 2 si suddivide in:
 
 - **Virtual Private LAN service**: emula le funzionalità della _LAN_ e può essere utilizzato per connettere alcuni segmenti LAN (funziona come una lan singola attraverso la rete pubblica). La soluzione emula anche i _learning bridges_, con routing basato sul _MAC address_.
 - **Virtual Private Wire Service**: emula una leased line, può trasportare qualsiasi protocollo.
-- **IP-only Lan-like Service**: i CE sono IP routers o IP hosts (non ethernet switches), viene utilizzato  solo IP (insieme a ICMP e ARP) per far viaggiare i dati nella VPN.
+- **IP-only Lan-like Service**: i _CE_ sono IP routers o IP hosts (non ethernet switches), viene utilizzato  solo IP (insieme a ICMP e ARP) per far viaggiare i dati nella VPN.
 
 ### Livello 3
 
@@ -322,7 +322,7 @@ Alcuni campi di AH sono i seguenti:
 
 ![AH header](../images/05_ipsec_header.png){width=400px}
 
-ESP, acronimo di _Encapsulation Security Payload, garantisce la confidenzialità dei dati, i quali sono criptati insieme al next header nel ESP trailer. Inoltre, consente l'autenticazione dell'host e l'integrità dei dati, mediante una autenticazione simile a quella di AH. Il protocol field è **50**.
+ESP, acronimo di _Encapsulation Security Payload_, garantisce la confidenzialità dei dati, i quali sono criptati insieme al next header nel ESP trailer. Inoltre, consente l'autenticazione dell'host e l'integrità dei dati, mediante una autenticazione simile a quella di AH. Il protocol field è **50**.
 
 ![ESP header](../images/05_ipsec_esp_header.png){width=400px}
 
@@ -349,7 +349,7 @@ Le **Security Association** (SA) sono canali logici unidirezionali. Questi negoz
 
 Il protocollo **Internet Key Exchange** (IKE) viene utilizzato per stabilire e mantenere le SA in ipsec, al fine di ottenere una comunicazione sicura per lo scambio dei messaggi IKE. Al fine di far avvenire una comunicazione sicura dei dati, vengono utilizzati uno o più SA _"figli"_. Tutte le SA figlie utilizzano la negoziazione di chiavi tramite IKE SA (potrebbero tutti partire da uno shared secret), con la possibilità di utilizzare certificati. In particolare si parla di **Internet Security Association Key Management Protocol** (ISAKMP), utilizzato per la negoziazione di parametri IKE e dello shared secret, oltre a chiavi pubbliche, certificati e dati firmati ed autenticati (e verifica della Certificate Revocation List, CRL).
 
-:::tip
+:::danger
 **Vi sono problemi tra l'utilizzo di IPsec e il NAT?** Si, in quanto IPsec deve garantire l'autenticazione, che non è possibile se il NAT modifica l'indirizzo IP dei pacchetti.
 :::
 
@@ -361,35 +361,35 @@ Il protocollo SSL è il meccanismo centrale su cui si basa l'accesso sicuro. Son
 - remote access VPN
 - Secure service access (sarebbe e2e)
 
-Spesso si perde il termine _"VPN"_ o viene aggiunto _"pseudo VPN"_, in quanto il meccanismo cambia rispetto al modello classico. Il modello di trasporto è sempre TCP o UDP.
+Spesso si perde il termine _"VPN"_ o viene aggiunto _"pseudo VPN"_, in quanto il meccanismo cambia rispetto al modello classico. Il modello di trasporto è sempre _TCP_ o _UDP_.
 
-Uno dei principali problemi risiede nel fatto che vengono adoperate soluzioni non standard, per cui essendo utilizzati protocolli proprietari diventa più complicato.
+Uno dei principali problemi risiede nel fatto che vengono adoperate soluzioni **non standard**, per cui essendo utilizzati protocolli proprietari diventa più complicato.
 
 Il motivo per non utilizzare IPSec VPN risiede nei costi troppo elevati e/o nelle troppe opzioni che necessitano una configurazione per garantire sicurezza. Un ulteriore motivo potrebbe essere il fatto che opera a livello kernel, per cui installazioni sbagliate possono avere conseguenze catastrofiche (oltre a installazioni difficili e rischiose).
 
-Utilizzare SSLVPN ha come vantaggio:
+Utilizzare **SSLVPN** ha come vantaggio:
 
 - **Minore complessità** (installazione, configurazione, gestione)
 - **Non interferisce con il kernel**
 - **Molto più utilizzato**
 - **Maggiore e più robusta sicurezza** (SSL)
-- Non ci sono problemi di attraversamento del nat o di mascheramento (non è presente l'autenticazione del header IP e non è presente la cifrature delle porte come con ESP)
+- **Non ci sono problemi di attraversamento del NAT** o di mascheramento (non è presente l'autenticazione del header IP e non è presente la cifrature delle porte come con ESP)
 
 Il grosso svantaggio è però che i pacchetti vengono droppati a un livello più alto, rendendolo vulnerabile ad attacchi DDOS.
 
 Alcune insidie sulle prestazioni:
 
 - **IP su TCP**: Nessuna consegna di pacchetti dopo uno smarrito, inoltre la perdita comporta la strozzatura del tunnel (Controllo della congestione TCP).
--**TCP su TCP**: imprevedibile, ampi buffer di trasmissione nei gateway.
+- **TCP su TCP**: imprevedibile, ampi buffer di trasmissione nei gateway.
 
 Le principali problematiche sono:
 
 - **interoperabilità**: client e server devono installare lo stesso software.
 - **features specifiche** del produttore.
-- Ogni implementazione potrebbe avere **bug** (perchè soluzioni proprietarie).
+- Ogni implementazione potrebbe avere **bug** (perché soluzioni proprietarie).
 - **Disponibilità** del client sulle specifiche piattaforme.
 
-Per questo motivo le chiamiamo "pseudo VPN". Le VPN ipsec connettono reti, host a reti, o host a host. Invece, le SSLVPN connettono utenti a servizi o client application a server application.
+Per questo motivo sono definite "pseudo VPN": mentre le VPN con _IPsec_ connettono reti, host a reti, o host a host, le _SSLVPN_ connettono **utenti a servizi** o client application a server application.
 
 :::tip
 **Riassumendo**: Le SSLVPN utilizzano tunneling TCP o UDP, forniscono NAT traversal, packet filter traversal, router traversal e utilizzano client universali (web browser).
@@ -409,17 +409,17 @@ Nelle soluzioni Pseudo VPN rientrano:
 
 ### Protocolli con SSL
 
-I protocolli che utilizzano SSL sono definiti **secure application protocol**, richiedono i supporto del client e del server e hanno un funzionamento del tipo Protocol-over-SSL (POP-over-SSL, IMAP-over-SSL, SMTP-over-SSL).
-
-:::tip
-**Nota**: la filosofia che vi è dietro è di utilizzare in modo _"standard"_ e meno protetto il protocollo nativo, che verrà richiamato dall'esterno attraverso un'interfaccia sicura SSL.
-:::
+I protocolli che utilizzano _SSL_ sono definiti **secure application protocol**, richiedono i supporto del client e del server e hanno un funzionamento del tipo Protocol-over-SSL (POP-over-SSL, IMAP-over-SSL, SMTP-over-SSL).
 
 ![Protocolli con SSL](../images/06_ssl_protocols.png){width=300px}
 
 ### Application Translation
 
 La **Application Translation** sfrutta protocolli nativi tra il VPN server e l'application server (FTP, SMTP, POP), sfruttando un'applicazione come user interface (ad esempio web page). Il gateway spezza in comunicazione sicura e non sicura. Inoltre, è presente HTTPS tra VPN Server e Client. Non è una soluzione adatta per tutte le applicazioni.
+
+:::tip
+**Nota**: la filosofia che vi è dietro è di utilizzare in modo _"standard"_ e meno protetto il protocollo nativo, che verrà richiamato dall'esterno attraverso un'interfaccia sicura SSL.
+:::
 
 ![App translation](../images/05_app_translation.png){width=300px}
 
@@ -434,14 +434,6 @@ L'**Application proxying** utilizza VPN gateway per scaricare le webpage attrave
 ![Port Forwarding](../images/05_port_forwarding.png){width=300px}
 
 ## VPN Gateway Positioning & anomalies
-
-Sono inoltre importanti gli aspetti inerenti ai firewall. Questo può essere messo:
-
-- dentro: nessuna ispezione del traffico VPN, il gateway è protetto dal firewall
-- in parallelo: potenziale accesso senza controllo
-- fuori: VPN gateway protetto dal access router, policy consistente
-- integrato: massima flessibilità
-
 <!-- saltella di slide intorno a 101 (vero) -->
 
 ## Posizione
@@ -450,10 +442,10 @@ La posizione del VPN comporta delle problematiche differenti a seconda di dove v
 
 - **Internamente**: nessuna ispezione del traffico VPN oppure il VPN gateway protetto da firewall.
 - **Parallelamente**: potenziale accesso non controllato.
-- **Esternamente**: il vpn gateway potrebbe essere protetto da un access router, Consistent policy.
+- **Esternamente**: il VPN gateway potrebbe essere protetto da un access router, Consistent policy.
 - **Integrato**: Massima flessibilità.
 
-Solitamente vengono posti degli Intrusion Detection System (IDS) all'esterno del firwall senza controllo del traffico VPN e dopo il VPN gateway.
+Solitamente vengono posti degli _Intrusion Detection System_ (IDS) all'esterno del firewall senza controllo del traffico VPN e dopo il VPN gateway.
 
 ![IDS](../images/06_ids.png){width=350px}
 
@@ -464,15 +456,15 @@ Le anomalie che si possono verificare nell'utilizzo delle VPN sono varie e dipen
 
 ![Anomalie](../images/05_anomalies.png){width=400px}
 
-### Monitorability Anomaly
+### Monitorability anomaly
 
 Si ha un **Monitorability Anomaly** quando un nodo del canale "congiunto" può vedere lo scambio dei dati.
 
-![Monitorability Anomaly](../images/05_monit_anom.png){width=400px}
+![Monitorability Anomaly](../images/05_monit_anom.png){width=300px}
 
 ### Skewed Channel anomaly
 
-Si ha uno **Skewed Channel Anomaly** quando si ha una sovrapposizione errata dei tunnel che rimuove la confidenzialità nella comunicazione. Dunque anche avendo più livelli di sicurezza, se configurato male si può avere un problema di confidenzialità e non avere nessuna sicurezza.
+Si ha uno **Skewed Channel Anomaly** quando si ha una sovrapposizione errata dei tunnel che rimuove la confidenzialità nella comunicazione. Dunque anche avendo più livelli di sicurezza, se configurati male si può avere un problema di confidenzialità e non avere nessuna sicurezza.
 
 ![Skewed Channel](../images/05_sc1.png){width=300px}
 
