@@ -84,7 +84,7 @@ I problemi che si possono riscontrare sono:
 
 - **Black hole**: un nodo non risponde ai messaggi di routing, quindi non si ha più informazioni sulla rete.
 - **Count to infinity**: scenario di loop, le informazioni sono propagate all'infinito.
-- **Balancing effect**: se un nodo è più vicino ad un altro, ma il percorso è più lungo, allora il nodo più vicino non sarà scelto.
+- **Bouncing effect**: se un nodo è più vicino ad un altro, ma il percorso è più lungo, allora il nodo più vicino non sarà scelto.
 
 ![Esempio count to infinity](../images/06_cti.png){width=350px}
 
