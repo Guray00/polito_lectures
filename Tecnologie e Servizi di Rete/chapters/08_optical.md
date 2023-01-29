@@ -153,7 +153,7 @@ tutti gli aspetti introdotti erano già stati presentati attraverso il protocoll
 Nelle reti ottiche gli utenti sono i router, mediante modelli:
 
 - Overlay: la rete ottica fornisce connettività attraverso i router, che vedono la rete come una _scatola nera_, a volte forniti con una informazione di reperibilità.
-- Peer: i router e gli switch partecipano con gli stessi protocolli di routing. I router conoscono la topologia della rete ottica e possono scegliere dei path preferiti rispetto ad altri per raggiungere destinazioni specifiche. 
+- Peer: i router e gli switch partecipano con gli stessi protocolli di routing. I router conoscono la topologia della rete ottica e possono scegliere dei path preferiti rispetto ad altri per raggiungere destinazioni specifiche.
 
 ## Data Transport and Protocol Stack
 

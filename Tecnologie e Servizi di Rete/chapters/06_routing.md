@@ -206,7 +206,7 @@ Tali algoritmi consentono di utilizzare differenti metriche rispetto all'hop cou
 
 #### RIP (Distance Vector)
 
-**Rip** è stato il primo protocollo di routing proposto, di tipo distance vector, nel 1988. Veniva supportato da macchine Unix e Linux. Come metrica utilizza _Hop Count_, con un tempo di convergenza di 3 minuti e un massimo di distanza di 15 hop.
+**RIP** è stato il primo protocollo di routing proposto, di tipo distance vector, nel 1988. Veniva supportato da macchine Unix e Linux. Come metrica utilizza _Hop Count_, con un tempo di convergenza di 3 minuti e un massimo di distanza di 15 hop.
 
 #### IGRP (Distance Vector)
 
