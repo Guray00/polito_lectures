@@ -46,12 +46,12 @@ Alcune strategie hardware potrebbero essere applicate per risolvere i problemi d
 
 ### Tomasulo's algorithm
 
-Roberto Tomasulo è stato architetto del processore IBM 360/91, le sue idee sono state pubblicate in un paper del 1967. Le stesse idee vennero poi riutilizzate per il primo processore superscalare costruito. 
+Roberto Tomasulo è stato architetto del processore IBM 360/91, le sue idee sono state pubblicate in un paper del 1967. Le stesse idee vennero poi riutilizzate per il primo processore superscalare costruito.
 
 Le principali idee sono:
 
-- tracciare la disponbilità degli operandi
-- introduzione del register renaming
+- tracciare la disponibilità degli operandi
+- introduzione del _register renaming_
 
 ![MIPS FP unit structure using Tomasulo approach](../images/07_tomasulo1.png){width=400px}
 
@@ -73,7 +73,7 @@ Questo implementa una strategia di register renaming, in grado di eliminare gli 
 
 #### Common Data Bus (CDB)
 
-I risultati sono passati direttamente alle altre unità funzionali, piuttosto che andare nei registri. Tutti i irsultati dalle unità funzionali e dalla memoria sono inviati sul Common Data Bus, il quale:
+I risultati sono passati direttamente alle altre unità funzionali, piuttosto che andare nei registri. Tutti i risultati dalle unità funzionali e dalla memoria sono inviati sul Common Data Bus, il quale:
 
 - goes everywhere (except to the load buffer) ??
 - allows all units waiting for an operand to load it simultaneously when it is available.
@@ -88,10 +88,12 @@ Le istruzioni vengono eseguite in 3 fasi:
 
 Possono avere una lunghezza differente.
 
-##### Issue
+##### 
+
 Quando una istruzione viene presa dalla coda (strategia FIFO), se non sono disponibili reservation station allora avviene uno structural hazard e l'istruzione è posta in stallo fino a quando una reservation station non diventa disponibile. Se invece è disponibile una reservation station, vi viene inviata l'istruzione con gli operandi se sono disponibili, altrimenti si attende anche la loro disponibilità.
 
 ##### Execute
+
 Quando un operando appare sul CDB, viene letto dal reservation unit e appena tutti gli operandi dell'istruzione sono disponibili nella reservation unit, l'istruzione può essere eseguita. In questo moto sono eliminate le RAW hazards.
 
 L'e istruzioni di load e store eseguite in due step:
@@ -106,7 +108,6 @@ Per evitare di modificare il comportamento delle eccezione, nessuna istruzione �
 Quando il risultato dell'istruzione è disponibile, viene immediatamente scritto nel CDB, dove i registri e le unità funzionali attendono. 
 
 In questo step le istruzioni di step scrivono in memoria.
-
 
 #### Instruction identifiers
 
@@ -127,7 +128,6 @@ Ogni reservation station ha i seguenti campi:
 - Busy: status della reservation station
 
 ![](../images/07_tam_fields.png){width=100px}
-
 
 #### Register file
 

@@ -143,7 +143,7 @@ Il clock della CPU (CCLK) e il clock periferico (PCLK) ricevono il clock input d
 
 ## Power management
 
-Dal punto di vistaenergetico sono supportate più modalità di sleep:
+Dal punto di vista energetico sono supportate più modalità di sleep:
 
 - sleep now
 - sleep on exit

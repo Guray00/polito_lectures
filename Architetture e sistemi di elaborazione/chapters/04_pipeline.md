@@ -1,28 +1,30 @@
 # Pipeline
 
-La pipeline è un implementazione che consente di eseguire più istruzioni in modo sovrapposto durante l'esecuzione. In questo modo, differenti unità (chiamate pipe stages o segmenti) sono eseguite in parallelo ed eseguono parti differenti.
+La _pipeline_ è un implementazione che consente di eseguire più istruzioni in modo sovrapposto durante l'esecuzione. In questo modo, differenti unità (chiamate pipe stages o segmenti) sono eseguite in parallelo ed eseguono parti differenti.
 
-Il throughput rappresenta il numero di istruzioni che vengono processate per unità di tempo. Tutte gli stage sono sincronizzate e il tempo per eseguire il primo ste è chiamato machine cycle, e normalmente corrisponde a un ciclo di clock. La lunghezza del machine cycle è determinato dallo stage più lento. Siamo in grado di eseguire CPI (clock Cycles Per Instruction) clock cycles per istruzione.
+Il **throughput** rappresenta il numero di istruzioni che vengono processate per unità di tempo. Tutte gli stage sono sincronizzate e il tempo per eseguire il primo ste è chiamato machine cycle, e normalmente corrisponde a un ciclo di clock. La lunghezza del machine cycle è determinato dallo stage più lento. Siamo in grado di eseguire CPI (clock Cycles Per Instruction) clock cycles per istruzione.
 
 In una pipeline ideale, tutti gli stage sarebbero perfettamente bilanciati e sarebbe dovuto a:
 
-$$\text{throughput}_{pipelined} = \text{throughput}_{unpipelined} * n$$ 
+$$
+\text{throughput}_{pipelined} = \text{throughput}_{unpipelined} * n
+$$
 
-con n pari al numero di stages.
+con $n$ pari al numero di _stage_.
 
 ## Versione senza pipeline
 
 Prendiamo come esempio una implementazione senza pipeline. L'esecuzione di ogni istruzione potrebbe essere composta di al più 5 clock cycles:
 
-1. fetch (IF)
-2. decode/register fetch (ID)
-3. execution (EX)
-4. Memory access (MEM)
-5. Write back (WB)
+1. **fetch** (IF)
+2. **decode/register fetch** (ID)
+3. **execution** (EX)
+4. **Memory access** (MEM)
+5. **Write back** (WB)
 
 ![Datapath](../images/04_datapath.png){width=450px}
 
-Tutte le istruzioni richiedono dunque 5 clock cycle, tranne le istruzioni branch a cui ne bastano 4. Ottimizzazioni potrebbero essere fatte per ridurre il CPI medio: come esempio, le istruzioni alu potrebbero essere completate durante il cycle di MEM. Le risorse hardware potrebbero essere ottimizzato per eliminare duplicazioni. Si potrebbe prendere in considerazione un'architettura single clock alternativa. E' necessario l'utilizzo di un single control unit per produrre i segnali necessari al datapath.
+Tutte le istruzioni richiedono dunque 5 clock cycle, tranne quelle di branch a cui ne bastano 4. Ottimizzazioni potrebbero essere fatte per ridurre il CPI medio: come esempio, le istruzioni alu potrebbero essere completate durante il cycle di MEM. Le risorse hardware potrebbero essere ottimizzato per eliminare duplicazioni. Si potrebbe prendere in considerazione un'architettura single clock alternativa. E' necessario l'utilizzo di un single control unit per produrre i segnali necessari al _datapath_.
 
 ## Versione pipelined
 
@@ -32,12 +34,12 @@ Un esempio di una versione pipelined prevede l'avvio di una nuova istruzione per
 **Nota**: si da per scontato che i dati necessari siano già stati caricati in cache.
 :::
 
-## Pipeline performance
+### Pipeline performance
 
 La pipeline aumenta il throughput del processore senza dover rendere più veloce le singole istruzioni. Le istruzioni processato sono fatte rallentate da pipeline control overheads. La profondità della pipeline è limitata dalla necessità di bilanciare gli stati e dal overhead.
 
 
-## Pipeline hazards
+### Pipeline hazards
 
 Gli **hazards** sono situazioni che possono far si che un istruzione non venga eseguita come dovrebbe. Ci sono tre tipi di hazard:
 
@@ -45,21 +47,21 @@ Gli **hazards** sono situazioni che possono far si che un istruzione non venga e
 - **data hazards**: un istruzione dipende dall'esecuzione di una istruzione precedente
 - **control hazards**: relative a salti condizionali e altre istruzioni che cambiano il program counter
 
-### Stalls
+#### Stalls
 
-A causa dei pipeline hazards sono necessari gli stalli, dove si richiede ad alcuni processi di fermarsi per non causare problemi, per uno o più cicli di clock. Questo fa in modo che le istruzioni che verranno dopo una certa istruzione non vengano eseguite, mentre quelle indietro continuano ad essere eseguite. Gli stalli causano dunque l'introduzione di una sorta di "bolla" all'interno della pipeline.
+A causa dei pipeline hazards sono necessari gli **stalli**, dove si richiede ad alcuni processi di fermarsi per non causare problemi, per uno o più cicli di clock. Questo fa in modo che le istruzioni che verranno dopo una certa istruzione non vengano eseguite, mentre quelle indietro continuano ad essere eseguite. Gli stalli causano dunque l'introduzione di una sorta di "bolla" all'interno della pipeline.
 
-### Structural hazards
+#### Structural hazards
 
-I structural hazards possono avvenire quando una unità della pipeline non è in grado si eseguire una certa operazione che era stata pianificata per quel cycle. Alcuni esempi potrebbero essere:
+I **structural hazards** possono avvenire quando una unità della pipeline non è in grado si eseguire una certa operazione che era stata pianificata per quel ciclo. Alcuni esempi potrebbero essere:
 
 - una unità non è in grado di terminare un il suo task in un ciclo di clock
 - La pipeline ha un solo register-file write port, ma non ci sono cicli in cui due register writers sono richiesti
 - La pipeline fa riferimento a un single-port memory, e ci sono cicli in cui differenti istruzioni vorrebbero accedere alla memoria contemporaneamente.
 
-La soluzione è inevitabilmente il miglioramento dell'hardware o l'acquisto di nuove componenti. 
+La soluzione è inevitabilmente il miglioramento dell'hardware o l'acquisto di nuove componenti.
 
-### Data hazards
+#### Data hazards
 
 Gli hazard di dati sono quelli relativi alle dipendenze dei dati che vengono elaborati alterando, ad esempio, l'ordine di lettura e scrittura degli operandi e causando risultati sbagliati o non deterministici.
 
@@ -73,9 +75,9 @@ Per risolvere questi problemi si potrebbe utilizzare:
 #### Forwarding
 <!-- lezione7: 11-10-2022 -->
 
-Un hardware dedicato all'interno del datapath si occupa di rilevare quando un precedente operazione alu dovrebbe essere scritta nel registro che corrisponde al sorgente della operazione ALU. In questo caso, l'hardware selezione il risultato come input piuttosto che il valore nel registro. Deve, inoltre, essere in grado di fare il forwarding dei dati da ogni istruzione iniziata in precedenza e allo stesso modo di non fare forwarding se l'istruzione che segue è in stallo oppure è stata eseguita una interruzione.
+Un hardware dedicato all'interno del _datapath_ si occupa di rilevare quando un precedente operazione alu dovrebbe essere scritta nel registro che corrisponde al sorgente della operazione ALU. In questo caso, l'hardware selezione il risultato come input piuttosto che il valore nel registro. Deve, inoltre, essere in grado di fare il forwarding dei dati da ogni istruzione iniziata in precedenza e allo stesso modo di non fare forwarding se l'istruzione che segue è in stallo oppure è stata eseguita una interruzione.
 
-Si hanno dunque data hazard quando vi è dipendenza tra le istruzioni e sono abbastanza vicine da essere sovrapposte a causa della pipeline. Questo generalmente avviene per operandi che sono sia registri che memoria, in particolare se la memoria subisce load e store non nello stesso stage o se l'esecuzione procede mentre un istruzione è in attesa di risoluzione di una cache miss.
+Si hanno dunque data hazard quando vi è dipendenza tra le istruzioni e sono abbastanza vicine da essere sovrapposte a causa della pipeline. Questo generalmente avviene per operandi che sono sia registri che memoria, in particolare se la memoria subisce _load_ e _store_ non nello stesso stage o se l'esecuzione procede mentre un istruzione è in attesa di risoluzione di una cache miss.
 
 Un esempio può essere il seguente:
 
@@ -106,7 +108,7 @@ Quando una istruzione di load va in fase di esecuzione e un'altra istruzione sta
 
 #### Introdurre stalli e forwarding
 
-Data una istruzione attuamente in stage di decodifica, introdurre uno stallo in fase di esecuzione è possibile:
+Data una istruzione attualmente in stage di decodifica, introdurre uno stallo in fase di esecuzione è possibile:
 
 - forzando tutti zeri nella pipeline ID/EX register (corrisponde a una nop)
 - forzando IF/ID register a contenere il valore corrente
@@ -117,15 +119,15 @@ Invece, l'introduzione di un forwarding può essere implementato:
 - dal data memory output del ALU
 - verso l'input della ALU, data memory inputs, o zero detection unit
 
-Inoltre, deve necessariamente eseguire le comparazioni tra il destination fiel del IR contenuto nel EX/MEM e MEM/WB registers con il source fiel del IR contenuto nel IF/IDm ID/EX, EX/MEM registers.
+Inoltre, deve necessariamente eseguire le comparazioni tra il destination field del IR contenuto nel EX/MEM e MEM/WB registers con il source fiel del IR contenuto nel IF/IDm ID/EX, EX/MEM registers.
 
 ### Control hazards
 
-Sono dovuti a salti (condizionali o meno) che possono cambiare il program couter dopo che l'istruzione ha già eseguito il fetch. Nel caso in cui siano condizionali, la decisione di come varia il program counter dipende da quale branch verrà eseguito. Nella implementazione MIPS, il PC è scritto con il target address (se è preso) alla fine della fase di decode.
+Sono dovuti a salti (condizionali o meno) che possono cambiare il _program counter_ dopo che l'istruzione ha già eseguito il _fetch_. Nel caso in cui siano condizionali, la decisione di come varia il program counter dipende da quale branch verrà eseguito. Nella implementazione MIPS, il PC è scritto con il target address (se è preso) alla fine della fase di decode.
 
 Una possibile soluzione si basa sull'utilizzo di stalli appena l'istruzione di branch viene individuata (in fase di decode) e decidere anticipatamente se il salto avverrà o meno e calcolare in anticipo il nuovo valore del program counter.
 
-Un esempio senza ottimizzazione: 
+Un esempio senza ottimizzazione:
 
 ```assembly
 ; istruzioni	 1 2 3 4 5 6 7 8
@@ -213,14 +215,14 @@ A causa della dell'impossibilità di utilizzare una pipeline per l'unità di div
 Il simulatore funziona in modo leggermente diverso, per cui alcuni casi potrebbero comportarsi diversamente.
 :::
 
-La soluzione è quello di utilizzare ulteriori write ports (però molto costosa) oppure forzare uno structural hazard:
+La soluzione è quello di utilizzare ulteriori _write ports_ (però molto costosa) oppure forzare uno structural hazard:
 
 - le istruzioni sono poste in stallo nella fase di decode
 - le istruzioni sono messe in stallo prima della fase di MEM o WB
 
 #### Data hazards (multi-cycle)
 
-A causa di un più unga latenza nelle operazioni, gli stalli per i data hazards possono fermare una pipeline per un quantitativo di tempo maggiore.
+A causa di un più unga latenza nelle operazioni, gli stalli per i **data hazards** possono fermare una pipeline per un quantitativo di tempo maggiore.
 
 Inoltre, nuovi tipi di data hazards sono possibili a causa dei tempi maggiori per raggiungere la write back.
 

@@ -7,7 +7,7 @@ Quando un pulsante viene premuto, prima avviene il contatto con l'altra parte me
 
 Solitamente il SoC lavora più velocemente del bouncing e per tale motivo l'hardware pensa che il pulsante venga premuto più volte.
 
-![](../images/17_BOUNC.png){width=450px}
+![Bouncing](../images/17_BOUNC.png){width=450px}
 
 ## Soluzione software
 
