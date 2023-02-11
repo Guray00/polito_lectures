@@ -165,7 +165,7 @@ Il broadcast non può attraversare VLAN differenti, per questo non è possibile 
 
 ![VLAN e indirizzi IP](../images/04_vlan_ip.png){width=400px}
 
-Il modo più semplice per associare un frame a una VLAN è marcarlo all'arrivo in base alla porta attraversata. Se però non si altera la trama, l'informazione sarà evidenziata solo all'interno dello switch locale che ha attraversato ma non agli altri switch. Per superare questo problema è stato introdotto il **tagging**, ovvero un campo aggiuntivo di 4 byte nella trama ethernet contenente il vlanID, in m odo da identificarlo anche negli switch rimanenti.
+Il modo più semplice per associare un frame a una VLAN è marcarlo all'arrivo in base alla porta attraversata. Se però non si altera la trama, l'informazione sarà evidenziata solo all'interno dello switch locale che ha attraversato ma non agli altri switch. Per superare questo problema è stato introdotto il **tagging**, ovvero un campo aggiuntivo di 4 byte nella trama ethernet contenente il vlanID, in modo da identificarlo anche negli switch rimanenti.
 
 ![VLAN su singolo switch](../images/04_vlan_1_switch.png){width=300px}
 
