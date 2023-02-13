@@ -302,7 +302,7 @@ Esistono alternative di **livello 3**, ovvero le **MPLS-based Layer 3 VPNs**, ch
 
 Per rendere tutto automatico è necessario scambiare informazioni di routing. I _CE_ scambiano informazioni con i router _PE_: il _CE_ comunica le destinazioni che si ritrova, successivamente i _PE_, che sono a conoscenza dell’esistenza di altri _PE_ (per via di un protocollo di routing), creano degli _LSP_ tra di loro (ad esempio nella _topology-based label binding_). A questo punto, quando i _PE_ hanno degli _LSP_ tra loro li utilizzano per scambiare informazioni di routing tra loro.
 
-Queste soluzioni sono di tipo Provider Provisioned, iin quanto le policies sono implementate dal Service Provider, ma con il vantaggio di non richiedere alcun tipo di esperienza da parte dell'utente. Sono molto scalabili e distribuibili.
+Queste soluzioni sono di tipo Provider Provisioned, in quanto le policies sono implementate dal Service Provider, ma con il vantaggio di non richiedere alcun tipo di esperienza da parte dell'utente. Sono molto scalabili e distribuibili.
 
 Sono disponibili due alternative:
 
