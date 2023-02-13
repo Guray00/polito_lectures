@@ -210,7 +210,7 @@ Tali algoritmi consentono di utilizzare differenti metriche rispetto all'hop cou
 
 #### IGRP (Distance Vector)
 
-E' un sistema proprietario di Cisco, ch supera alcuni dei problemi di RIP, diventandone l'unica alternativa nel primo periodo.
+E' un sistema proprietario di Cisco, che supera alcuni dei problemi di RIP, diventandone l'unica alternativa nel primo periodo.
 
 #### OSPF (Link State)
 
