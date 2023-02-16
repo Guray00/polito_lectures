@@ -9,8 +9,8 @@ Per questo tipo di applicativi è dunque necessario parlare di **Quality of Serv
 I requisiti di rete per garantire il _Quality of Service_ sono i seguenti:
 
 - **Streaming**, il flusso di dati deve essere continuo. E' concessa una tolleranza nella perdita del pacchetto, ma è necessario un ritardo che sia al più costante.
-- **Interattività**, con una persona o un computer mediante un tempo di risposta basso.
-- **Trasmissione su larga banda**: deve essere disponibili una quantità elevata di risorse, capacità elevata e molta memoria nei nodi.
+- **Interattività**, con una persona o un computer mediante un tempo di risposta basso (sotto i 100 / 150 ms per direzione).
+- **Trasmissione su larga banda**: deve essere disponibile una quantità elevata di risorse, capacità elevata e molta memoria nei nodi.
 - Comunicazioni di gruppo, ovvero la possibilità di gestire comunicazioni _molti a molti_.
 
 Il vero problema che però deve essere risolto è il **ritardo**. Oltre ai tempi di elaborazione, ai nodi potrebbe esserci congestione, perciò se vi sono molti pacchetti che vogliono uscire tutti dallo stesso link questi non possono uscire  tutti  insieme,  ma  vengono  inseriti  in  un  buffer.  Ciò  comporta  che  i  pacchetti  attendono  e  questo  si trasforma in un ritardo variabile a seconda del carico del nodo.
@@ -21,9 +21,9 @@ Il vero problema che però deve essere risolto è il **ritardo**. Oltre ai tempi
 
 ## Contromisure
 
-Per riuscire a garantire la qualità del servizio sono necessarie molte risorse, una alta capacità trasmissiva, buffer più grandi dei nodi, capacità di commutazione e infine capacità di commutazione (switching).
+Per riuscire a garantire la qualità del servizio sono necessarie molte risorse, una alta capacità trasmissiva, buffer più grandi nei nodi e infine capacità di commutazione (switching).
 
-A livello di pacchetto è necessario applicare delle particolari _policy_ o _traffic shaping_ (tecnica di gestione della congestione), mentre a livello di flusso è necessario effettuare delle segnalazioni per riservare le risorse mediante protocolli quali **RSVP** _(**R**esource re**S**er**V**ation **P**rotocol)_ per _IP_ e _UNI_ _(User to Network Interface)_ per _ATM_.
+A livello di pacchetto è necessario applicare delle particolari _policy_ o _traffic shaping_ (tecnica di gestione della congestione), mentre a livello di flusso è necessario effettuare delle segnalazioni per riservare le risorse attraverso protocolli come **RSVP** _(**R**esource re**S**er**V**ation **P**rotocol)_ per _IP_ e _UNI_ _(User to Network Interface)_ per _ATM_.
 
 Si vede necessario applicare a priori il _network engineering_, dimensionando la rete in accordo al traffico previsto e limitando il numero di utenti che possono accedere alla rete, e il _traffic engineering_ per controllare la distribuzione del traffico sulla rete. Tali azioni hanno natura preventiva per dimensionare il caso peggiore in base alle statistiche sul traffico degli utenti, dunque viene determinata la matrice del traffico in modo da distribuirlo. Lo stato della rete viene costantemente monitorato e, se necessario, ridimensionato.
 
@@ -52,23 +52,23 @@ Per riuscire a classificare tali pacchetti è dunque necessario un componente ha
 
 ### Scheduling
 
-Per effettuare lo scheduling è possibile utilizzare una coda FIFO, ma non risolve il problema in quanto l'ultimo pacchetto a uscire sarà sempre l'ultimo in ingresso, senza dare precedenze. L'effetto che si ottiene è un **multiplexing statistico**, ovvero i pacchetti vengono sequenziati sul link di uscita in modo casuale in base all'ordine di arrivo, ma anche in questo caso non siamo in grado di soddisfare tutte le richieste.
+Per effettuare lo scheduling è possibile in prima approssimazione utilizzare una coda _FIFO_, ma non risolve il problema in quanto l'ultimo pacchetto a uscire sarà sempre l'ultimo a essere entrato, senza imporre alcuna precedenza. Una alternativa è l'utilizzo del **multiplexing statistico**: i pacchetti vengono sequenziati sul link di uscita in modo casuale in base all'ordine di arrivo, ma anche in questo caso non siamo in grado di soddisfare tutte le richieste.
 
 ![Multiplexing statistico](../images/09_statistical_multiplexing.png){width=400px}
 
-Al fine di garantire il singolo flusso è necessario analizzare tutti i pacchetti e inserirli in code multiple servite in base alla priorità, alcuni algoritmi di scheduling sono:
+Per garantire la _QoS_ è necessario analizzare tutti i pacchetti e inserirli in **code multiple** servite in base alla priorità utilizzando degli algoritmi di scheduling, come:
 
 - _Priority Queuing_
 - _Round Robing_
-- _Class Based Queuing_
-- _Weighted Fair Queuing_: sapendo il tipo di traffico di ogni applicazione è possibile configurare i nodi in modo da rispettare i requisiti.
+- _Class Based Queuing_ (CBQ)
+- _Weighted Fair Queuing_ (WFQ): sapendo il tipo di traffico di ogni applicazione è possibile configurare i nodi in modo da rispettare i requisiti.
 - _Deadline queuing_: è possibile impostare un deadline per ogni pacchetto, in modo da garantire che il pacchetto venga inviato entro un certo tempo.
 
 ![Multiple Queue](../images/09_multiple_queue.png){width=400px}
 
 ## Controllo del traffico
 
-Al fine di garantire un _QoS_, è possibile definire un azione di _policy_ e _shaping_ per stabilire se il traffico in ingresso nella rete ha il profilo adatto per entrare.
+Al fine di garantire un _QoS_, è possibile definire un azione di _policy_ e _shaping_ per stabilire se il traffico in ingresso nella rete ha il profilo adatto per entrare. In particolare si può adottare la tecnica del **leaky bucket** che permette di controllare il flusso di ingresso.
 
 ![Shaping](../images/09_shaping_1.png){width=400px}
 
@@ -96,6 +96,8 @@ Esistono due standard per supportare il QoS:
 **IntServ** garantisce il _QoS_, effettua la prenotazione delle risorse (RSVP) riuscendo a garantire QoS a ogni singolo flusso.
 
 Ha come criticità la complessità e la bassa scalabilità (non utilizzabile su scala elevata). Per quanto lo standard sia pronto e implementato nei router, non viene utilizzato.
+
+La soluzione è stata standardizzata in modo da consentire alle applicazioni di richiedere e ricevere dalla rete una qualità del servizio in accordo alle proprie esigenze.
 
 ### DiffServ
 

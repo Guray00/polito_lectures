@@ -8,7 +8,7 @@ Il concetto principale dietro alle reti ottiche è il **Wavelength Division Mult
 - **DWDM**: _Dense WDM_, consente la trasmissione di decine o centinaia di segnali sulla stessa fibra, consentendo l'aumento della capacità sui cavi esistenti.
 - **CWDM**: _Coarse WDM_, usa più finestre (frequenza diverse) per la trasmissione. Ha un minor numero di lunghezze d'onda, ma è più economico.
 
-Inizialmente la ragione per cui è stato realizzato _WDM_ era per poter riutilizzare la stessa fibra. Solo successivamente  si  è  notato  che  avendo  tanti  segnali  ottici è possibile costruire un  commutatore  che riconosce  i  vari  canali  e  li  inoltra  su  diverse  fibre, ovvero un **wavelength switch** (commutatore ottico). L’idea alla base delle reti ottiche è di fare reti in cui i nodi sono collegati da fibre e sono in grado di **commutare canali ottici da una fibra di ingresso a una fibra di uscita**.
+Inizialmente la ragione per cui è stato realizzato _WDM_ era per poter riutilizzare la stessa fibra. Solo successivamente  si  è  notato  che  avendo  tanti  segnali  ottici è possibile costruire un  commutatore  che riconosce  i  vari  canali  e  li  inoltra  su   fibre differenti, ovvero un **wavelength switch** (commutatore ottico). L’idea alla base delle reti ottiche è di fare reti in cui i nodi sono collegati da fibre e sono in grado di **commutare canali ottici da una fibra di ingresso a una fibra di uscita**.
 
 ![Wavelength Switching](../images/08_wavelength_switching.png){width=400px}
 
@@ -58,33 +58,35 @@ I _MEMS_ sono quelli che hanno ottenuto più successo.
 
 ### Electronic Core
 
-Gli **Electronic Core** consentono dei prezzi più bassi rispetto ai _MEMS_. Converte un segnale ottico in uno elettrico verso un circuito elettronico. Quello che compie è ricevere dei bit ed effettuarne uno switch.
+Gli **Electronic Core** sono dispositivi elettronici che convertono un segnale ottico in uno elettrico verso un circuito elettronico effettuando lo switch dei bit ricevuti, a prezzi minori rispetto ai _MEMS_.
 
-Purtroppo, si perde tutte le proprietà dei componenti ottici, in quanto **non si ha indipendenza** del bit rate rispetto al segnale, il consumo non è basso ed i costi sono più sostenuti (anche se, attualmente, più economici). Un grande vantaggio è un migliore rapporto complessità/costi rispetto al packet switching.
+Purtroppo, si perdono tutte le proprietà dei componenti ottici, in quanto **non si ha indipendenza** del bit rate rispetto al segnale, il consumo non è basso ed i costi sono più sostenuti (anche se, attualmente, più economici). Un grande vantaggio è un migliore rapporto complessità/costi rispetto al packet switching.
 
 ## Switching Dynamics
 
 ### Cross Connect
 
-Solitamente vengono adoperati core ottici. Le configurazioni sono _fixed/statiche_, mediante un sistema/interfaccia di configurazione.
+Un **cross connect** è un elemento di rete dei sistemi di trasmissione telefonica e dati con la funzione di smistare alte capacità di traffico tra le varie parti di una rete e, per tale motivo, trova impiego essenzialmente nelle dorsali geografiche a livello nazionale o internazionale.
+
+Solitamente vengono adoperati core ottici. Le configurazioni sono _statiche_ (fixed), mediante un sistema/interfaccia di configurazione.
 
 ### Fiber Cross Connect
 
-Nel **Fiber Cross Connect** tutti i segnali da una fibra di ingresso vengono mandati su una fibra di uscita. Vengono adoperati dei _micro-electro-mechanical system_ (MEMS) ma che richiedono molto tempo per essere riconfigurati.
+Nel **Fiber Cross Connect** tutti i segnali da una fibra di ingresso vengono trasmessi su una fibra di uscita. Vengono adoperati dei _micro-electro-mechanical system_ (MEMS) ma richiedono molto tempo per essere riconfigurati.
 
-A volte viene utilizzata un amplificatore ottico dopo e prima della commutazione (switching).
+A volte viene utilizzata un amplificatore ottico prima e dopo la commutazione (switching).
 
 ### Wavelength Cross Connect
 
-Nel **Wavelength Cross Connect** uno o più wavelength vengono mandate da una fibra in input verso una fibra in output. E' presente un WDM de-multiplexer+MEMS a separare le differenti wavelength nello spazio (prism).
+Nel **Wavelength Cross Connect** uno o più wavelength vengono mandate da una fibra di ingresso verso una fibra di uscita. E' presente un WDM de-multiplexer+MEMS a separare le differenti wavelength nello spazio (prism).
 
 La rigenerazione del segnale potrebbe essere utilizzata prima e/o dopo la commutazione (switching), ad esempio la conversione **OEO** _(optical-electrical-optical)_ consente di rigenerare elettronicamente, anche se dipende dal bit rate.
 
 ## Wavelength Conversion
 
-La **Wavelength conversion** è complessa, spesso realizzata mediante **EOE**, e richiede un **costo elevato**. Non è trasparente per i dati e non consente di scalare.
+La **Wavelength conversion** è complessa, spesso realizzata mediante **EOE**, e richiede un **costo elevato**. Non è trasparente per ai dati ciò la rende difficilmente scalabile.
 
-Dal punto di vista fisico si comporta come una _cassa di risonanza_ (?) mentre dal punto di vista tecnologico non è molto matura.
+Dal punto di vista fisico si comporta come una _cassa di risonanza_ (?) mentre dal punto di vista tecnologico non è molto matura, oltre a essere molto costosa.
 
 Non richiede la stessa _wavelength end-to-end_ e non è presente il _wavelength assignment problem_ ($N^2$).
 

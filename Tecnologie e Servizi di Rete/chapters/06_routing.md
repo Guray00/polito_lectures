@@ -188,6 +188,10 @@ Le destinazioni possono essere aggregate (`195.1.2.0/24` e `195.1.3.0/24` in `19
 
 In queste reti viene inserito un elemento detto **NAP/IXP** _(Neutral Access Point/Internet eXchange Point)_, ovvero entità terze che mettono a disposizione delle infrastrutture che permettono a diversi _ISP_ di comunicare tra loro. Tramite questi elementi è possibile connettere porzioni di rete senza dover creare nuovi canali, ma semplicemente portando tutte le connessioni verso un unico punto.
 
+:::tip
+Si può affermare che un NAP/IXP consista in una LAN dove router di differenti Autonomus Systems sono connessi.
+:::
+
 ![Implementazione con BGP](../images/06_nap_ixp.png){width=400px}
 
 Si definisce _private peering_ la comunicazione che avviene tra due ISP dello stesso tier.

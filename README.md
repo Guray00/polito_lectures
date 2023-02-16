@@ -112,6 +112,11 @@ Copia i file contenuti in `html` al seguente path (se qualche cartella non esist
 
 Le contribuzioni sono ben accette! Fai le correzioni che ritieni necessarie modificando i file **markdown** all'interno della cartella `chapters` e apri una pull request.
 
+<a href="https://github.com/Guray00/polito_lectures/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Guray00/polito_lectures" />
+</a>
+
+
 ## Donazioni
 
 Realizzare le dispense e verificarne la correttezza del contenuto richiede molto tempo e sacrificio. Se questi appunti ti sono stati utili, prendi in considerazione l'idea di [offrirmi](https://www.paypal.com/donate/?hosted_button_id=X8ALKDVSK5B6Q) un caffè!
