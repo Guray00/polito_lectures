@@ -4,6 +4,7 @@
 		".md": "cd $dir../ && compile.bat"
 	},
 	"cSpell.words": [
+		"Amdahl",
 		"Tomasulo"
 	]
 }

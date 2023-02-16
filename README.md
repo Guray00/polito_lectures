@@ -21,6 +21,7 @@ L'ultima versione di ciascun appunto è disponibile nella seguente tabella:
 <tr>
     <td> Materia
     <td colspan=4 align="center"> Formati
+    <td> Stato
 <tr>
     <td> Architetture e sistemi di elaborazione
     <td> 
@@ -28,6 +29,7 @@ L'ultima versione di ciascun appunto è disponibile nella seguente tabella:
     <td> <a href="https://lectures.mlampis.dev/Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.html">WEB</a>
     <td> <a href="./Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.html">HTML</a>
     <td> <a href="./Architetture%20e%20sistemi%20di%20elaborazione/output/Architetture%20e%20sistemi%20di%20elaborazione.epub">EPUB</a>
+	<td> <i>Incompleta</i>
 <tr>
     <td> Tecnologie e servizi di rete
     <td> 
@@ -35,6 +37,7 @@ L'ultima versione di ciascun appunto è disponibile nella seguente tabella:
     <td> <a href="https://lectures.mlampis.dev/Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.html">WEB</a>
     <td> <a href="./Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.html">HTML</a>
     <td> <a href="./Tecnologie%20e%20Servizi%20di%20Rete/output/Tecnologie%20e%20Servizi%20di%20Rete.epub">EPUB</a>
+	<td> <b><i>Completa</i></b>
 </table>
 
 ## Tecnologie

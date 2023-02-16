@@ -4,8 +4,10 @@
 		".md": "cd $dir../ && compile.bat"
 	},
 	"cSpell.words": [
+		"AFTR",
 		"ASIC",
 		"backoff",
+		"CDMA",
 		"CWDM",
 		"datagrammi",
 		"dimensionando",
@@ -31,6 +33,7 @@
 		"multipath",
 		"OADM",
 		"OFDM",
+		"OFDMA",
 		"OSPF",
 		"proxying",
 		"semipermanenti",

@@ -1,31 +1,31 @@
 # VPN
 <!-- lezione13: 15-11-2022 -->
 
-Una **Virtual Private Network** (VPN) è un insieme di tecnologie che consente di realizzare una connettività tra due sottoreti distinte in modo che possano comunicare come se fossero un'unica rete privata. Quando un utente si connette su internet non attraversa necessariamente un unico ISP, e questo rende lo scenario molto variegato.
+Una **Virtual Private Network** (VPN) è un insieme di tecnologie che consente di realizzare una connettività tra più sottoreti distinte in modo che possano comunicare come se fossero un'unica rete privata.
 
-L'obbiettivo è far si che due sottoreti (anche in organizzazioni diverse) riescano a comunicare mantenendo le stesse politiche (di sicurezza, quality of service, affidabilità).
+Quando un utente si connette su internet non attraversa necessariamente un unico ISP, e questo rende lo scenario molto variegato.
+
+L'obbiettivo è far si che due sottoreti (anche in organizzazioni diverse) riescano a comunicare mantenendo le stesse politiche di sicurezza, quality of service, affidabilità.
+
+:::caution
+L'utilizzo di una VPN non rende automaticamente una connessione sicura.
+:::
 
 ![Esempio di VPN](../images/06_example_vpn.png){width=300px}
 
-Gli elementi chiave sono:
+Le VPN sono contraddistinte dalla presenza di:
 
-- **Tunnel**: Consente di incapsulare in modo sicuro il traffico in transito sulla rete condivisa (non presente in alcune soluzioni).
+- **Tunnel**: Consentono di incapsulare in modo sicuro il traffico in transito sulla rete condivisa (non presente in alcune soluzioni).
 - **VPN gateway**: Apre e termina i tunnel, dovranno supportare uno tra i vari protocolli specifici per fare tunneling.
 
-Il motivo per cui utilizziamo le VPN è dunque quello di non dover utilizzare cavi per la realizzazione di reti private.
-
-Alcune funzionalità chiave garantite dalle VPN sono:
-
-- deployment model
-- provisioning model
-- protocol layer
+Il motivo per cui le connessioni VPN sono utilizzate è quello di non dover utilizzare cavi per la realizzazione di reti private.
 
 ![Gerarchia dei protocolli](../images/05_vpn_solutions.png){width=400px}
 
-Definiremo anche alcune soluzioni:
+Definiremo alcune soluzioni:
 
-- **site to site**: vpn a livello di sottorete (gateway), connette due reti remote (virtualizzazione del cavo).
-- **end to end**: sottorete a livello di host (terminali), connette due terminali remoti (virtualizzazione del cavo).
+- **site to site**: VPN a livello di sottorete (gateway), connette due reti remote (virtualizzazione del cavo di connessione).
+- **end to end**: sottorete a livello di host (terminali), connette due terminali remoti (virtualizzazione del cavo di connessione).
 - **Access VPN / Remote VPN / Dial In**: canale sicuro tra un terminale verso un'intera sottorete (es smart working per collegarsi alla rete aziendale).
 
 Dal punto di vista della distribuzione, si dividono in:
@@ -40,7 +40,7 @@ Quello che contraddistingue i due tipi di rete sono perlopiù motivi di sicurezz
 :::
 
 :::caution
-**Quindi tutto il traffico sulle reti VPN è sicuro?** No, sono necessari degli ulteriori protocolli appositi (e nelle connessione s2s bisogna "fidarsi" che la rete locale sia affidabile).
+**Quindi tutto il traffico sulle reti VPN è sicuro?** No, sono necessari degli ulteriori protocolli appositi (e nelle connessione s2s bisogna "fidarsi" che la rete locale sia sicura).
 :::
 
 ![Esempio di intranet](../images/06_sample_intranet.png){width=300px}
@@ -122,7 +122,7 @@ L'host deve necessariamente avere 2 indirizzi, il remote host deve terminare il 
 
 ### Provider Provisioned VPN
 
-Nel **Provider Provisioned VPN** il provider implementa la soluzione VPN (quindi sotto il controllo dell'azienda), e la VPN stessa è mantenuta dal provider che si occupa di gestire i dispositivi. Il _Customer Equipment_ si potrebbe comportare come se si trovasse all'interno di una rete privata, i terminatori dei tunnel sono dei Provider Equipment. E' meno costosa ma richiede la _"fiducia"_ del provider.
+Nel **Provider Provisioned VPN** il provider implementa la soluzione VPN (quindi sotto il controllo dell'azienda), e la VPN stessa è mantenuta dal provider che si occupa di gestire i dispositivi. Il _Customer Equipment_ si potrebbe comportare come se si trovasse all'interno di una rete privata, i terminatori dei tunnel sono dei _Provider Equipment_. E' meno costosa ma richiede la _"fiducia"_ del provider.
 
 Il remote host deve essere sempre nella VPN, obbligando l'utente ad installare determinati dispositivi. In questo modo si ha un solo indirizzo in quanto si è sempre all'interno della VPN, necessitando di un accesso a uno specifico _Internet Service Provider_.
 <!-- l'accesso non dovrebbe essere centralizzato -->
@@ -146,26 +146,28 @@ Un pacchetto (o frame) viene inviato attraverso una rete pubblica tra due siti p
 
 Le VPN si differenziano in due topologie (virtuali):
 
-- **Hub and spoke**: Ciascun branch comunica direttamente con l'headquarter e raggruppa il data flow di molte aziende (centralizzate in mainframe o data center). Il routing è sub-ottimo e sono richiesti pochi tunnel, con però il rischio che l'hub possa diventare un bottleneck rallentando le prestazioni.
-- **Mesh**: Utilizza un gran numero di tunnel, più difficile da gestire ma migliora il routing.
+- **Hub and spoke**: Ciascun branch comunica direttamente con il quartier generale, il quale raggruppa il flusso di dati di molte aziende (centralizzate in mainframe o data center). Il routing è sub-ottimo e sono richiesti pochi tunnel, è però presente il rischio che l'hub possa diventare un _bottleneck_ rallentando le prestazioni.
+- **Mesh**: Utilizza un gran numero di tunnel, più difficile da configurare manualmente ma il routing è ottimizzato.
+
+![Hub and spoke](../images/05_hub_and_spoke.png){width=200px}
 
 ## Livelli
 
-Un qualsiasi servizio di trasporto di pacchetti mediante tunneling funziona o come _Layer N Service_ oppure mediante un _Layer N Protocol_.
+Una VPN può essere implementate in più livelli dello stack _ISO/OSI_, in ciascuno dei quali può comportarsi come  _Layer N Service_ oppure mediante un _Layer N Protocol_.
 
 ### Livello 2
 
-Il livello 2 si suddivide in:
+Il _livello 2_ si suddivide in:
 
 - **Virtual Private LAN service**: emula le funzionalità della _LAN_ e può essere utilizzato per connettere alcuni segmenti LAN (funziona come una lan singola attraverso la rete pubblica). La soluzione emula anche i _learning bridges_, con routing basato sul _MAC address_.
-- **Virtual Private Wire Service**: emula una leased line, può trasportare qualsiasi protocollo.
+- **Virtual Private Wire Service**: emula una connessione cablata, può trasportare qualsiasi protocollo.
 - **IP-only Lan-like Service**: i _CE_ sono IP routers o IP hosts (non ethernet switches), viene utilizzato  solo IP (insieme a ICMP e ARP) per far viaggiare i dati nella VPN.
 
 ### Livello 3
 
-Le soluzioni di livello 3 sono standard: i pacchetti sono inviati attraverso la rete pubblica con routing basato su indirizzi di livello 3, che possono essere **peer** (vpn/corporate/indirizzi cliente) oppure **overlay** (backbone addresses), mentre i CE possono essere sia ip routers che IP hosts. 
+Le soluzioni _VPN_ di livello 3 sono **standard**: i pacchetti sono inviati attraverso la rete pubblica con routing basato su indirizzi di livello 3, che possono essere **peer** (vpn/corporate/indirizzi cliente) oppure **overlay** (backbone addresses), mentre i _Customer Equipment_ possono essere sia _IP routers_ che _IP hosts_ (in generale non ethernet switches).
 
-I pacchetti (o frame) sono trasportati attraverso la rete IP come pacchetti IP nelle seguenti modalità:
+I pacchetti (o frame) sono trasportati attraverso la rete come pacchetti IP nelle seguenti modalità:
 
 - un **pacchetto IP in un pacchetto IP** (IP in IP), come _GRE_ o _IPsec_.
 - Un **frame layer 2 in un pacchetto IP** (IP in frame), come _L2TP_, _PPTP_ (basato su GRE).
@@ -192,7 +194,7 @@ Nelle connessioni **End to End** il tunnel è terminato da un end system.
 
 ## Generic Routing Encapsulation (GRE)
 
-Il **Generic Routing Encapsulation** è un protocollo di livello 3 che si basa sul concetto di incapsulamento, il formato utilizzato è il seguente:
+Il **Generic Routing Encapsulation** è un protocollo di livello 3 che si basa sul concetto di incapsulamento (IP in frame), il formato utilizzato è il seguente:
 
 ![Formato del pacchetto](../images/05_gre_pgk_format.png){width=400px}
 
@@ -205,7 +207,7 @@ Possiamo notare alcuni campi dell'header:
 - **routing**: Sequenza di indirizzi dei router IP per ASs o per _source routing_.
 
 :::note
-**Nota**: anche se GRE è di livello 3, può incapsulare qualsiasi protocollo.
+**Nota**: anche se _GRE_ è di livello 3, può incapsulare qualsiasi protocollo.
 :::
 
 ### Enhanced GRE (version 1)
@@ -216,22 +218,19 @@ Esiste una **versione estesa** di **GRE** denominata **version 1** che utilizza 
 
 Alcune funzionalità avanzate:
 
-- **Payload Length** (key, 16 bit alti): numero di bytes a esclusione dell'header GRE.
+- **Payload Length** (key, 16 bit alti): numero di bytes a esclusione dell'header _GRE_.
 - **Call ID** (key, 16 bit bassi): session ID per il pacchetto.
 - **Sequence number**: per ordinare i pacchetti ricevuti, error detection e correction.
 - **Acknowledgment number**: massimo numero di pacchetti GRE ricevuti in sequenza in questa sessione (ACK cumulativo).
 
-altri meccanismi implementati in GRE comprendono:
+_GRE_ consente la **gestione del flusso dati** (flow control) attraverso una _sliding window_. I pacchetti **non possono essere ricevuti fuori ordine** e pertanto vengono scartati, ciò è causato da _PPP_ che consente pacchetti persi ma non fuori ordine.
 
-- **Flow control**: gestione del flusso attraverso il meccanismo di _sliding window_.
-- **Out of order packets**: Scartato, perché _PPP_ consente pacchetti persi, ma non può gestire pacchetti fuori ordine.
-- **Timeout values**: ricalcolato ogni volta che un pacchetto ack viene ricevuto.
-- **Congestion control**: timeout non causa la ritrasmissione, è utilizzato solo per muovere la sliding window. I pacchetti verranno persi _(il loro valore dovrebbe essere aumentato rapidamente)_.
+Ogni volta che un pacchetto di acknowledge (ack) viene inviato, i timeout values vengono ricalcolati ogni volta. Viene effettuato un **controllo della congestione** (congestion control) in quanto il timeout non causa la ritrasmissione ma è utilizzato solo per muovere la sliding window. I pacchetti verranno persi (il loro valore dovrebbe essere incrementato rapidamente).
 
 ## Protocolli di livello 2
 
 :::tip
-**Nota**: Questi protocolli di livello 2 non sono domande da esame. Cosa differente nel caso GRE e IPsec.
+**Nota**: Questi protocolli di livello 2 non sono domande da esame. Cosa differente nel caso _GRE_ e _IPsec_.
 :::
 
 Per le **Access VPN** sono disponibili due protocolli:
@@ -310,77 +309,87 @@ Sono presenti due pacchetti, uno per la parte di controllo e una per il data tun
 **Nota**: Questo è un argomento molto importante, spesso chiesto all'esame. È importante sapere cosa garantisce, a cosa serve ESP ed AH, le 3 proprietà ecc mentre è meno importante sapere dettagliatamente Transport mode, tunnel mode, come funziona.
 :::
 
-Il protocollo **IPsec** si basa sul'utilizzo di due ulteriori protocolli: **AH** e **ESP**. _AH_ è un protocollo che garantisce l'integrità dell'header originale e del payload, mentre _ESP_ garantisce integrità ed autenticazione.
+Il protocollo **IPsec** si basa sul'utilizzo di due ulteriori protocolli che possono essere utilizzati insieme o meno, ovvero **AH** e **ESP**. _AH_ è un protocollo che garantisce l'integrità dell'header originale e del payload, mentre _ESP_ garantisce integrità ed autenticazione.
 
-AH, acronimo di _authentication header_, garantisce l'integrità dei dati, l'autenticazione del sorgente ma non la confidenzialità. L'header è inserito tra l'header IP e il payload, con protocol field pari a **51**. I router processano datagrammi (non NAT).
+**AH**, acronimo di _authentication header_, garantisce l'integrità dei dati, l'autenticazione del sorgente ma non la confidenzialità. L'header è inserito tra l'header IP e il payload, con protocol field pari a **51**. I router processano datagrammi come di consueto, ma non è possibile adoperare il _NAT_.
 
-Alcuni campi di AH sono i seguenti:
+Alcuni campi di _AH_ sono i seguenti:
 
-- **SPI**: Security Parameter Index, contiene il Session ID e viene utilizzato per verificare la signature mediante crypto algorithm e un riferimento alla chiave.
+- **SPI**: _Security Parameter Index_, contiene il _Session ID_ e viene utilizzato per verificare la signature mediante algoritmi di cifratura e un riferimento alla chiave.
 - **Authentication data**: contiene la signature generata dal router di destinazione.
-- **Next header**: contiene il protocollo nel payload (es TCP, UDP, ICMP, _etc_).
+- **Next header**: specifica il protocollo utilizzato nel payload (ad esempio TCP, UDP, ICMP, _etc_).
 
 ![AH header](../images/05_ipsec_header.png){width=400px}
 
-ESP, acronimo di _Encapsulation Security Payload_, garantisce la confidenzialità dei dati, i quali sono criptati insieme al next header nel ESP trailer. Inoltre, consente l'autenticazione dell'host e l'integrità dei dati, mediante una autenticazione simile a quella di AH. Il protocol field è **50**.
+_ESP_, acronimo di _Encapsulation Security Payload_, garantisce la confidenzialità dei dati, i quali sono criptati insieme al next header nel _ESP trailer_. Inoltre, consente l'autenticazione dell'host e l'integrità dei dati, mediante una autenticazione simile a quella di AH. Il protocol field è **50**.
 
 ![ESP header](../images/05_ipsec_esp_header.png){width=400px}
 
-La differenza tra l'integrità garantita da AH ed ESP risiede nel tipo:
+La differenza tra l'integrità garantita da _AH_ ed _ESP_ risiede nel tipo:
 
-- AH: garantisce l'integrità dell'header originario, del payload originario e del nuovo header.
-- ESP: garantisce solo l'integrità dell'header originario e del payload originario, **non** riuscendo per il nuovo header.
+- _AH_: garantisce l'integrità dell'header originario, del payload originario e del nuovo header.
+- _ESP_: garantisce solo l'integrità dell'header originario e del payload originario, **non** riuscendo per il nuovo header.
 
 Un tunnel IPsec è perciò capace di garantire **incapsulazione**, **autenticazione** e **cifratura** tra due VPN gateways.
 
-Dal punto di vista del trasporto, l'header IP non è completamente protetto ma solo autenticato se si utilizza AH.
+IPsec supporta due modalità di funzionamento:
+
+- **transport mode**: l'header IP non è completamente protetto ma solo autenticato se si utilizza _AH_.
+- **tunnel mode**: connessione tramite tunnel, in questo caso l'_header IP_ è completamente protetto sia nel header che nel payload mediante l'incapsulazione attraverso un ulteriore header di livello 3.
+ 
+:::caution
+Nel **tunnel mode** è dunque previsto che venga criptata l'intestazione IP, l'intestazione _TCP/UDP_ e il payload del pacchetto interno.
+:::
 
 ![Header non completamente protetto](../images/05_ip_header.png){width=350px}
-
-Le cose cambiano se la trasmissione avviene tramite tunnel, in questo caso l'header IP è completamente protetto sia nel header che nel payload mediante l'incapsulazione attraverso un ulteriore header di livello 3.
 
 ![Tunnel Mode](../images/05_tunnel_mode.png){width=350px}
 
 <!-- salta un po' sulle slide 85, da vedere meglio -->
 
-Le **Security Association** (SA) sono canali logici unidirezionali. Questi negoziano alcune informazioni prima di cominciare lo scambio di pacchetti IPsec. Sono identificate mediante dei Security Parameter Index (SPI ) nel header/trailer IPsec (in base alle proprietà di sicurezza richieste).
+Le **Security Association** (SA) sono canali logici unidirezionali che rappresentano un _"contratto"_ tra due entità coinvolte nella comunicazione. Questi negoziano alcune informazioni prima di cominciare lo scambio di pacchetti IPsec. Sono identificate mediante dei _Security Parameter Index_ (SPI) nel _header/trailer IPsec_ (in base alle proprietà di sicurezza richieste).
 
 ![Security Association](../images/05_sa_info.png){width=300px}
 
-Il protocollo **Internet Key Exchange** (IKE) viene utilizzato per stabilire e mantenere le SA in ipsec, al fine di ottenere una comunicazione sicura per lo scambio dei messaggi IKE. Al fine di far avvenire una comunicazione sicura dei dati, vengono utilizzati uno o più SA _"figli"_. Tutte le SA figlie utilizzano la negoziazione di chiavi tramite IKE SA (potrebbero tutti partire da uno shared secret), con la possibilità di utilizzare certificati. In particolare si parla di **Internet Security Association Key Management Protocol** (ISAKMP), utilizzato per la negoziazione di parametri IKE e dello shared secret, oltre a chiavi pubbliche, certificati e dati firmati ed autenticati (e verifica della Certificate Revocation List, CRL).
+Il protocollo **Internet Key Exchange** (IKE) viene utilizzato per stabilire e mantenere le SA in IPsec in modo da ottenere una comunicazione sicura per lo scambio dei messaggi IKE. Per lo scambio sicuro dei dati vengono utilizzati uno o più SA _"figlie"_, le quali utilizzano la negoziazione di chiavi tramite _IKE SA_ (potrebbero tutti partire da uno shared secret), con la possibilità di utilizzare certificati. In particolare si parla di **Internet Security Association Key Management Protocol** (ISAKMP), utilizzato per la negoziazione di parametri IKE e dello shared secret, oltre a chiavi pubbliche, certificati e dati firmati ed autenticati (e verifica della Certificate Revocation List, CRL).
 
 :::danger
 **Vi sono problemi tra l'utilizzo di IPsec e il NAT?** Si, in quanto IPsec deve garantire l'autenticazione, che non è possibile se il NAT modifica l'indirizzo IP dei pacchetti.
 :::
 
+:::danger
+IPsec lavora a livello **kernel**.
+:::
+
 ## SSL VPN
 
-Il protocollo SSL è il meccanismo centrale su cui si basa l'accesso sicuro. Sono:
+Il protocollo SSL è il meccanismo centrale su cui si basa l'accesso sicuro. Le modalità di utilizzo nelle VPN vedono:
 
-- site to site VPN
-- remote access VPN
-- Secure service access (sarebbe e2e)
+- _site to site VPN_
+- _remote access VPN_
+- _Secure service access_ (sarebbe e2e)
 
-Spesso si perde il termine _"VPN"_ o viene aggiunto _"pseudo VPN"_, in quanto il meccanismo cambia rispetto al modello classico. Il modello di trasporto è sempre _TCP_ o _UDP_.
+Spesso si perde il termine _"VPN"_ o viene aggiunto _"pseudo VPN"_, in quanto il meccanismo cambia rispetto al modello classico. Il modello di trasporto utilizzato è sempre _TCP_ o _UDP_.
 
-Uno dei principali problemi risiede nel fatto che vengono adoperate soluzioni **non standard**, per cui essendo utilizzati protocolli proprietari diventa più complicato.
+Il problema di questa tipologie di _VPN_ risiede nell'utilizzo di soluzioni **non standard**, che a causa dell'utilizzo di protocolli spesso proprietari rende la gestione più complicata.
 
-Il motivo per non utilizzare IPSec VPN risiede nei costi troppo elevati e/o nelle troppe opzioni che necessitano una configurazione per garantire sicurezza. Un ulteriore motivo potrebbe essere il fatto che opera a livello kernel, per cui installazioni sbagliate possono avere conseguenze catastrofiche (oltre a installazioni difficili e rischiose).
+Il motivo per non utilizzare IPSec VPN risiede nei costi troppo elevati e/o nelle troppe opzioni che necessitano una configurazione per garantire sicurezza. Un ulteriore motivo potrebbe essere il fatto che opera a livello **kernel**, per cui installazioni sbagliate possono avere conseguenze catastrofiche (oltre a installazioni difficili e rischiose).
 
 Utilizzare **SSLVPN** ha come vantaggio:
 
-- **Minore complessità** (installazione, configurazione, gestione)
-- **Non interferisce con il kernel**
-- **Molto più utilizzato**
-- **Maggiore e più robusta sicurezza** (SSL)
-- **Non ci sono problemi di attraversamento del NAT** o di mascheramento (non è presente l'autenticazione del header IP e non è presente la cifrature delle porte come con ESP)
+- **Minore complessità** (installazione, configurazione, gestione).
+- **Non interferisce con il kernel**, in quanto le soluzioni non sono al livello kernel.
+- **Molto utilizzato**.
+- **Maggiore e più robusta sicurezza** (SSL).
+- **Non ci sono problemi di attraversamento del NAT** o di mascheramento (non è presente l'autenticazione del header IP e non è presente la cifrature delle porte come con ESP).
 
-Il grosso svantaggio è però che i pacchetti vengono droppati a un livello più alto, rendendolo vulnerabile ad attacchi DDOS.
+Il grosso svantaggio è però che i pacchetti vengono scartati a un livello più alto, rendendolo vulnerabile ad attacchi _DDOS_.
 
-Alcune insidie sulle prestazioni:
+Alcune problematiche relative alle prestazioni possono essere:
 
-- **IP su TCP**: Nessuna consegna di pacchetti dopo uno smarrito, inoltre la perdita comporta la strozzatura del tunnel (Controllo della congestione TCP).
-- **TCP su TCP**: imprevedibile, ampi buffer di trasmissione nei gateway.
+- **IP su TCP**: Nessuna consegna di pacchetti dopo uno smarrito, inoltre la perdita comporta la strozzatura del tunnel (a causa del controllo della congestione TCP)
+- **TCP su TCP**: imprevedibile
+- **Ampi buffer** di trasmissione nei gateway
 
 Le principali problematiche sono:
 
@@ -425,7 +434,7 @@ La **Application Translation** sfrutta protocolli nativi tra il VPN server e l'a
 
 ### Application Proxying
 
-L'**Application proxying** utilizza VPN gateway per scaricare le webpage attraverso http e le invia tramite https. Consente la compatibilità con server vecchi. I client puntano a un SSL-VPN gateway.
+L'**Application proxying** utilizza VPN gateway per scaricare le webpage attraverso _http_ e le invia tramite _https_. Consente la compatibilità con server vecchi, in quanto la richiesta viene effettuata in modo sicuro dal client al gateway e in modo classico (ma meno protetto) verso il server. I client puntano a un SSL-VPN gateway.
 
 ![Application Proxying](../images/05_app_proxying.png){width=300px}
 
@@ -436,9 +445,9 @@ L'**Application proxying** utilizza VPN gateway per scaricare le webpage attrave
 ## VPN Gateway Positioning & anomalies
 <!-- saltella di slide intorno a 101 (vero) -->
 
-## Posizione
+## Anomalie e posizionamento
 
-La posizione del VPN comporta delle problematiche differenti a seconda di dove viene posizionato (in riferimento al firewall):
+La posizione del _VPN_ comporta delle problematiche differenti a seconda di dove viene posizionato (in riferimento al firewall):
 
 - **Internamente**: nessuna ispezione del traffico VPN oppure il VPN gateway protetto da firewall.
 - **Parallelamente**: potenziale accesso non controllato.
@@ -449,10 +458,11 @@ Solitamente vengono posti degli _Intrusion Detection System_ (IDS) all'esterno d
 
 ![IDS](../images/06_ids.png){width=350px}
 
-## Anomalie
+Alcune problematiche sono relative all'utilizzo del NAT all'interno della rete: nel Authentication Header, gli indirizzi IP sono parte del checksum e per tale motivo, se venisse modificato, il pacchetto verrebbe scartato. Analogamente, se indirizzo IP del tunnel IPsec non è lo stesso di quello atteso, il pacchetto viene scartato. Non è dunque possibile nemmeno utilizzare PAT/NAPT.
 
-Le anomalie che si possono verificare nell'utilizzo delle VPN sono varie e dipendono dal contesto:
+In transport mode le porte non sono visibili, mentre in tunnel mode l'indirizzo IP del pacchetto protetto può essere cambiato prima che questo entri nel gateway.
 
+Altre anomalie possibili sono:
 
 ![Anomalie](../images/05_anomalies.png){width=400px}
 
