@@ -66,7 +66,7 @@ Nell'approccio **distributed routing** i router collaborano nello scambiare le i
 
 ## Distance vector (Bellman-Ford)
 
-Nel algoritmo **Distance Vector** (DV), facente parte dei _distributed routing_ _(adaptive algorithms)_, ogni nodo invia e riceve informazioni inerenti alla distanza con gli altri router ai nodi vicini. E' un algoritmo distribuito in cui ogni nodo ha la lista completa dei destinatari (tutti). Sono inoltre necessari i transitori (router che non sono destinatari ma che sono necessari per raggiungere la destinazione). Visto che ogni nodo comunica con i vicini, è importante tenere conto della distanza dal announcing routing.
+Nel algoritmo **Distance Vector** (DV), facente parte dei _distributed routing_ _(adaptive algorithms)_, ogni nodo invia e riceve informazioni inerenti alla distanza con gli altri router ai nodi vicini. E' un algoritmo distribuito in cui ogni nodo ha la lista completa dei destinatari (tutti). Sono inoltre necessari i transitori (router che non sono destinatari ma che sono necessari per raggiungere la destinazione). Visto che ogni nodo comunica con i vicini, è importante tenere conto della distanza dal announcing routing. Complessità O(N^2) anche O(N^3) quindi l'algoritmo è poco scalabile. Distance vector -> un numero di righe pari al numero di router. Il link o router piu' lento determina la velocità della propagazione del DV a tutta la rete (grossissimo limite). In determinati casi i router lontani non vengono affetti dal un cambiamento topologico. E' difficile da regolare
 
 ![Scenario d'esempio (1)](../images/06_dv1.png){width=300px}
 
@@ -114,13 +114,15 @@ La complessità nel caso peggiore relativo al tempo di convergenza va da `O(n^2)
 
 ## Path Vector
 
-L'algoritmo **Path Vector** elimina i loop inviando, in aggiunta alle informazioni sulla distanza, le informazioni sui nodi attraversati per raggiungere una determinata destinazione. In questo modo si evitano i loop all'interno dei transitori, ma nonostante ciò è molto utilizzato in quanto è un compromesso con gli svantaggi di entrambi.
+L'algoritmo **Path Vector** elimina i loop inviando, in aggiunta alle informazioni sulla distanza, le informazioni sui nodi attraversati per raggiungere una determinata destinazione. In questo modo si evitano i loop all'interno dei transitori, ma nonostante ciò è molto utilizzato in quanto è un compromesso con gli svantaggi di entrambi. I router continuano comunque a non conoscere la tipologia che è il limite piu' grande del distance vector ma risolvono il problema del count to infinity.
 
 ![Esempio di Path Vector](../images/06_path_vector.png){width=350px}
 
 ## Link State Routing Algorithm
 
-Nel **Link State Routing Algorithm** vengono inoltrate le informazioni relative a tutta la rete, contenente lo stato di ogni nodo (e non solo di quelli attraversati). In questo modo ogni nodo è in grado di realizzare una mappa locale, inviando le informazioni attraverso un _selective flooding_.
+Nel **Link State Routing Algorithm** vengono inoltrate le informazioni relative a tutta la rete, contenente lo stato di ogni nodo (e non solo di quelli attraversati).  Un link state non va solo ai vicini ma va a tutta la rete (viene passato da vicino a vicino). Nel distance vector quando un dv viene ricevuto il router si calcola il proprio e lo manda ai vicini, qui invece il messaggio parte da un router e viene inoltrato a tutti i router della rete senza essere modificata o elaborato. Quando un router riceve un link state lo elabora costruendosi in memoria la sua mappa della rete.
+In questo modo ogni nodo è in grado di realizzare una mappa locale, inviando le informazioni attraverso un _selective flooding_.
+I messaggi di link state vengono mandati attraverso un meccanismo di _selective flooding_ affidabile (per evitare di usare algoritmi di spanning tre che farebbero perdere dei link), i link state se viene ricevuto due volte alla seconda non viene piu' inoltrato. I link state devono avere un timestamp per capire se è lo stesso oppure uno nuovo dovuto a modifiche della rete.
 
 In questo modo La convergenza è rapida e i _link state_ sono piccoli. Il traffico di rete e lo storage sono limitati, in quanto il _neighbor greeting_ è veloce ed efficiente. Raramente genera loop ed è semplice da comprendere e "riparare", ma è più complesso da implementare e configurare.
 
@@ -128,7 +130,8 @@ I lati negativi vedo una implementazione complessa che consegue una difficile co
 
 I _link state_ vengono generati quando avvengono cambiamenti topologici. Nei protocolli attuali i link state sono generati periodicamente in modo da aumentare l'affidabilità.
 
-Per calcolare le informazioni della rete è possibile utilizzare un qualsiasi algoritmo per l'albero di instradamento, come ad esempio l'algoritmo di Dijkstra.
+E' necessario quindi trovare l'algoritmo piu' veloce per determinare l'albero di instradamento come
+Per calcolare le informazioni della rete è possibile utilizzare un qualsiasi algoritmo per l'albero di instradamento, come ad esempio l'algoritmo di Dijkstra (shortest path first).
 
 :::note
 Per reti piccole potrebbe non essere conveniente utilizzare link state.
@@ -140,6 +143,10 @@ Per reti piccole potrebbe non essere conveniente utilizzare link state.
 
 ![Link state database](../images/06_link_state.png){width=350px}
 
+:::note
+Notare come ciascun router ha i link state di ogni router (ogni router ha la stessa collezione di link state) e ciò rende piu' efficace la ricerca guasti. Nel caso del distance vector dovrei saltare da un router all'altro analizzato ciascuna DV per capire dove è il guasto.
+:::
+
 ### Algoritmo di Dijkstra
 
 L'**algoritmo di Dijkstra** viene utilizzato per calcolare l'albero di copertura minimo di un grafo (albero di instradamento). Ha una bassa complessità pari ad $O(L\log n)$, con $L$ numero di link ed $n$ numero di nodi. Utilizza un meccanismo di **shortest path first** (ricerca del percorso più breve), dove il prossimo nodo è il più vicino alla sorgente e il _next hop_ è inserito all'interno della _routing table_.
@@ -148,59 +155,60 @@ L'**algoritmo di Dijkstra** viene utilizzato per calcolare l'albero di copertura
 
 ## Internet Routing Architecture
 
-I protocolli di routing viaggiano tra il livello IP e il livello TCP. Un protocollo di routing è il modo con cui si determina le rotte per lo scambio di informazioni attraverso una rete, basandosi su un algoritmo di routing di partenza.
-
-![Protocol Architecture](../images/06_protocol_architecture.png){width=350px}
-
-Per i routing protocol è necessario definire delle metriche, il meccanismo di encoding per il pacchetto, i parametri configurabili e lo specifico timing.
-
-Il **dominio di routing** è un insieme di router che utilizzano lo stesso protocollo di routing, che sono connessi a una porzione della rete. Un router potrebbe far parte di più routing domains (utilizzando più protocolli di routing) e può **ridistribuire** le informazioni imparate con un protocollo mediante uno differente. Questo processo è possibile attraverso una conversione delle metriche, utilizzo di filtri di advertisement e _information source priority_ tramite una configurazione dell'amministratore.
-
+La rete internet mondiale è costituita da molteplici **domini di routing** conessi tra loro i quali utilizzano al loro interno lo stesso protocollo di routing.
+Tutti i nodi all'interno di un determinato dominio di routing devono percio' immagazzinare informazioni su tutti i nodi del loro domimio e non di tutta la rete mondiale.
+In ciascun dominio di routing è presente un router particolare che fa da tramite tra molteplici domini di routing e si occupa di **ridistribuire** parte delle informazioni imparate da un dominio all'altro (ad esempio una lista di destinazioni, riducendo il numero di informazioni immagazzinate dai router)
+Questo processo è possibile attraverso una conversione delle metriche (ad esempio da numero di hop attraversati a ritardo complessivo), utilizzo di filtri di advertisement e _information source priority_ tramite una configurazione dell'amministratore di rete (ad esempio alcune destinazioni possono non essere menzionate).
+ 
 ### Autonomous System
 
-Un **Autonomous System** (AS) è un set di sottoreti raggruppate in base alla topologia o un criterio organizzativo (ad esempio una subnet di un grande _ISP_). L'indirizzamento e l'instradamento sono strettamente coordinati e l'interfaccia _AS_ è controllata (data, informazioni di routing). Dal punto di vista amministrativo è possibile indicare delle scelte di routing interno autonome e negoziare scelte di routing esterno. E' scalabile, in quanto nessuna delle informazioni è propagata _"ovunque"_ ma è il singolo _AS_ a decidere dove far passare i propri dati.
+Un **Autonomous System** (AS) è un set di  sottoreti raggruppate in base alla topologia o un criterio organizzativo (ad esempio una subnet di un grande _ISP_). 
+Ciascun Autonomous System può contenere piu' domini di routing collegati tra loro attraverso router spciali come spiegato prima.
+L'indirizzamento e l'instradamento sono strettamente coordinati e l'interfaccia _AS_ è controllata (data, informazioni di routing). Dal punto di vista amministrativo è possibile indicare delle scelte di routing interno autonome e negoziare scelte di routing esterno. E' scalabile, in quanto nessuna delle informazioni è propagata _"ovunque"_ ma è il singolo _AS_ a decidere dove far passare i propri dati.
 
-E' identificato da **due byte** numerici assegnati dalla _IANA (Internet Assigned Numbers Authority)_. Il range di numeri privati va da 64512 a 65534, lo scambio di informazioni di routing è controllato.
+E' identificato da **due byte** numerici assegnati dalla _IANA (Internet Assigned Numbers Authority)_. Può essere necessario avere un AS all'interno di uno piu' grande e in questo caso si può usare un range di numeri privati (64512 a 65534).
 
-All'interno di un AS sono presenti dei dispositivi detti **border gateway**, posizionati al confine tra differenti _AS_. Questi dovranno comunicare tra loro e con i dispositivi interni alla rete, per tale motivo distinguiamo i protocolli in **iBGP** _(intra Border Gateway Protocol)_ per la comunicazione all'interno della rete e **eBGP** _(Exterior Border Gateway Protocol)_ per le comunicazioni tra gli _AS_.
+All'interno di un AS sono presenti dei dispositivi detti **border gateway**, posizionati al confine tra differenti _AS_, questi dovranno comunicare tra loro attraverso protocolli diversi. Per tale motivo distinguiamo i protocolli in **iBGP** _(intra Border Gateway Protocol)_ per la comunicazione all'interno della rete tra stessi borged gateway e **eBGP** _(Exterior Border Gateway Protocol)_ per le comunicazioni tra border gateway di _AS_ diversi. All'interno del _AS_ si occupa anche di fare redistribuzione tra differenti domini di routing.
 
 ![iBGP e eBGP](../images/06_as_modes.png){width=400px}
 
-Si definisce **exterior routing** il routing tra _AS_. Questo non deve necessariamente seguire lo _shortest path_ in quanto la scelta viene effettuato in funzioni di alcune _policy_, per tale motivo non si parla più di percorso più _breve_ ma bensì di percorso _migliore_.
+Si definisce **exterior routing** il routing tra _AS_. Questo non deve necessariamente seguire lo _shortest path_ in quanto la scelta viene effettuato in funzioni di alcune _policy_, per tale motivo non si parla più di percorso più _breve_ ma bensì di percorso _migliore_ oppure scelto da un determinato ISP. Ad un ISP può non andare bene che il traffico per un altro _AS_ passi per il suo _AS_ e quindi non farò l'Advertisiment (Annuncio) di quella determinata tratta (policy routing). 
 
 Le destinazioni possono essere aggregate (`195.1.2.0/24` e `195.1.3.0/24` in `192.1.2.0/23`) secondo un routing _gerarchico_.
 
-**Neutral Access Point** (NAP) è un punto di accesso neutrale, che permette di collegare più AS tra loro, mentre un Internet eXchange Point (IXP) è un punto di scambio di traffico tra più AS. Sono realizzabili mediante BGP.
+![Internet Routing Architecture](../images/06_internet_routing_arch_prv.png){width=400px}
 
-In queste reti viene inserito un elemento detto **NAP/IXP** _(Neutral Access Point/Internet eXchange Point)_, ovvero entità terze che mettono a disposizione degli spazi (infrastrutture) dove è possibile che _ISP_ diversi creino delle comunicazioni tra loro. Tramite questi elementi è possibile connettere porzioni di rete senza dover “creare” nuovi canali, ma semplicemente portando tutte le connessioni verso un unico punto.
+Un collegamento tra provider di tipo geografico dello stesso tier viene chiamato _Private Peering_ e può essere molto costoso se si devono posare cavi fisici o meno se si fanno accordi tra operatori. 
+Per ridurre i costi esistono dei **NAP/IXP** _(Neutral Access Point/Internet eXchange Point)_ (punto di accesso neutrale) ovvero degli spazi (infrastrutture) messi a disposizione da entità terze cdove è possibile che _ISP_ diversi creino delle comunicazioni oppure connettendo porzioni di reti diverse dello stesso ISP senza dover creare nuovi canali ma semplicemente portando tutte le connessioni verso un unico punto.
 
 ![Implementazione con BGP](../images/06_nap_ixp.png){width=400px}
 
-Si definisce _private peering_ la comunicazione che avviene tra due ISP dello stesso tier.
-
-![Internet Routing Architecture](../images/06_internet_routing_arch_prv.png){width=400px}
-
 ## Protocolli di routing
 
-I protocolli di routing si distinguono in **iGP** (Interior Gateway Protocol) e **EGP** (Exterior Gateway Protocol).
+La differenza tra protocollo e algoritmo di routing è che un protocollo di routing contiene le istruzione per determinare il percorso migliore attraverso una rete facendo uso di parametri/metriche/timing configurabili dall'amministratore/ISP mentre un algoritmo di routing opera su un grafo e rappresenta la base su cui si costruisce un relativo protocollo di routing.
+
+![Posizione dei protocolli di Routing](../images/06_protocol_architecture.png){width=350px}
+
+Si distinguono in 2 famiglie di protocolli: **iGP** (Interior Gateway Protocol) (usati dentro _AS_) e **EGP** (Exterior Gateway Protocol). 
+Avendo obbiettivi diversi sono progettati in maniera diversa.
 
 Le _feature_ di **IGP** sono:
 
 - Informazioni distribuite nella topologia
-- Le route sono scelte in base alle informazioni della topologia
+- Le route sono scelte in base alle informazioni della topologia su base della strada piu' veloce
 
 Le _feature_ di **EGP**:
 
 - informazioni degli _Autonomous System_ distribuite
 - Costi amministrativi distribuiti
-- Decisioni prese in base alle _policies_ (trova la route _"preferita"_, non necessariamente la migliore)
+- Decisioni prese in base alle _policies_ (trova la route _"preferita"_, non necessariamente la migliore ma sugli accordi tra gestori)
 
-### Algoritmi IGP
+### Protocolli IGP
 
-Gli algoritmi di tipo _Interior Gateway Protocol_ si distinguono in:
+I protocolli della famiglia **IGP** fanno uso di 2 algoritmi di routing:
 
-- **Distance Vector**: comprende **RIP** (Routing Information Protocol) e **IGRP** (Interior Gateway Routing Protocol).
-- **Link State**: comprende **OSPF** e Integrated **IS-IS**.
+- **Distance Vector**: su cui si  basano i protocolli **RIP** (Routing Information Protocol) e **IGRP** (Interior Gateway Routing Protocol).
+- **Link State**: su cui si basano i protocolli **OSPF** e Integrated **IS-IS**.
 
 Tali algoritmi consentono di utilizzare differenti metriche rispetto all'hop count, come: delay, bandwidth, reliability, load, maximum packet length. Inoltre, consentono il **multipath routing**, ovvero la possibilità di utilizzare più percorsi per raggiungere una destinazione.
 
@@ -210,31 +218,31 @@ Tali algoritmi consentono di utilizzare differenti metriche rispetto all'hop cou
 
 #### IGRP (Distance Vector)
 
-E' un sistema proprietario di Cisco, ch supera alcuni dei problemi di RIP, diventandone l'unica alternativa nel primo periodo.
+E' un sistema proprietario di Cisco, che supera alcuni dei problemi di RIP come la grandezza della rete e la stabilità, diventandone l'unica alternativa nel primo periodo di internet.
 
 #### OSPF (Link State)
 
-**OSPF** fa parte degli algoritmi di _link state_, utilizza un routing di tipo gerarchico. Il routing domain è diviso in aree, in ciascuna delle quali avviene una aggregazione delle informazioni. I router sanno tutti i dettagli delle zone/domain/area, ma non sanno nulla o hanno informazioni limitate relative all'esterno. Può essere iterato.
+**OSPF** (open short path first)(può essere usato anche EGP) fa parte degli algoritmi di _link state_, utilizza un routing di tipo gerarchico. Il routing domain è diviso in aree, in ciascuna delle quali avviene una aggregazione delle informazioni. I router sanno tutti i dettagli delle zone/domain/area, ma non sanno nulla o hanno informazioni limitate relative all'esterno. Può essere iterato.
 
-Nello _strictly hierarchical routing_ non si hanno informazioni sull'esterno. Quando il destinatario del pacchetto non è nella stessa area, viene eseguito il forwarding mediante un edge router. Il routing è limitato in termini di efficacia, ma è altamente scalabile. I path sono _sub-ottimali_, ma si ha perdita di connettività in caso di errori.
+Nello _strictly hierarchical routing_ non si hanno informazioni sull'esterno. Quando il destinatario del pacchetto non è nella stessa area/domain, viene eseguito il forwarding mediante un edge router. Il routing è limitato in termini di efficacia, ma è altamente scalabile. I path sono _sub-ottimali_ (mancano i collegamenti diretti tra router di un area a quello di un altra e si deve passare per forza da edge router). Uno svantaggio è che si ha perdita di connettività in caso di errori perchè il router se disconnesso dal suo edge router non può comunicare con un altro dominio anche se in realtà potrebbe esistere un collegamento diretto.
 
-Nel _loosely hierarchical routing_ si ha minore scalabilità in quanto i router devono mantenere e scambiare più informazioni, ma non è richiede _strictly hierarchical addressing_. Tutti gli host nel _dominio B_ non hanno bisogno di un identificatore comune, bensì vengono utilizzati dei prefissi. E' possibile implementarlo in IPv4.
+Nel _loosely hierarchical routing_ si ha minore scalabilità in quanto i router devono mantenere e scambiare più informazioni, ma non è richiede _strictly hierarchical addressing_ quindi si mangengono i collegamenti diretti anche se sono tra aree/domini diversi (solo quelli diretti). Tutti gli host nel _dominio B_ non hanno bisogno di un identificatore comune, bensì vengono utilizzati dei prefissi. E' possibile implementarlo in IPv4.
 
 Ogni area avrà una visione completa della propria topologia interna, ma verso l'esterno soltanto i collegamenti per parlare con le altre aree, avendone una visione aggregata conoscendone i router di _frontiera_.
 
-Per $N$ router si hanno $N^2$ adiacenze (dunque link). La complessità di Dijkstra è lineare nel numero di link.
+Per $N$ router si hanno $N^2$ adiacenze (dunque link). La complessità di Dijkstra è lineare nel numero di link. <!-- MOTIVO?>
 
 ![OSPF](../images/06_ospf_a1.png){width=350px}
 
-#### IS-IS (Link State)
+#### INTEGRATED IS-IS (Link State)
 
-L'algoritmo **IS-IS** è una variante del protocollo **OSPF**, oltre a essere una estensione del protocollo _OSI_. Utilizza routing di tipo gerarchico con diversi livelli. Viene ancora utilizzato, ma non è più diffuso nelle nuove strutture (soppiantato da _OSPF_). Ha avuto utilizzo in grandi reti e _ISP_.
+L'algoritmo **IS-IS** è una variante del protocollo **OSPF**, oltre a essere una estensione del protocollo _OSI_ che può essere usata nella reti IP. Utilizza routing di tipo gerarchico con diversi livelli. Viene ancora utilizzato, ma non è più diffuso nelle nuove strutture (soppiantato da _OSPF_). Ha avuto utilizzo in reti di grandi dimensioni e _ISP_.
 
-<!-- rivedi le slide intorno a 91 -->
+<!-- rivedi le slide intorno a 91 -- edit 2 -- non dovrebbe piu' servier-->
 
-### Algoritmi EGP
+### Protocolli EGP
 
-Gli algoritmi di tipo _Exterior Gateway Protocol_ sono **BGP** (Border Gateway Protocol) e **IDRP** _(Inter Domain Routing Protocol)_. Anche il routing statico è una opzione possibile. Questi non sono ne completamente _distance vector_ ne _link state_.
+I protocolli di tipo _Exterior Gateway Protocol_ sono **BGP** (Border Gateway Protocol) e **IDRP** _(Inter Domain Routing Protocol)_. Anche il routing statico è una opzione possibile. Questi non sono ne completamente _distance vector_ ne _link state_.
 
 #### BGP
 
