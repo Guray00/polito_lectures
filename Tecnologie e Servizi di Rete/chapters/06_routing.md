@@ -238,7 +238,7 @@ RIP è imbustato direttamente in UDP, per ragioni legate principalmente ha una m
 
 #### IGRP (Distance Vector)
 
-E' un sistema proprietario di Cisco, ch supera alcuni dei problemi di RIP, diventandone l'unica alternativa nel primo periodo.
+E' un sistema proprietario di Cisco, che supera alcuni dei problemi di RIP, diventandone l'unica alternativa nel primo periodo.
 
 #### OSPF (Link State)
 

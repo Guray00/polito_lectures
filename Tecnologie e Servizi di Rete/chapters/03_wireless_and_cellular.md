@@ -575,7 +575,7 @@ Nelle reti cellulari la mobilità è gestita chiedendo alla rete di riferimento 
 
 La configurazione della data plane tunnel per i dispositivi avviene:
 
-- **S-GW a BS tunnel**: quando il dispositivo cambia base station, semplicemnte cambia l'endopoint ip address del tunnel
+- **S-GW a BS tunnel**: quando il dispositivo cambia base station, semplicemente cambia l'endopoint ip address del tunnel
 - **S-GW a home P-GW tunnel**: implementazione del routing indiretto
 - tunneling via GPT (GPRS tunneling protocol): i datagrammi del dispositivo vengono inviati allo streaming server incapuslati utilizzando GTP inside UDP, all'interno del datagramma
 
