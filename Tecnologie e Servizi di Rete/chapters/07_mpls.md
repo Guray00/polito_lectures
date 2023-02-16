@@ -283,50 +283,64 @@ Il PHP si divide in:
 
 ## MPLS VPN
 
-Uno dei problemi fondamentali che le _VPN_ devono risolvere nella connessione di due reti private è quello di utilizzare **reti private**. Più aziende diverse possono utilizzare lo stesso range di indirizzi privati, perciò i pacchetti che viaggiano nell'infrastruttura di rete (backbone) non possono contenere tale IP destinazione. Un’alternativa sono i NAT oppure i tunnel. Gli _LSP_ in realtà sono dei tunnel, dato che gli _LSR_ non guardano l’indirizzo IP destinazione ma l’etichetta, perciò basta utilizzare le etichette per indirizzare i pacchetti a destinazioni diverse.
-
-### PWE3
-
-**PWE3**, ovvero e **Pseudo Wire Emulation End-to-End**, consente l'utilizzo di VPN basate su _MPLS_ al **livello 2** andando a creare _LSP_ tra tutti i _router di confine_ (BR) della rete _MPLS_ che devono fornire connettività aziendale. Il nome deriva dall'idea di unire due aziende attraverso un cavo _virtuale_ per l’inoltro dei pacchetti.
-
-Esistono molti servizi nella stessa rete come IP, leased lines, frame relay, ATM ed ethernet.
-
-Per il funzionamento vengono utilizzate due etichette:
-
-- **esterne**: per il routing nella rete, identificazione dell'access point alla rete.
-- **interne**: per il multiplexing di molti utenti/servizi sullo stesso access point.
-
-### MPLS-based Layer 3 VPNs
-
-Esistono alternative di **livello 3**, ovvero le **MPLS-based Layer 3 VPNs**, che consentono di creare gli _LSP_ automaticamente tra i vari _PE_ e poi crearne ulteriori all’interno della rete per il collegamento delle reti private (connesse a tali _PE_). Questa soluzione funziona solo per il trasporto di pacchetti _IP_.
-
-Per rendere tutto automatico è necessario scambiare informazioni di routing. I _CE_ scambiano informazioni con i router _PE_: il _CE_ comunica le destinazioni che si ritrova, successivamente i _PE_, che sono a conoscenza dell’esistenza di altri _PE_ (per via di un protocollo di routing), creano degli _LSP_ tra di loro (ad esempio nella _topology-based label binding_). A questo punto, quando i _PE_ hanno degli _LSP_ tra loro li utilizzano per scambiare informazioni di routing tra loro.
-
-Queste soluzioni sono di tipo Provider Provisioned, iin quanto le policies sono implementate dal Service Provider, ma con il vantaggio di non richiedere alcun tipo di esperienza da parte dell'utente. Sono molto scalabili e distribuibili.
-
-Sono disponibili due alternative:
-
-- **BGP**: inizialmente supportato da Cisco, attualmente il sistema più utilizzato.
-- **Virtual Router**: inizialmente supportato da _Nortel_ e _Lucent_.
-
-![Rappresentazione di CE e PE](../images/07_mpls_vpn_layer3.png){width=400px}
+E' un tipo di VPN che utilizza il backbone MPLS e permette di collegare tra loro molteplici reti **private/aziendali** anche molto grandi che utilizzano lo stesso range di indirizzi privati.
+Come le altre soluzioni VPN permettono di instradare pacchetti verso la destinazione corretta anche se l'indirizzo ip è lo stesso andando in questo caso a creare un TUNNEL _LSP_.
+Questi tunnel _LSP_ non guardano più l'indirizzo di destinazione ma l'etichetta che è stata aggiunta in entrata della rete MPLS.
 
 ### Componenti
 
 Le componenti principali di un _MPLS VPN_ sono:
 
-- **CE router**: crea collegamenti con _PE router_. Fa _advertise_ verso le destinazioni e riceve gli _advertise_ da altre destinazioni VPN. Utilizza _static routing_ o _IGP_ (Interior Gateway Protocol).
-- **P routers**: hanno _route_ solo verso _PE router_. Si occupano di eseguire il setup degli _LSP_.
-- **PE routers**: sono utilizzati per scambiare le informazioni di routing. Viene utilizzato _I-BGP_ (Interior-Border Gateway Protocol) in soluzioni basate su BGP, oppure IGP in soluzioni VR. Vengono memorizzate solo le routes per le VPN connesse a questo. I PE hanno diverse tabelle denominate _VRF_ _(VPN Routing and Forwarding Table)_ che consentono di creare delle tabelle di routing separate. Viene effettuato il forwarding delle informazioni utilizzate per il traffico ricevuto mediante la porta.
+- **P routers**: detti Provider Router e sono i router interni ad una rete VPN MPLS che si occupano di eseguire il setup degli _LSP_ per collegare tra loro tutte le coppie di _LER/PE routers_.
+- **PE routers**: detti Provider Edge sono i LER della rete VPN MPLS e si occupano di scambiare le informazioni di routing. Utilizzano _I-BGP_ (Interior-Border Gateway Protocol) in soluzioni basate su BGP, oppure IGP in soluzioni VR. I PE hanno diverse tabelle denominate _VRF_ _(VPN Routing and Forwarding Table)_ che consentono di creare delle tabelle di routing separate. Viene effettuato il forwarding delle informazioni utilizzate per il traffico ricevuto mediante la porta.
+- **CE router**: sono i Costumer Edge e sono gli apparati collegati con i _PE routers_ che possono essere switch ethernet dei provider o router dei provider. Fa _advertise_ verso le destinazioni e riceve gli _advertise_ da altre destinazioni VPN. Utilizza _static routing_ o _IGP_ (Interior Gateway Protocol).
 
 ![Componenti](../images/07_componenti_vpn.png){width=400px}
+
+### PWE3
+
+**PWE3**, ovvero **Pseudo Wire Emulation End-to-End**, è una soluzione VPN di **livello 2** che crea un circuito fisico virtuale tra 2 LER/PE che vengono configurati a priori (non c'è routing, è come un cavo generato utilizzando un _LSP_) per gestire il traffico che deve passare tra 2 CE. 
+Deve essere configurato manualmente perchè non si può automaticamente sapere verso quale CE deve andare il traffico in entrata.
+Questo metodo permette di collegare come un CE anche degli switch di rete o centralini telefonici.
+
+Esistono molti servizi nella stessa rete come IP, leased lines, frame relay, ATM ed ethernet.
+
+Per il funzionamento vengono utilizzate due etichette:
+
+- **esterne**: per il routing nella rete, identificazione dell'access point alla rete (per far arrivare il pacchetto tramite _LSP_ al PE di destinazione corretto)
+- **interne**: per il multiplexing di molti utenti/servizi sullo stesso access point (permette al PE di destinazione di capire cosa fare con quel pacchetto)
+
+### MPLS-based Layer 3 VPNs
+
+Esistono alternative di **livello 3**, ovvero le **MPLS-based Layer 3 VPNs**, che è una soluzione di livello PEER e non un overlay, dove i _PE_ della rete MPLS scambiano informazioni con le reti aziendali per determinare le destinazioni e fare automaticamente il binding delle etichette utilizzando gli _LSP_ messi a disposizione dai _P_ routers rendendo il tutto automatico.
+
+L'unica configurazione iniziale da fare è quella di spiegare a ciascun interfaccia dei _PE_ a che rete (dei _CE_) è collegata.
+
+I _CE_ (customer edge router)(veri router e non switch ethernet) scambiano informazioni con i router edge _PE_ comunicando a loro le reti di destinazione a cui vogliono arrivare, successivamente i _PE_, che sono a conoscenza dell’esistenza di altri _PE_ per via degli _LSP_ creati tra loro dai router _P_ interni (ad esempio con la _topology-based label binding_) si scambiano informazioni di routing sulle varie reti aziendali a cui sono collegati utilizzando ad esempio il _BGP_.
+
+A questo punto ciascun _PE_ ha una serie di tabelle di routing chiamate _VRF_ che sono specifiche per le reti aziendali a cui sono collegati quindi la richiesta che arriva da una certa rete aziendale viene risolta andando a guardare la tabella _VRF_ relativa a quella rete aziendale. 
+In ciascuna riga della tabella _VRF_ viene indicato il _PE_ di destinazione a cui è collegata la rete di destinazione e l'etichetta utilizzata internamente per identificare _LSP_ relativo. ???
+
+:::note
+I _PE_ non dicono ai _P_ dove si trovano le reti aziendali, i router _P_ si occupano solo di creare i LSP monodirezionali e i _PE_ vedono solo loro stessi perché sono connessi tramite _P_ con _LSP_.
+Questa soluzione funziona solo per il trasporto di pacchetti _IP_ ma può coesistere con soluzioni di livello 2.
+Il pacchetto anche qui viaggia con 2 etichette: quella più esterna permette di raggiungere il pe a cui è collegata la rete aziendale (serve ai _P_), quella piu' interna permette di raggiungere il router aziendale della rete del tipo corretto (senza la piu' interna non sarebbe possibile andare alla rete giusta perché potrebbe avere lo stesso indirizzo ip di un altra)
+:::
+
+Queste soluzioni sono di tipo Provider Provisioned, in quanto le policies sono implementate dal Service Provider, ma con il vantaggio di non richiedere alcun tipo di esperienza da parte dell'utente. Sono molto scalabili e distribuibili.
+
+Le soluzioni su cui si basa il VPN MPLS di livello 3 sono:
+
+- **BGP**: inizialmente supportato da Cisco, attualmente il sistema più utilizzato, ciascun _PE_ annuncia agli altri con IBGP che tramite lui con una determinata etichetta possono raggiungere determinate reti aziendali a cui è collegato (se riceve un annuncio di una rete a cui non è collegato lo scarta)(ha un _VRF_ per ciascun tipo di rete a cui è collegato)
+- **Virtual Router**: inizialmente su pportato da _Nortel_ e _Lucent_.
+
+![Rappresentazione di CE e PE](../images/07_mpls_vpn_layer3.png){width=400px}
 
 ### Benefici
 
 Un beneficio è la non necessità della cifratura, in quanto il traffico va sulla rete del service provider (di cui ti fidi) e dunque non passa da router di terze parti non affidabili.
-
-- **Non ci sono vincoli sugli indirizzi** (si possono usare gli indirizzi privati) poiché non viene visto l’indirizzo sul backbone. Oltre all’indirizzo si specifica la VPN a cui appartengono (ed è il motivo per
-cui si usa BGP), vedi prossimo paragrafo.
+ 
+- **Non ci sono vincoli sugli indirizzi** (si possono usare gli indirizzi privati) poiché non viene visto l’indirizzo sul backbone. Oltre all’indirizzo si specifica la VPN a cui appartengono (ed è il motivo per cui si usa BGP), vedi prossimo paragrafo.
 - I _CE_ non scambiano direttamente informazioni tra loro.
 - I customer non gestiscono l'infrastruttura (backbone).
 - Il provider non ha un backbone virtuale per cliente.
@@ -335,23 +349,49 @@ cui si usa BGP), vedi prossimo paragrafo.
 
 ### MPLS VPN basate su BGP
 
-Le implementazioni di _MPLS VPN_ che utilizzano **BGP** hanno lo scambio di informazioni di routing tra gli edge. Compiono _Router FIltering_ ovvero ciascun PE determina quali route installare nella VRF.  Supporta la sovrapposizione di spazi di indirizzi differenti.
+Le implementazioni di _MPLS VPN_ che utilizzano **BGP** hanno lo scambio di informazioni di routing tra gli edge. 
 
-Oltre all’indirizzo si specifica la VPN a cui appartengono (ed è il motivo per cui si usa BGP). Il BGP è un protocollo che può facilmente essere esteso e in questo caso si chiama MP-BGP (Multi-Protocol GBP) poiché permette di trasportare informazioni su indirizzi che non sono indirizzi IP.
-
-Il BGP si definisce una famiglia di indirizzi VPN particolare definita VPN-IPv4. Oltre ad avere gli indirizzi IP da 32 bit vengono definiti anche i Route Distinguisher.
+Compiono _Router FIltering_ ovvero ciascun PE determina quali route installare nella VRF.
+Oltre all’indirizzo si specifica la VPN a cui appartengono (ed è il motivo per cui si usa BGP) tramite un estensione chiamata MP-BGP (Multi-Protocol GBP) poiché permette di trasportare informazioni su indirizzi che non sono solo indirizzi IP attraverso un campo address family (in un messaggio di annuncio GBP un router può annunciare destinazioni ipv4, ipv6 e perfino indirizzi mac, tutti questi tipi vengono chiamate address family).
+Un esempio di tipo di address family è la VPN-IPv4 che oltre ad avere gli indirizzi IP da 32 bit vengono definiti anche i Route Distinguisher che permettono di distinguere annunci diversi anche se sono per lo stesso ip.
 
 ![Route Distinguisher](../images/07_route_distinguisher.png){width=300px}
 
 ### MPLS Virtual Router VPNS
 
-Esiste un’altra soluzione senza l’uso di BGP per scambiare le informazioni di routing. I PE
-funzionano non come singolo router ma come tanti router diversi. Ogni router virtuale eseguirà indipendentemente le sue funzioni, come se fosse fisicamente un unico router. I router virtuali della stessa rete privata creano degli LSP tra loro e poi useranno gli LSP per scambiarsi le informazioni.
+Esiste un’altra soluzione senza l’uso di BGP per scambiare le informazioni di routing. 
+I PE funzionano non come singolo router ma come tanti router diversi costruiti come macchine virtuali sui router originali PE.
+Ogni router virtuale eseguirà indipendentemente le sue funzioni, come se fosse fisicamente un unico router utilizzando un protocollo di routing qualunque come ISIS. 
+I router virtuali della stessa rete privata creano degli LSP tra loro e poi gli useranno per scambiarsi le informazioni. 
 
+:::note
+Vengono usate sempre 2 etichette, la differenza è che sui PE usiamo il protocollo che si vuole (non più BGP) ma abbiamo bisogno su ciascuno di un router virtuale per ciascuna rete collegata utilizzando molta memoria e cpu.
 Le informazioni verranno comunicate solo ai router della stessa rete privata e non più a tutti.
+:::
+
+## IPv6 Over MPLS
+
+Esistono una serie di soluzioni basate sulla VPN MPLS che vengono utilizzate per connettere non più reti aziendali ma reti IPv6 tra loro.
+Questo permette di mantenere l'architettura dei router _P_ che continuano a basarsi su IPv4 per la creazione dei _LSP_.
+Prima i nodi interni non potevano instaurare la connessione perchè le destinazioni non avevano ip duplicati, adesso invece il motivo è che non supportano direttamente IPv6.
+Possibili soluzioni alla connessione di reti IPv6 sono:
+
+### Soluzione con PWE3
+
+Simile al PWE3 andando a creare tra i router _PE_ degli _LSP_ e poi usarli per far passare i dati come un filo virtuale configurandolo manualmente.
 
 ## 6PE
 
-Utilizzo di protocolli IPv4. I PE eseguono un istanza virtuale del router per ciascuna VPN. Ciascun VR instance ha una struttura dati separati. I VR di uno stesso  VPN comunicano attraverso gli LSP.
+Soluzione automatica di livello 3 basata su VPN MPLS aggiungendo con un metodo dual stack il protocollo IPv6 ai router _PE_ per permettere la comunicazione con la rete IPv6 esterna.
+Visto che i _PE_ sono dual stack IPv6 possono comunicare e scambiare informazioni di rooting con i router IPv6 esterni, apprendere dove sono le destinazioni, e instradare il traffico senza far capire ai rooter interni dove sono le destinazioni esterne alla rete MPLS.
 
-le destinazioni sono IPv4.
+:::note
+RIASSUNTO
+1- I router _P_ scambiano informazioni di routing sulla rete _MPLS_ usando IPv4 e facendo il binding di un'etichetta con ad esempio un meccanismo topology based ai vari _PE_
+2- A questo punto tramite etichetta tutti i _PE_ sono collegati tra loro (l'etichetta viene usata dai _P_)
+2- I _PE_ apprendono l'esistenza delle destinazioni iPv6 collegate e le condividono con gli altri _PE_ attraverso un messaggio BGP di tipo IPv4 
+3- BGP è un pacchetto IPv4  
+:::
+
+//devo configurare anche i peer con il bgp
+//lezione 6/12/2022
