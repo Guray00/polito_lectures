@@ -50,18 +50,26 @@ Le linee guida per la misurazione della performance si basano su due principi:
 
 ### Legge di Amdahl
 
-La legge di Amdahl è una formula che descrive il miglioramento della performance in funzione del numero di processori. La formula è la seguente:
+La **legge di Amdahl** descrive il miglioramento della performance in funzione del numero di processori.
 
-$$ \text{speedup} = \frac{\text{performance with enhancement}}{\text{performance with without enhancement}} $$
+La formula è la seguente:
 
-Lo speedup risultante da un miglioramento dipende da due fattori:
+$$
+\text{speedup} = \frac{\text{performance with enhancement}}{\text{performance without enhancement}}
+$$
 
-- fraction enhanced: la frazione del tempo di computazione che può essere migliorata
-- speedup enhanced: la dimensione del miglioramento che le parti ricevono.
+Lo **speedup** risultante da un miglioramento dipende da due fattori:
 
-$$ \text{execution time new} = \text{execution time old} * ((1 - \text{fraction enhanced}) + \frac{\text{fraction enhanced}}{\text{speedup enhanced}}) $$
+- **fraction enhanced**: la frazione del tempo di computazione che può essere migliorata
+- **speedup enhanced**: la dimensione del miglioramento che le parti ricevono.
 
-$$ \text{speedup overall} = \frac{\text{execution time old}}{\text{execution time new}} = \frac{1}{(1 - \text{fraction enhanced}) + \frac{\text{fraction enhanced}}{\text{speedup enhanced}}} $$
+$$
+\text{execution time}_\text{new} = \text{execution time}_\text{old} * ((1 - \text{fraction}_\text{enhanced}) + \frac{\text{fraction}_\text{enhanced}}{\text{speedup}_\text{enhanced}})
+$$
+
+$$ 
+\text{speedup}_\text{overall} = \frac{\text{execution time old}}{\text{execution time new}} = \frac{1}{(1 - \text{fraction enhanced}) + \frac{\text{fraction enhanced}}{\text{speedup enhanced}}}
+$$
 
 #### Esempio 1
 
@@ -82,9 +90,13 @@ Sono disponibili due soluzioni per migliorare la performane di una macchina floa
 
 Quale soluzione rende più rapida la macchina? Per rispondere è sufficiente riapplicare la legge di Amdahl.
 
-$$\text{speedup1} = \frac{1}{(1-0.2)+ \frac{0.2}{10}} = 1.22$$
+$$
+\text{speedup1} = \frac{1}{(1-0.2)+ \frac{0.2}{10}} = 1.22
+$$
 
-$$\text{speedup2} = \frac{1}{(1-0.5)+ \frac{0.5}{2}} = 1.33$$
+$$
+\text{speedup2} = \frac{1}{(1-0.5)+ \frac{0.5}{2}} = 1.33
+$$
 
 La soluzione 2 è più vantaggiosa.
 

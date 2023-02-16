@@ -1,10 +1,12 @@
 # Pipeline
 
-La _pipeline_ è un implementazione che consente di eseguire più istruzioni in modo sovrapposto durante l'esecuzione. In questo modo, differenti unità (chiamate pipe stages o segmenti) sono eseguite in parallelo ed eseguono parti differenti.
+La _pipeline_ è un implementazione che consente di eseguire più istruzioni in modo sovrapposto durante l'esecuzione. In questo modo, differenti unità (chiamate pipe stages o segmenti) sono eseguite in _parallelo_.
 
-Il **throughput** rappresenta il numero di istruzioni che vengono processate per unità di tempo. Tutte gli stage sono sincronizzate e il tempo per eseguire il primo ste è chiamato machine cycle, e normalmente corrisponde a un ciclo di clock. La lunghezza del machine cycle è determinato dallo stage più lento. Siamo in grado di eseguire CPI (clock Cycles Per Instruction) clock cycles per istruzione.
+Il **throughput** individua _il numero di istruzioni che vengono processate per unità di tempo_. Tutte gli stage sono sincronizzate e il tempo per eseguire uno step è chiamato _machine cycle_, e normalmente corrisponde a un ciclo di clock. La lunghezza del _machine cycle_ è determinata dallo stage più lento. 
 
-In una pipeline ideale, tutti gli stage sarebbero perfettamente bilanciati e sarebbe dovuto a:
+Il CPI (clock Cycles Per Instruction) esprime il numero di cicli di clock per istruzione.
+
+Una pipeline ideale è caratterizzata da tutti gli stage perfettamente bilanciati, il cui throughput è:
 
 $$
 \text{throughput}_{pipelined} = \text{throughput}_{unpipelined} * n
@@ -14,63 +16,76 @@ con $n$ pari al numero di _stage_.
 
 ## Versione senza pipeline
 
-Prendiamo come esempio una implementazione senza pipeline. L'esecuzione di ogni istruzione potrebbe essere composta di al più 5 clock cycles:
+Prendiamo come esempio una implementazione senza pipeline. L'esecuzione di ogni istruzione potrebbe essere composta al più da **5 cicli di clock**:
 
-1. **fetch** (IF)
-2. **decode/register fetch** (ID)
-3. **execution** (EX)
-4. **Memory access** (MEM)
-5. **Write back** (WB)
+1. **fetch** _(IF)_
+2. **decode/register fetch** _(ID)_
+3. **execution** _(EX)_
+4. **Memory access** _(MEM)_
+5. **Write back** _(WB)_
 
-![Datapath](../images/04_datapath.png){width=450px}
+![Datapath](../images/04_datapath.png){width=400px}
 
-Tutte le istruzioni richiedono dunque 5 clock cycle, tranne quelle di branch a cui ne bastano 4. Ottimizzazioni potrebbero essere fatte per ridurre il CPI medio: come esempio, le istruzioni alu potrebbero essere completate durante il cycle di MEM. Le risorse hardware potrebbero essere ottimizzato per eliminare duplicazioni. Si potrebbe prendere in considerazione un'architettura single clock alternativa. E' necessario l'utilizzo di un single control unit per produrre i segnali necessari al _datapath_.
+Tutte le istruzioni richiedono 5 clock cycle ad esclusione delle **branch** (salti condizionali) a cui ne bastano **4**.
+
+Potrebbero essere fatte alcune ottimizzazioni per ridurre il CPI medio: 
+
+- si potrebbe completare le istruzioni ALU durante il ciclo di _MEM_.
+- le risorse hardware potrebbero essere ottimizzato per eliminare duplicazioni.
+- Si potrebbe prendere in considerazione un'architettura single clock alternativa, ad esempio che esegue una istruzione per ogni ciclo di clock.
+ 
+E' infine necessario l'utilizzo di un _single control unit_ per produrre i segnali necessari al _datapath_.
 
 ## Versione pipelined
 
-Un esempio di una versione pipelined prevede l'avvio di una nuova istruzione per ogni clock cycle.  Inoltre, differenti risorse lavorano mediante differenti istruzioni contemporaneamente. Per ciascun clock cycle, ciascuna risorsa può essere utilizzata per solo una richiesta; ciò significa che è necessario separare le istruzioni e la memoria dati e che il register file è utilizzato nello stadio di lettura in ID e per scrittura in WB. Deve dunque essere disegnato per soddisfare queste necessità nello stesso clock cycle. Il program counter deve essere cambiato nello stadio di IF (facendo attenzione nei casi dei salti). Infine, si vede necessario introdurre i **pipeline register**, ovvero dei registri intermedi.
+Un esempio di una versione _pipelined_ prevede l'avvio di una nuova istruzione per ogni clock cycle.  Inoltre, differenti risorse lavorano mediante differenti istruzioni contemporaneamente. 
+
+Per ciascun ciclo di clock, ogni risorsa può essere utilizzata per solo una richiesta, comportando la necessità di separare le istruzioni e la memoria dati, oltre a individuare due momenti distinti in cui il _register file_ è utilizzato in lettura, nello stadio di _ID_, e per scrittura in _WB_.
+
+Il _Program Counter_ deve essere cambiato nello stadio di _IF_ (facendo attenzione nei casi dei salti) e si rende necessaria l'introduzione di **pipeline register**, ovvero registri intermedi per le operazioni della pipeline.
 
 :::note
-**Nota**: si da per scontato che i dati necessari siano già stati caricati in cache.
+Si da per scontato che i dati necessari siano già stati caricati in cache.
 :::
 
-### Pipeline performance
+La _pipeline_ consente di aumentare il throughput del processore senza dover rendere più veloce le singole istruzioni, che al contrario subiscono un leggero rallentamento dovuto all'overhead per il controllo della pipeline. La lunghezza della pipeline è limitata dalla necessità di bilanciare gli stati e dal overhead.
 
-La pipeline aumenta il throughput del processore senza dover rendere più veloce le singole istruzioni. Le istruzioni processato sono fatte rallentate da pipeline control overheads. La profondità della pipeline è limitata dalla necessità di bilanciare gli stati e dal overhead.
+## Pipeline hazards
 
+Gli **hazards** sono situazioni che possono far si che un istruzione non venga eseguita come dovrebbe.
 
-### Pipeline hazards
+Esistono tre tipi di hazard:
 
-Gli **hazards** sono situazioni che possono far si che un istruzione non venga eseguita come dovrebbe. Ci sono tre tipi di hazard:
+- **structural hazards**: la causa sono relative a un conflitto tra le risorse.
+- **data hazards**: un istruzione dipende dall'esecuzione di una istruzione precedente.
+- **control hazards**: relative a salti condizionali e altre istruzioni che cambiano il program counter.
 
-- **structural hazards**: la causa sono relative a un conflitto tra le risorse
-- **data hazards**: un istruzione dipende dall'esecuzione di una istruzione precedente
-- **control hazards**: relative a salti condizionali e altre istruzioni che cambiano il program counter
+A causa di tali problematiche è necessario introdurre gli **stalli**, ovvero operazioni in cui si richiede al processore di fermarsi per non causare problemi, per uno o più cicli di clock. Questo fa in modo che le istruzioni che verranno dopo una certa istruzione non vengano eseguite, mentre quelle indietro finiscano di essere elaborate.
 
-#### Stalls
+:::tip
+Gli stalli causano dunque l'introduzione di una sorta di "bolla" all'interno della pipeline.
+:::
 
-A causa dei pipeline hazards sono necessari gli **stalli**, dove si richiede ad alcuni processi di fermarsi per non causare problemi, per uno o più cicli di clock. Questo fa in modo che le istruzioni che verranno dopo una certa istruzione non vengano eseguite, mentre quelle indietro continuano ad essere eseguite. Gli stalli causano dunque l'introduzione di una sorta di "bolla" all'interno della pipeline.
+### Structural hazards
 
-#### Structural hazards
+Gli **structural hazards** possono avvenire quando una unità della _pipeline_ non è in grado si eseguire una certa operazione che era stata pianificata per quel ciclo.
 
-I **structural hazards** possono avvenire quando una unità della pipeline non è in grado si eseguire una certa operazione che era stata pianificata per quel ciclo. Alcuni esempi potrebbero essere:
+Alcuni esempi potrebbero essere:
 
-- una unità non è in grado di terminare un il suo task in un ciclo di clock
-- La pipeline ha un solo register-file write port, ma non ci sono cicli in cui due register writers sono richiesti
+- una unità non è in grado di terminare un il suo task in un ciclo di clock.
+- La pipeline ha un solo register-file write port, ma non ci sono cicli in cui due register writers sono richiesti.
 - La pipeline fa riferimento a un single-port memory, e ci sono cicli in cui differenti istruzioni vorrebbero accedere alla memoria contemporaneamente.
 
-La soluzione è inevitabilmente il miglioramento dell'hardware o l'acquisto di nuove componenti.
+Purtroppo, l'unica soluzione è inevitabilmente il miglioramento dell'hardware o l'acquisto di nuove componenti.
 
-#### Data hazards
+### Data hazards
 
-Gli hazard di dati sono quelli relativi alle dipendenze dei dati che vengono elaborati alterando, ad esempio, l'ordine di lettura e scrittura degli operandi e causando risultati sbagliati o non deterministici.
+I **data hazards** sono problemi relativi alle dipendenze dei dati che vengono elaborati alterando, ad esempio, l'ordine di lettura e scrittura degli operandi e causando risultati sbagliati o non deterministici. Inoltre, se avvenisse un interruzione durante l'esecuzione di una porzione di codice critica la correttezza potrebbe essere ripristinata, ma causando quello che potrebbe essere un comportamento non deterministico.
 
-Se avviene un interruzione durante l'esecuzione di una porzione di codice critica la correttezza potrebbe essere ripristinata, ma causando quello che potrebbe essere un comportamento non deterministico.
+Per risolvere questi problemi si potrebbe:
 
-Per risolvere questi problemi si potrebbe utilizzare:
-
-- implementare uno stallo per i dati richiesti, utilizzandoli solo quando sono disponibili
-- implementare un meccanismo di forwarding
+- implementare uno stallo per i dati richiesti, utilizzandoli solo quando sono disponibili.
+- implementare un meccanismo di forwarding.
 
 #### Forwarding
 <!-- lezione7: 11-10-2022 -->
@@ -99,8 +114,8 @@ Il controllo avviene nella fase di decodifica, e richiede di individuare un poss
 
 Quando una istruzione di load va in fase di esecuzione e un'altra istruzione sta cercando di accedere al dato carico in fase di decode, dovranno essere eseguiti dei controlli per verificare se gli operandi fanno match,  e nel caso rilevare il data hazard e come risultato l'unità di controllo deve inserire nella pipeline uno stallo per prevenire le istruzioni di fetch e decode di avanzare.
 
-| opcode di ID/EX | opcode di IF/ID                    | match?                       |
-|-----------------|------------------------------------|------------------------------|
+| opcode di ID/EX | opcode di IF/ID  | match? |
+|-----------------|------------------|------------------------------|
 | Load            | register-register alu              | ID/EX.IR[rt] == IF/ID.IR[rs] |
 | Load            | register-register alu              | ID/EX.IR[rt] == IF/ID.IR[rt] |
 | Load            | load, store, ALU immediate, branch | ID/EX.IR[rt] == IF/ID.IR[rs] |

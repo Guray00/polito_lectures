@@ -70,8 +70,7 @@ L'header **MPLS** è di livello 2 ed è composta da più moduli uniti che per ta
 
 - **label**: _20 bit_, l'etichetta da trasmettere. La lunghezza consente il passaggio fino a un milione di flussi sullo stesso link.
 - **exp**: experimental bits, 3 bit. Utilizzati per il _Class Of Service_, ovvero per dividere in classi di servizio.
-- **S**: _bottom of stack_, 1 bit, è posto a `1` se è l'ultimo modulo dello stack, `0` altrimenti. I
-moduli vengono gestiti come uno stack e l’aggiunta/rimozione avviene sempre dalla testa.
+- **S**: _bottom of stack_, 1 bit, è posto a `1` se è l'ultimo modulo dello stack, `0` altrimenti. I moduli vengono gestiti come uno stack e l’aggiunta/rimozione avviene sempre dalla testa.
 - **TTL**: _time to live_, 8 bit.
 
 Nel caso di _ATM_ e _frame relay_ veniva utilizzato il _label switch_, dunque negli header di livello 2 erano già presenti dei campi per contenere l'etichetta. Per tale motivo si è scelto di riutilizzare tali campi invece di aggiungerne di nuovi:
@@ -87,7 +86,7 @@ Una **FEC**, _Forwarding Equivalence Class_, è un insieme di pacchetti che hann
 
 Quando viene creato un LSP, sono necessarie tre operazioni da parte degli _LSR_:
 
-- **label binding**: associazione dell'etichetta.
+- **label binding**: associazione di una etichetta a dei pacchetti di una _FEC_.
 - **label mapping**: creazione della riga nella tabella di forwarding, tra ingresso e uscita.
 - **label distribution**: l'etichetta scelta deve essere comunicata a uno o più nodi vicini.
 
@@ -95,14 +94,14 @@ Quando viene creato un LSP, sono necessarie tre operazioni da parte degli _LSR_:
 
 Nel **Label Binding** un _LSR_ determina l'etichetta che deve essere utilizzata per i pacchetti di una determinata _FEC_. Il _binding_ viene effettuato in modalità **downstream**, ovvero tra due nodi che si trovano ai capi di un link il _binding_ è eseguito da quello a valle.
 
-Per sapere di dover usare tale etichetta, l’_LSR_ deve essere notificato, e può farlo in due modi:
+Per sapere di dover usare tale etichetta, l’_LSR_ (e in particolare l'_upstream node_, quello a monte) deve essere notificato, e può farlo in due modi:
 
 - **unsolicited**: senza una richiesta diretta.
 - **on-demand**: in seguito a una richiesta.
 
 ### Label Mapping
 
-Il label mapping esegue l'associazione tra una etichetta di ingresso, scelta dal _LSR_ considerato, e una etichetta di uscita, scelta dal _downstream LSR_, per riuscire a raggiungere il next hop in base al routing.
+Il **label mapping** esegue l'associazione tra una etichetta di ingresso, scelta dal _LSR_ considerato, e una etichetta di uscita, scelta dal _downstream LSR_, per riuscire a raggiungere il next hop in base al routing.
 
 ### Label Distribution
 
@@ -110,7 +109,9 @@ Quando un router ha effettuato il binding di una etichetta, deve comunicare tale
 
 ### Label Binding statico (e mapping)
 
-Il **label binding statico** avviene attraverso un gestore di rete (in modo equivalente al _PVC_ in _ATM_) che stabilisce e impone l'etichetta ai nodi della rete. Non è scalabile e non è c'è interoperabilità tra i sistemi di controllo. Inoltre, è impossibile avere un _LSP_ che attraversa più operatori.
+Il **label binding statico** avviene attraverso un gestore di rete (in modo equivalente al _PVC_ in _ATM_) che stabilisce e impone l'etichetta ai nodi della rete. 
+
+Non è scalabile e non è c'è interoperabilità tra i sistemi di controllo. Inoltre, è impossibile avere un _LSP_ che attraversa più operatori.
 
 ### Label Binding dinamico
 <!-- lezione 18: 30-11-2022 -->
@@ -131,7 +132,7 @@ La creazione degli **LSP control driven** da origine a due tipi di LSP diversi:
 
 La distribuzione delle etichette avviene attraverso dei protocolli, in particolare ne esistono 3 (non compatibili tra di loro):
 
-- **BGP**: utilizzo di un protocollo di routing, solo topology based (quando vengono segnalate le destinazioni vengono mandate anche le etichette).
+- **BGP**: utilizzo di un protocollo di routing, solo _topology based_ (quando vengono segnalate le destinazioni vengono mandate anche le etichette).
 - **LDP**: _Label Distribution Protocol_, è un'evoluzione del _Tag Labelling_ di Cisco, attualmente deprecato. Poco utilizzato perché, essendo un sistema proprietario, si aveva paura di avvantaggiare Cisco.
 - **RSVP**: _**R**esource re**S**er**V**ation **P**rotocol_, utilizzato per l'allocazione di servizi integrati all'interno delle reti.
 
@@ -149,13 +150,17 @@ I protocolli di routing utilizzati sono in realtà quelli già esistenti:
 RIP non viene utilizzato perché non funziona bene su reti di grandi dimensioni.
 :::
 
-Tali protocolli vengono modificati per trasportare informazioni riguardo alle scelte di routing, oltre a quelle topologiche, e porre dei vincoli come:
+Tali protocolli **vengono modificati** per trasportare informazioni riguardo alle scelte di routing, oltre a quelle topologiche, e porre dei **vincoli** come:
 
 - capacità dei link
 - utilizzo dei link
 - dipendenze tra i link (utilizzato per il recupero dei guasti)
 
-Le versioni modificate per il _Traffic Engineering_ prendono il nome di _OSPF-TE_ ed _IS-IS-TE_, dove _TE_ è un acronimo per _Traffic Engineering_.  _BGP_ non viene usato per fare _constraint based routing_.
+Tali vincoli verranno utilizzati per eseguire il **Constraint based routing**, ovvero un protocollo di routing di controllo che permette di scegliere il percorso più adatto in base ai vincoli imposti. Per fare ciò vengono utilizzate delle versioni modificate per il _Traffic Engineering_ che prendono il nome di _OSPF-TE_ ed _IS-IS-TE_, dove _TE_ è un acronimo per _Traffic Engineering_.  _BGP_ non viene usato per fare _constraint based routing_.
+
+:::caution
+Le migliorie apportate a _OSPF-TE_ e _IS-IS-TE_ **non** sono dunque state introdotte per separare il piano di controllo da quello dati, in quanto non vi è alcuna correlazione tra i due fatti. Le migliorie riguardano esclusivamente la possibilità di fare **constraint based routing**.
+:::
 
 ### Modalità di Routing
 
