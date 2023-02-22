@@ -8,9 +8,9 @@ I VLIW (Very Long Instruction Word) sono processori che hanno istruzioni molto l
 
 Questi processori sono molto diffusi per le  applicazioni embedded.
 
-Ciò ha comportato un software molto più complesso, in quanto è compito del compilatore decidere quali istruzioni impachettare insieme: exploding parallelism, unrolling loops, scheduling code in basic blocks, etc.
+Ciò ha comportato un software molto più complesso, in quanto è compito del compilatore decidere quali istruzioni impacchettare insieme: exploding parallelism, unrolling loops, scheduling code in basic blocks, etc.
 
-Si ha però una semplificazione dell'hardware, in quanto non è necessario effettuare alcun controllo di dipendeze tra le istruzioni e non è dunque necessario avere un'unità che si occupa di valutare quali istruzioni eseguire in parallelo.
+Si ha però una semplificazione dell'hardware, in quanto non è necessario effettuare alcun controllo di dipendenze tra le istruzioni e non è dunque necessario avere un'unità che si occupa di valutare quali istruzioni eseguire in parallelo.
 
 Quando una operazione richiede uno stallo, l'intero pacchetto di istruzioni viene posto in pausa in modo da preservare il flusso deciso dal compilatore.
 
@@ -43,7 +43,7 @@ Un ulteriore problema è la compatibilità dei binari, che non può essere garan
 
 ## EPIC
 
-l'architettura EPIC (Explicitly Parallel Instruction Computing) fu introdotta nella fine degli anni 90 in alcuni processori HP e Intel, come Itanium. Lo scopo era quello di ottenere dei VLIW con una maggiore flessibilità, ottenedo successo nell'area dei processori high-end.
+l'architettura EPIC (Explicitly Parallel Instruction Computing) fu introdotta nella fine degli anni 90 in alcuni processori HP e Intel, come Itanium. Lo scopo era quello di ottenere dei VLIW con una maggiore flessibilità, ottenendo successo nell'area dei processori high-end.
 
 ## Classificazione
 

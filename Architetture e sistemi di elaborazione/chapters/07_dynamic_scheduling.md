@@ -13,7 +13,7 @@ La pipeline ha uno stallo dopo la `DIV.D` a causa della dipendenza tra `DIV.D` e
 
 ## Esecuzione fuori ordine
 
-L'esecuzione fuori ordine prevede l'esecuzione di istruzioni che non sono state ancora eseguite. Questo può però comportare problemi, in particolare intruducendo:
+L'esecuzione fuori ordine prevede l'esecuzione di istruzioni che non sono state ancora eseguite. Questo può però comportare problemi, in particolare introducendo:
 
 - WAR hazards: write after read
 - WAW hazards: write after write

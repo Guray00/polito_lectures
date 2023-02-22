@@ -1,36 +1,39 @@
 # Cache
-<!-- continuo lezione10 -->
+<!-- continuo lezione10     -->
+<!-- slide 07_mem_cache.pdf -->
 
 Le prestazioni delle memorie cache sono molto più veloci rispetto alle memorie, sia hard disk che ram. 
 
+Le memorie cache si contraddistinguono rispetto alle altre memorie (come hard disk o ram) per la loro velocità di accesso molto più elevata.
+
 ![Dimensioni e velocità](../images/05_memorie.png){width=400px}
 
-Le cache funzionano secondo due principi:
+Il loro funzionamento si basa su due principi:
 
-- **principio di località temporale**: se a un tempo t il processore accede a una cella di memoria, è molto probabile che sarà necessario accedere nuovamente a quella cella in un tempo $$t + \delta t$$
-- **principio di località spaziale**: se a un tempo t il processore accede a una cella di memoria, è molto probabile che sarà necessario accedere nuovamente a celle di memoria vicine a quella cella.
+- **principio di località temporale**: se a un tempo $t$ il processore accede a una cella di memoria, è molto probabile che sarà necessario accedere nuovamente a quella cella in un tempo $t + \delta t$.
+- **principio di località spaziale**: se a un tempo $t$ il processore accede a una cella di memoria con indirizzo $x$, è molto probabile che sarà necessario accedere nuovamente a celle di memoria a lei vicine $x +- e$.
 
-Dunque se un blocco intero viene caricato in memoria cache a t0, è molto probabile che a un certo tempo $$\delta t$$ il programma troverà in cache tutte le word necessarie.
+Dunque se un blocco intero viene caricato in memoria cache a un tempo $t_0$, è molto probabile che a un certo tempo $\delta t$ il programma troverà in cache tutte le word necessarie.
 
 E' necessario definire alcuni elementi:
 
-- **h**: cache hit ratio
-- **C**: cache access time
-- **M**: memory access time quando il dato non è in cache
+- **h**: _cache hit ratio_
+- **C**: _cache access time_
+- **M**: _memory access time_ quando il dato non è in cache
   
 Il tempo di accesso alla memoria medio sarà:
 
 $$t_{access} = h * C + (1 - h) * M$$
 
-Normalmente i valori per `h` sono nell'ordine di 0.9. L'equazione non è però accurata in quanto prende in considerazione solo un tipo di cache.
+Normalmente i valori per $h$ sono nell'ordine di 0.9. L'equazione non è però accurata in quanto prende in considerazione solo un tipo di cache.
 
 ## Organizzazione
 
-La cache si divide in una parte di data e una parte di controllo. La parte di data a sua volta e divisa in un directory array un data array., in cui ogni entry è una cache line caratterizzatà da un bit di validità, un tag e un blocco di dati.
+La cache si divide in una parte _dati_ e una parte di _controllo_. La parte di dati a sua volta e divisa in un _directory array_ un _data array_, in cui ogni entry è una cache line caratterizzata da un bit di validità, un tag e un blocco di dati.
 
 ![Organizzazione di una memoria cache](../images/05_cache_organization.png){width=400px}
 
-Ogni cache line può contenere un blocco di memoria con a sua volta più word. A ciascuna è associato un tag field che indica il blocco di memoria presente in quel momento. Inoltre, la cache contiene la logica ricevere gli indirizzi prodotti dal processore, controllare al suo interno per vedere se è presente e nel caso caricare il blocco.
+Ogni _cache line_ può contenere un blocco di memoria con a sua volta più word. A ciascuna è associato un _tag field_ che indica il blocco di memoria presente in quel momento. Inoltre, la cache contiene la logica ricevere gli indirizzi prodotti dal processore, controllare al suo interno per vedere se è presente e nel caso caricare il blocco.
 
 Un data block può avere una dimensione differente e in numero differente all'interno di una cache line.
 
@@ -75,16 +78,16 @@ Nel caso di una miss, la cache può rispondere in due modi:
 
 ## Harvard Architecture
 
-Le cache oggi giorno sono separate in cache di istruzioni e cache di dati. La cache per le istruzioni è solitamente pià semplice da gestire rispetto a quella dei dati, in quanto le istruzioni non possono essere cambiate.
+Le cache oggi giorno sono separate in _cache di istruzioni_ e _cache di dati_. La cache per le istruzioni è solitamente pià semplice da gestire rispetto a quella dei dati, in quanto le istruzioni non possono essere cambiate (a differenza dei dati che sono variabili).
 
-Se sono utilizzate due cache, l'architettura del sistema ricade nello schema denominato "Harvard architecture", caratterizzato dall'esistenza di due memorie separate tra dati e codice (in contrasto con quella di Von Neumann).
+Se vengono utilizzate due cache l'architettura del sistema prende il nome di **Harvard architecture**, caratterizzato dall'esistenza di due memorie separate tra dati e codice andando direttamente in contrasto con quella che era l'architettura di Von Neumann.
 
 Le caratteristiche sono:
 
-- cache size: dimensione della cache
-- block size: dimensione di un blocco di memoria
-- mapping: tipo di mappatura
-- replacing algorithm: algoritmo di rimpiazzamento
+- **cache size**: dimensione della cache
+- **block size**: dimensione di un blocco di memoria
+- **mapping**: tipo di mappatura
+- **replacing algorithm**: algoritmo di rimpiazzamento
 - meccanismo di aggiornamento della memoria
 
 ### Cache Size
@@ -93,9 +96,9 @@ La dimensione della cache è molto importante in termini di costi e performance.
 
 ### Mapping
 
-Il meccanismo attraverso cui una linea viene associata ad un blocco di memoria è detto mapping. E' importante assicurarsi che la verifica di presenza di un dato per un certo indirizzo sia sufficientemente veloce.
+Il meccanismo attraverso cui una _cacheline_ viene associata ad un blocco di memoria è detto **mapping**. E' importante assicurarsi che la verifica di presenza di un dato per un certo indirizzo sia sufficientemente veloce.
 
-Il tipo di mappatura è detto modello di assocatività, e può essere:
+Il tipo di mappatura è detto modello di associatività, e può essere:
 
 - direct mapped: numero del blocco di memoria modulo totale dei blocchi in cache
 - set associative: numero del blocco modulo totale dei blocchi in cache diviso livello di associatività. Permette di salvare ogni elemento della memoria in due linee della memoria (utile quando abbiamo elementi che vengono chiamati molto più spesso in modo da salvarli). Garantisce che i dati più utilizzati possono essere ritrovati in cache.
@@ -136,16 +139,16 @@ Ciascun blocco della memoria principale può essere messo in un blocco qualsiasi
 
 ## Algoritmo di rimpiazzamento
 
-Per sostituire le chace line deve essere utilizzato un algoritmo che individui quale rimuovere. Le scelte possibili sono:
+Per sostituire le _cacheline_ deve essere utilizzato un algoritmo che individui quale rimuovere. Le scelte possibili sono:
 
 - LRU: least recently used, la più utilizzata che scegli il rimpinzamento in base a quale sia stata la meno utilizzata recentemente.
 - FIFO: first in first out, è la più semplice e scegli la prima che è stata utilizzata.
-- LFU: least frequetly used, teoricamente la più efficace, sceglie quale rimpiazzare prendendo quella meno utilizzata.
+- LFU: least frequently used, teoricamente la più efficace, sceglie quale rimpiazzare prendendo quella meno utilizzata.
 - random: viene scelto casualmente quale cella utilizzare.
 
 ![Algoritmi di rimpiazzamento](../images/05_alg.png){width=400px}
 
-Esiste anche il pLRU che è un approssimazinoe efficiente di LRU. L'età di ciascuna via della cache è mantenuta in un albero binario, di cui ogni nodo rappresenta una "history bit". Quando avviene un accesso, viene fatto il toggle dei bit corrispondenti incontrati.
+Esiste anche il pLRU che è un approssimazione efficiente di LRU. L'età di ciascuna via della cache è mantenuta in un albero binario, di cui ogni nodo rappresenta una "history bit". Quando avviene un accesso, viene fatto il toggle dei bit corrispondenti incontrati.
 
 Nel caso FIFO viene utilizzato l'algoritmo **second chance**: ogni elemento ha un bit di utilizzo. Quando viene utilizzato un nodo viene posto a `1` il bit, dandogli una seconda "chance", perchè essendo appena stato letto potrebbe essere ancora utile. In modo sequenziale vengono controllati tutti i nodi, fino a quando non viene trovato uno di valore `0`, che viene rimosso. Se un nodo viene trovato con il bit a `1` viene posto a `0` e si continua a cercare. Se tutti i nodi sono stati utilizzati ha un comportamento FIFO.
 
@@ -163,7 +166,7 @@ Per ogni cache block, un flag denominato **dirty bit**, indica se il blocco è s
 gli svantaggi di questo approccio sono:
 
 - sostituzione più lenta in quanto a volte è necessario copiare in memoria principale il blocco.
-- In un sistema multiprocessore ci potrebbero essere incosistenze tra le cache dei vari processori
+- In un sistema multiprocessore ci potrebbero essere inconsistenze tra le cache dei vari processori
 - Potrebbe non essere possibile ripristinare il dato in memoria dopo un system failure.
 
 ### Write Through
@@ -172,7 +175,7 @@ Ogni volta che la CPU effettua una operazione di scrittura, questo viene scritto
 
 ## Cache Coherence
 
-La coerenza tra le cache è uno dei problemi priincipali tra i sistemi multiprocessore con memoria condivisa, in cui ogni processore ha una propria cache. Lo stesso tipo di problema si verifica se è presente un DMA controller.
+La coerenza tra le cache è uno dei problemi principali tra i sistemi multiprocessore con memoria condivisa, in cui ogni processore ha una propria cache. Lo stesso tipo di problema si verifica se è presente un DMA controller.
 
 Per risolvere questo problema viene introdotto il **validity bit** per ogni cache line. Se è disabilitato, allora non è stato effettuato nessun accesso al blocco e deve dare una miss. All'avvio tutti i validity bit sono disabilitati.
 
@@ -182,7 +185,7 @@ Può essere conveniente utilizzare più bit di cache avere più livelli di cache
 - L2: secondo livello, lento ma capiente
 - L3: terzo livello, molto lento ma molto capiente
 
-Un esempio è AMD Sambezi, facente parte della AMD fusion family. Include 8 core con ciascuno una cache di livello 1. Ciascuna coppia di processori ha un secondo livello da 2 o 4 Mbytes e infine i core dello stesso device condividono un terzo livello di cache da 8 mbytes.
+Un esempio è AMD Zambesi, facente parte della AMD fusion family. Include 8 core con ciascuno una cache di livello 1. Ciascuna coppia di processori ha un secondo livello da 2 o 4 Mbytes e infine i core dello stesso device condividono un terzo livello di cache da 8 mbytes.
 
 ![AMD Zambesi](../images/05_zambezi.png){width=400px}
 
@@ -190,7 +193,7 @@ Un esempio è AMD Sambezi, facente parte della AMD fusion family. Include 8 core
 
 Immaginiamo di avere una memoria cache con le seguenti caratteristiche:
 
-- 64 kbyte di dimensione
+- 64kb di dimensione
 - direct mapping
 - 4byte blocks
 - 32 bit di indirizzo
