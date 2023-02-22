@@ -116,7 +116,7 @@ echo:
 
 :: export per la visualizzazione web
 echo Creazione "%OUTPUT%.html" in corso...
-pandoc -s %files% -o %WEBNAME% --template=elegant_bootstrap_menu.html --toc --standalone --embed-resources --resource-path=%RESOURCES_PATH% --metadata-file=config.yaml --katex
+pandoc -s %files% -o %WEBNAME% --template=%ASSETS_PATH%/theme.html --toc --standalone --embed-resources --resource-path=%RESOURCES_PATH% --metadata-file=config.yaml --katex
 echo Compilazione HTML terminata.
 echo:
 
