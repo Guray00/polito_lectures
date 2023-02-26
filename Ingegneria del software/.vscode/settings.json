@@ -1,0 +1,20 @@
+{
+	"code-runner.customCommand": "echo Hello",
+	"code-runner.executorMapByFileExtension": {
+		".md": "cd $dir../ && compile.bat"
+	},
+	"MarkdownPaste.path": "${fileDirname}/../images",
+	"MarkdownPaste.rules": [
+	
+		{
+			"regex": "^(?:https?://)?(?:(?:(?:www\\.?)?youtube\\.com(?:/(?:(?:watch\\?.*?v=([^&\\s]+).*)|))?))",
+			"options": "g",
+			"replace": "[![](https://img.youtube.com/vi/$1/0.jpg)](https://www.youtube.com/watch?v=$1)"
+		},
+		{
+			"regex": "^(https?://.*)",
+			"options": "ig",
+			"replace": "[]($1)"
+		}
+	]
+}
