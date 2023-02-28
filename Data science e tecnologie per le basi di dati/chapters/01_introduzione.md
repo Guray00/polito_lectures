@@ -1,9 +1,9 @@
 # Introduzione
 <!-- Lezione 1 - 2022/09/28 -->
 
-E' possibile utilizzare dati di natura eterogenea per la gestione delle emergenze, adoperando delle "observation" (dati molto complessi), storici, stagionali (meteo, territorio).
+I **big data** sono dati la cui dimensione (grandi volumi di dati che scalano nel tempo), diversità (eterogenei e di diverso tipo) e complessità (sia temporale che spaziale) richiedono nuove architetture, tecniche, algoritmi e analitica che li gestiscano e che possano estrarre valore e conoscenza da essi (mediante viste personalizzate in base al target).
 
-La maggior parte delle applicazioni utilizzano dato di tipo eterogeneo, raccolti in un data center organizzato in modo da raccogliere flussi di dato diverso da fonti diverse in modo da poterlo elaborare prima di essere sostituito. Questo non è dunque uguale per tutti gli utenti in quanto utenti diversi potrebbero avere risultati differenti.
+La maggior parte delle applicazioni utilizzano dato di tipo eterogeneo, raccolti in un _data center_ organizzato in modo da raccogliere flussi di dato diverso da fonti diverse e poterli elaborare. Il risultato non è uguale per tutti gli utenti in quanto potrebbe essere personalizzato.
 
 I dati sono generati da:
 
@@ -12,37 +12,41 @@ I dati sono generati da:
 - log files
 - internet of things
 
-L'insieme di questi dati permettono di migliorare il servizio, opportunità di business o servizi personalizzati.
-
-Il volume deve scalare del tempo e deve essere di grande dimensione, con un flusso che deve essere in continua crescita. Per fare ciò è necessario avere architetture, algoritmi e tecniche che consentono di analizzare e processare questi volumi di dati. 
+Il volume deve scalare del tempo e deve essere di grande dimensione, con un flusso che deve essere in continua crescita. Per fare ciò è necessario avere architetture, algoritmi e tecniche che consentono di analizzare e processare questi volumi di dati.
 
 L'obbiettivo finale è quello di creare un nuovo valore al dato, in modo da offrire servizi più personalizzati per gli utenti migliorando l'esperienza.
 
 ## Le V del Big Data
 
-Le big data sono caratterizzate da 5 V:
+I big data sono caratterizzati da quelle che vengono definite "Le 5 V", ovvero:
 
-- Volume: il dato deve essere di grande dimensione, con un flusso che deve essere in continua crescita. Se il volume diminuisce, cala anche la nostra capacità predittiva (es diminuzione aerei per il covid)
-- Velocity: la velocità di raccolta deve essere molto alto, con hardware e software in grado di gestire tale flusso. I dati di tipo streaming hanno bisogno di restituire il dato nel minor tempo possibile, con il near real time ovvero il minor tempo possibile (a seconda delle operazioni da svolgere sopra). I dati possono essere crowdsourcing (dispositivo invia dati che vengono raccolti) mentre mappe sono dati più statici.
-- Variety: i dati che utilizziamo hanno formati e strutture differenti.
-- Veracity: accuratezza, il dato deve essere di buona qualità in quanto se è scarsa non è possibile adoperarlo per le analisi. Va monitorato costantemente e verificato.
-- Value: deve essere creato un valore aggiunto, trasformando il dato in un vantaggio business.
+- **Volume**: il dato deve essere di grande dimensione, con un flusso che deve essere in continua crescita. Se il volume diminuisce, cala anche la nostra capacità predittiva (es diminuzione aerei per il covid).
+- **Velocity**: la velocità di raccolta deve essere molto alto, con hardware e software in grado di gestire tale flusso. I dati di tipo streaming hanno bisogno di restituire il dato nel minor tempo possibile, con il near real time ovvero il minor tempo possibile (a seconda delle operazioni da svolgere sopra). I dati possono essere crowdsourceing (dispositivo invia dati che vengono raccolti) mentre mappe sono dati più statici.
+- **Variety**: i dati che utilizziamo hanno formati e strutture differenti.
+- **Veracity**: accuratezza, il dato deve essere di buona qualità in quanto se è scarsa non è possibile adoperarlo per le analisi. Va monitorato costantemente e verificato.
+- **Value**: deve essere creato un valore aggiunto, trasformando il dato in un vantaggio business.
 
 ## Data Science
 
-E' necessario utilizzare dei nuovi paradigmi di programmazione e nuove tecnologie. La capacità di gestire il dato nel modo migliore che fa parte della data science
+E' necessario utilizzare dei nuovi paradigmi di programmazione e nuove tecnologie, per tale motivo nasce la **Data Science**, ovvero un insieme di tecniche che consentono di estrarre conoscenza da grossi volumi di dati, mediante tecniche di statistica, machine learning ecc. Tale soluzione combina approcci tipici in modo da modellare una cosa che ha più sfaccettature.
 
-data science: estrarre conoscenza da grossi volumi di dati, mediante tecniche di statistica, machine learning ecc. Soluzione che combina approcci che sono tipici in modo da modellare una cosa che ha più sfacettature.
+![Data Science](../images/01_data_science.png){width=350px}
 
-Il dato viene modellato partendo dai dati a disposizione, mediante un processo di data science. Questo prevede diversi step:
+La data science prevede 4 fasi:
 
-- Generation: storicizzare il dato, che viene preprocessato mediante data cleaning e data fusion (se le sorgenti sono più di una). Quando è pronto per l'analisi. Trasformed data (?) in modo da estrarre conoscenza.
-- Acquisition:
-- Storage:
-- Analysis: 
-
-algoritmi: strumenti per estrarre conoscenza
-
+1. Generazione: I dati vengono generati in modi differenti
+   1. Registrazione passiva: dati strutturati come transazioni, vendite
+   2. Generazione attiva: dati non strutturati o semi strutturati (testi, immagini, video)
+   3. Produzione automatica: dati dipendenti dal contesto (sensori)
+2. Acquisizione:
+   1. Raccolta: pull-based(web-crawler) o push-based (video sorveglianza o click stream)
+   2. Trasmissione: trasferimento verso un data center mediante collegamenti veloci
+   3. Pre-elaborazione: integrazione, pulizia, eliminazione delle ridondanze
+3. Memorizzazione:
+   1. Infrastruttura di memorizzazione
+   2. Gestione dei dati
+   3. Modelli di programmazione
+4. Analisi: L'obbiettivo è una descrizione analitica dei dataset, un analisi predittiva e prescrittiva. I metodi utilizzati sono vari e includo analisi statistica, machine learning, data mining, text mining, pattern mining, analisi associativa, classificazione e regressione, clustering.
 
 ## Machine learning and data mining
 
