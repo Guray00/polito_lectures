@@ -4,7 +4,7 @@ React è un framework che ha come scopo quello di semplificare la creazione di i
 
 I motivi per cui questo è utilizzato sono legati a una maggiore semplificazione dell'ambiente del browser:
 
-- I metodi del DOM sono uniformati
+- I metodi del _DOM_ sono uniformati
 - La gerarchia è più esplicita
 - I componenti vengono gestiti a più alto livello
 - Viene automatizzato il processo di gestione degli eventi e degli aggiornamenti.

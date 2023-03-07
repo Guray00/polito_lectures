@@ -1,2 +1,4 @@
 00_informazioni.md
-01_introduzione.md
+01_memory_management.md
+06_introduzione_rust.md
+07_possesso.md

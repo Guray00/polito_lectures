@@ -149,6 +149,9 @@ In un progetto sono necessarie figure diverse:
 
 ## Alcuni problemi
 
-E' importante gestire i dati nel modo giusto attraverso un processo di analisi trasparente. Spesso i dati sono accurati ma richedono degli approfondimenti ovvero "open issue" ovvero l'impatto sociale che questi possono avere. I modelli generati dalle reti neurali sono della black box, ovvero non è possibile vedere come è stato eseguito l'apprendimento dall'utente finale.
+E' importante gestire i dati nel modo giusto attraverso un processo di analisi trasparente. Spesso i dati sono accurati ma richiedono degli approfondimenti ovvero "open issue" ovvero l'impatto sociale che questi possono avere. I modelli generati dalle reti neurali sono della black box, ovvero non è possibile vedere come è stato eseguito l'apprendimento dall'utente finale.
 
-I modelli possono essere biased perchè i dati analizzati nei training avevano delle informazioni parziali.
+I modelli possono essere biased perché i dati analizzati nei training avevano delle informazioni parziali.
+
+<!-- lezione 2 - 2022-09-19 -->
+

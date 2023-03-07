@@ -16,5 +16,8 @@
 			"options": "ig",
 			"replace": "[]($1)"
 		}
+	],
+	"cSpell.words": [
+		"metadati"
 	]
 }
