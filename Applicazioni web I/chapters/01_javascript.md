@@ -427,3 +427,137 @@ let d = new Date();
 Viene suggerito l'utilizzo di Day.js per gestire le date.
 :::
 
+## Callbacks
+
+Con callback facciamo riferimento a funzioni che vengono passate in altre come argomento, le quali verranno invocate da quest'ultime.
+
+```js
+function fun(a,b, callback){
+	callback(a+b);
+}
+```
+
+Le callback possono essere sincrone o asincrone in base al loro comportamento; una funzione asincrona è una funzione che viene eseguita contemporaneamente al codice, non fermandolo fino a quando non termina.
+
+Un esempio di callback sincrona è la funzione filter, la quale permette di filtrare il codice in base a un criterio:
+
+```js
+const market = [
+	{ name: 'GOOG', var: -3.2 },
+	{ name: 'AMZN', var:  2.2 },
+	{ name: 'MSFT', var: -1.8 }
+];
+
+const bad = market.filter(stock => stock.var < 0);
+// [ { name: 'GOOG', var: -3.2 }, { name: 'MSFT', var: -1.8 } ]
+
+const good = market.filter(stock => stock.var > 0);
+// [ { name: 'AMZN', var: 2.2 } ]
+```
+
+## Programmazione Funzionale
+
+La programmazione funzionale è un paradigma di programmazione che si basa sul concetto di funzione matematica. In questo paradigma le funzioni sono considerate come valori e possono essere passate come argomento o ritornate come valore.
+
+:::tip
+Non è il paradigma di programmazione più usato in JS, ma è molto utile per la programmazione asincrona.
+:::
+
+Lo stile è maggiormente di tipo dichiarativo piuttosto che imperativo e permette di aggiungere leggibilità al codice.
+
+```js
+// strategia funzionale
+new_array = array.filter ( filter_function ) ;
+```
+
+```js
+//strategia imperativa
+new_array = [] ;
+for (const el in list)
+	if ( filter_function(el) )
+		new_array.push(el) ;
+```
+
+Alcune features che sono consentite grazie alla programmazione funzionale sono:
+
+- le funzione sono "cittadini di prima classe", nel senso che è possibile combinarle facilmente
+- sono disponibili funzioni di ordine superiore, ovvero funzioni che accettano altre funzioni come argomento
+- è possibile combinare facilmente le funzioni
+- call chaining, ovvero è possibile concatenare la chiamate e il ritorno delle funzioni
+
+### Iterazione sugli array
+
+Le funzioni di ordine superiore sono molto utili per iterare sugli array, in particolare le funzioni `map`, `filter` e `reduce`.
+
+#### forEach
+
+Il `forEach` è una funzione che permette di iterare sugli elementi di un array, ma non ritorna un nuovo array:
+
+```js
+const letters = [..."Hello world"] ;
+let uppercase = "" ;
+
+letters.forEach(letter => {
+	uppercase += letter.toUpperCase();
+}); 
+
+console.log(uppercase); // HELLO WORLD
+```
+
+#### every
+
+La funzione `every` permette di verificare se tutti gli elementi di un array soddisfano una condizione:
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+const allPositive = numbers.every(number => number > 0);
+// true
+```
+
+#### some
+
+La funzione `some` permette di verificare se almeno un elemento di un array soddisfa una condizione:
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+const somePositive = numbers.some(number => number > 0);
+// true
+```
+
+#### map
+
+La funzione `map` permette di iterare sugli elementi di un array e ritornare un nuovo array:
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+const doubled = numbers.map(number => number * 2);
+// [2, 4, 6, 8, 10]
+```
+
+:::caution
+E' importante notare che la funzione `map` non modifica l'array originale, ma ritorna un nuovo array.
+:::
+
+#### filter
+
+La funzione `filter` permette di filtrare gli elementi di un array in base a una condizione:
+
+```js
+const numbers = [1, 2, 3, 4, 5]; const even = numbers.filter(number => number % 2 === 0);
+// [2, 4]
+```
+
+#### reduce
+
+La funzione `reduce` permette di ridurre un array ad un singolo valore, utilizzando una funzione che accetta due argomenti: il primo è il risultato parziale, il secondo è l'elemento corrente dell'array:
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+const sum = numbers.reduce((partial, number) => partial + number, 0);
+// 15
+```
+

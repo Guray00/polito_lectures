@@ -1,2 +1,4 @@
 00_informazioni.md
 01_introduzione.md
+02_processi.md
+03_strutture.md
